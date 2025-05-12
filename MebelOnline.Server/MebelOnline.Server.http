@@ -1,0 +1,6 @@
+@MebelOnline.Server_HostAddress = http://localhost:5211
+
+GET {{MebelOnline.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
