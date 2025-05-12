@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MebelOnline.Db
 {
-    public class ApplicationDbContext : DbContext
+    public class AppDbContext : DbContext
     {
         public DbSet<CategoryEntity> Categories { get; set; }
         public DbSet<ProductEntity> Products { get; set; }

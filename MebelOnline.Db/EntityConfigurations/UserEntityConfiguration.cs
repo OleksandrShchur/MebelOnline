@@ -12,7 +12,7 @@ namespace MebelOnline.Db.EntityConfigurations
 
             builder.Property(u => u.PasswordHash)
                 .IsRequired()
-                .HasMaxLength(255); // adjust the length based on your hashing algorithm
+                .HasMaxLength(256); // adjust the length based on hashing algorithm
 
             builder.HasIndex(u => u.PasswordHash)
                 .IsUnique();
