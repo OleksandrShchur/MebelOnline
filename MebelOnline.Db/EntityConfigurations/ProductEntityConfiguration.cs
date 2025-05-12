@@ -20,7 +20,7 @@ namespace MebelOnline.Db.EntityConfigurations
                 .HasMaxLength(255);
 
             builder.Property(p => p.Description)
-                .HasMaxLength(1000);
+                .HasMaxLength(500);
 
             builder.Property(p => p.Price)
                 .IsRequired();
