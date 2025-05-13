@@ -12,6 +12,12 @@ import Menu from '@mui/material/Menu';
 import AdbIcon from '@mui/icons-material/Adb';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
+import Drawer from '@mui/material/Drawer';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import List from '@mui/material/List';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 
 const pages = ['Головна', 'Контакти', 'Про нас'];
 
@@ -58,19 +64,36 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Header: React.FC = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+  const [isDrawerOpen, setDrawerOpen] = React.useState(false);
+  const [isClosing, setIsClosing] = React.useState(false);
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
+  const toggleDrawer = () => {
+    setIsClosing(true);
+    setDrawerOpen(!isDrawerOpen);
   };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
+  const handleDrawerTransitionEnd = () => {
+    setIsClosing(false);
   };
+
+  const drawer = (
+    <div>
+      <Toolbar />
+      <List>
+        {pages.map((text) => (
+          <ListItem key={text} disablePadding>
+            <ListItemButton>
+              <ListItemText primary={text} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </div>
+  );
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, }}>
         <Toolbar>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -79,12 +102,36 @@ const Header: React.FC = () => {
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              onClick={handleOpenNavMenu}
+              onClick={toggleDrawer}
               color="inherit"
             >
               <MenuIcon />
             </IconButton>
-            <Menu
+
+            <Drawer
+              anchor="top"
+              variant="temporary"
+              open={isDrawerOpen}
+              onTransitionEnd={handleDrawerTransitionEnd}
+              onClose={toggleDrawer}
+              sx={{
+                display: { xs: 'block', sm: 'none' },
+                '& .MuiDrawer-paper': {
+                  boxSizing: 'border-box',
+                  width: '100%',
+                  height: '100%',
+                },
+              }}
+              slotProps={{
+                root: {
+                  keepMounted: true, // Better open performance on mobile.
+                },
+              }}
+            >
+              {drawer}
+            </Drawer>
+
+            {/* <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
@@ -105,14 +152,14 @@ const Header: React.FC = () => {
                   <Typography sx={{ textAlign: 'center' }}>{page}</Typography>
                 </MenuItem>
               ))}
-            </Menu>
+            </Menu> */}
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={toggleDrawer}
                 sx={{ margin: 2, my: 2, color: 'white', display: 'block' }}
               >
                 {page}
