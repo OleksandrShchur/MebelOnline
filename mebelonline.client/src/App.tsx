@@ -5,7 +5,7 @@ import MultiLevelSidebar from './components/sidebar/sidebar';
 function App() {
     return (
         <>
-            {/* <Header /> */}
+            <Header />
             <MultiLevelSidebar />
         </>
     );

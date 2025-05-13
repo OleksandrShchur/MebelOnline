@@ -52,6 +52,21 @@ const MultiLevelSidebar = () => {
     const [hoveredSub, setHoveredSub] = useState<number | null>(null);
     const sidebarRef = useRef<HTMLDivElement | null>(null);
 
+    useEffect(() => {
+        const handleMouseLeave = (event: MouseEvent) => {
+            const target = event.target as Node;
+            if (sidebarRef.current && !sidebarRef.current.contains(target)) {
+                setHoveredMain(null);
+                setHoveredSub(null);
+            }
+        };
+
+        document.addEventListener('mousemove', handleMouseLeave);
+        return () => {
+            document.removeEventListener('mousemove', handleMouseLeave);
+        };
+    }, []);
+
     // Click outside handler
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -76,8 +91,7 @@ const MultiLevelSidebar = () => {
     }, []);
 
     return (
-        <Box ref={sidebarRef}>
-            {/* Main Sidebar */}
+        <Box sx={{ display: 'flex', paddingTop: 64 }} ref={sidebarRef}>
             <Drawer variant="permanent" anchor="left" sx={{ width: 200, '& .MuiDrawer-paper': { width: 200, paddingTop: 8 } }}>
                 <List>
                     {menuData.map((item, index) => (
@@ -85,7 +99,7 @@ const MultiLevelSidebar = () => {
                             key={index}
                             onMouseEnter={() => {
                                 setHoveredMain(index);
-                                setHoveredSub(null); // Reset third column when first column item is changed
+                                setHoveredSub(null);
                             }}
                             sx={{ cursor: 'pointer' }}
                         >
@@ -95,11 +109,10 @@ const MultiLevelSidebar = () => {
                 </List>
             </Drawer>
 
-            {/* Submenu */}
             {hoveredMain !== null && (
                 <Grow in={true} timeout={300}>
                     <Box sx={{
-                        position: 'absolute', left: 205, top: 0, width: 200, height: '100%',
+                        position: 'absolute', left: 205, top: 0, width: 200, height: 'calc(100vh - 64px)',
                         bgcolor: '#f0f0f0', boxShadow: 30, color: 'black', paddingTop: 8
                     }}>
                         <List>
@@ -117,7 +130,6 @@ const MultiLevelSidebar = () => {
                 </Grow>
             )}
 
-            {/* Third Level Menu */}
             {hoveredMain !== null &&
                 hoveredSub !== null &&
                 menuData[hoveredMain]?.children &&
@@ -125,7 +137,7 @@ const MultiLevelSidebar = () => {
                 menuData[hoveredMain]?.children[hoveredSub]?.children.length > 0 && (
                     <Grow in={true} timeout={300}>
                         <Box sx={{
-                            position: 'absolute', left: 409, top: 0, width: 200, height: '100%',
+                            position: 'absolute', left: 409, top: 0, width: 200, height: 'calc(100vh - 64px)',
                             bgcolor: '#e0e0e0', boxShadow: 30, color: 'black', paddingTop: 8
                         }}>
                             <List>
