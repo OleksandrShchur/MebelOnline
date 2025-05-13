@@ -1,11 +1,12 @@
 import './App.css';
 import Header from './components/header/header';
+import MultiLevelSidebar from './components/sidebar/sidebar';
 
 function App() {
     return (
         <>
-            <Header />
-            <div>Some text</div>
+            {/* <Header /> */}
+            <MultiLevelSidebar />
         </>
     );
 

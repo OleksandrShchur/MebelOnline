@@ -1,0 +1,104 @@
+import React, { useState } from 'react';
+import { Drawer, List, ListItem, ListItemText, Box, Grow } from '@mui/material';
+
+const menuData = [
+    {
+        label: 'Living Room',
+        children: [
+            {
+                label: 'Sofas',
+                children: ['Leather Sofas', 'Fabric Sofas']
+            },
+            {
+                label: 'Tables',
+                children: ['Coffee Tables', 'Side Tables']
+            }
+        ]
+    },
+    {
+        label: 'Bedroom',
+        children: [
+            {
+                label: 'Beds',
+                children: ['King Size', 'Queen Size']
+            },
+            {
+                label: 'Wardrobes',
+                children: ['Sliding Door', 'Hinged Door']
+            }
+        ]
+    },
+    ,
+    {
+        label: 'Bedroom example',
+        children: [
+            {
+                label: 'Beds example'
+            },
+            {
+                label: 'Wardrobes',
+                children: ['Sliding Door', 'Hinged Door']
+            }
+        ]
+    }
+];
+
+const MultiLevelSidebar = () => {
+    const [hoveredMain, setHoveredMain] = useState<number | null>(null);
+    const [hoveredSub, setHoveredSub] = useState<number | null>(null);
+
+    return (
+        <Box sx={{ display: 'flex' }} >
+            {/* Main Sidebar */}
+            <Drawer variant="permanent" anchor="left" sx={{ width: 200, '& .MuiDrawer-paper': { width: 200 } }}>
+                <List>
+                    {menuData.map((item, index) => (
+                        <ListItem
+                            key={index}
+                            onMouseEnter={() => setHoveredMain(index)}
+                            sx={{ cursor: 'pointer' }}
+                        >
+                            <ListItemText primary={item?.label} />
+                        </ListItem>
+                    ))}
+                </List>
+            </Drawer>
+
+            {/* Submenu */}
+            {hoveredMain !== null && (
+                <Grow in={true} timeout={300}>
+                    <Box sx={{ position: 'absolute', left: 205, top: 0, width: 200, height: '100%', bgcolor: '#f0f0f0', boxShadow: 3 }}>
+                        <List>
+                            {menuData[hoveredMain]?.children.map((subItem, subIndex) => (
+                                <ListItem
+                                    key={subIndex}
+                                    onMouseEnter={() => setHoveredSub(subIndex)}
+                                    sx={{ cursor: 'pointer' }}
+                                >
+                                    <ListItemText primary={subItem.label} />
+                                </ListItem>
+                            ))}
+                        </List>
+                    </Box>
+                </Grow>
+            )}
+
+            {/* Third Level Menu */}
+            {hoveredMain !== null && hoveredSub !== null && (
+                <Grow in={true} timeout={300}>
+                    <Box sx={{ position: 'absolute', left: 409, top: 0, width: 200, height: '100%', bgcolor: '#e0e0e0', boxShadow: 3 }}>
+                        <List>
+                            {menuData[hoveredMain]?.children[hoveredSub].children?.map((item, index) => (
+                                <ListItem key={index} sx={{ cursor: 'pointer' }}>
+                                    <ListItemText primary={item} />
+                                </ListItem>
+                            ))}
+                        </List>
+                    </Box>
+                </Grow>
+            )}
+        </Box>
+    );
+};
+
+export default MultiLevelSidebar;
