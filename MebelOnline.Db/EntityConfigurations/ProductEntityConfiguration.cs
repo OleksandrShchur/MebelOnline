@@ -10,6 +10,8 @@ namespace MebelOnline.Db.EntityConfigurations
         {
             builder.HasKey(p => p.Id);
 
+            builder.HasOne(p => p.Category);
+
             builder.Property(p => p.Name)
                 .IsRequired()
                 .HasMaxLength(255);

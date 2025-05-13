@@ -12,5 +12,6 @@ namespace MebelOnline.Db.Entities
         public string ImageUrl { get; set; }
         public DateTime DateAdded { get; set; }
         public int CategoryId { get; set; }
+        public virtual CategoryEntity Category { get; set; }
     }
 }
