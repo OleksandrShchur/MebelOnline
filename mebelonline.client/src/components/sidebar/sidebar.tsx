@@ -1,5 +1,10 @@
-import React, { useState } from 'react';
-import { Drawer, List, ListItem, ListItemText, Box, Grow } from '@mui/material';
+import Box from '@mui/material/Box';
+import Drawer from '@mui/material/Drawer';
+import Grow from '@mui/material/Grow';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import React, { useEffect, useRef, useState } from 'react';
 
 const menuData = [
     {
@@ -28,7 +33,6 @@ const menuData = [
             }
         ]
     },
-    ,
     {
         label: 'Bedroom example',
         children: [
@@ -46,9 +50,33 @@ const menuData = [
 const MultiLevelSidebar = () => {
     const [hoveredMain, setHoveredMain] = useState<number | null>(null);
     const [hoveredSub, setHoveredSub] = useState<number | null>(null);
+    const sidebarRef = useRef<HTMLDivElement | null>(null);
+
+    // Click outside handler
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+    const target = event.target as Node;
+    
+    if (sidebarRef.current && sidebarRef.current.contains(target)) {
+        // Check if the click is outside of any ListItemText
+        const listItemTextElements = sidebarRef.current.querySelectorAll('.MuiBox-root');
+        const clickedOnText = Array.from(listItemTextElements).some(el => el.contains(target));
+
+        if (!clickedOnText) {
+            setHoveredMain(null);
+            setHoveredSub(null);
+        }
+    }
+};
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     return (
-        <Box sx={{ display: 'flex' }} >
+        <Box sx={{ display: 'flex', paddingTop: 64 }} ref={sidebarRef}>
             {/* Main Sidebar */}
             <Drawer variant="permanent" anchor="left" sx={{ width: 200, '& .MuiDrawer-paper': { width: 200 } }}>
                 <List>
@@ -72,7 +100,7 @@ const MultiLevelSidebar = () => {
                 <Grow in={true} timeout={300}>
                     <Box sx={{
                         position: 'absolute', left: 205, top: 0, width: 200, height: '100%',
-                        bgcolor: '#f0f0f0', boxShadow: 3, color: 'black'
+                        bgcolor: '#f0f0f0', boxShadow: 30, color: 'black'
                     }}>
                         <List>
                             {menuData[hoveredMain]?.children.map((subItem, subIndex) => (
@@ -98,7 +126,7 @@ const MultiLevelSidebar = () => {
                     <Grow in={true} timeout={300}>
                         <Box sx={{
                             position: 'absolute', left: 409, top: 0, width: 200, height: '100%',
-                            bgcolor: '#e0e0e0', boxShadow: 3, color: 'black'
+                            bgcolor: '#e0e0e0', boxShadow: 30, color: 'black'
                         }}>
                             <List>
                                 {menuData[hoveredMain].children[hoveredSub].children!.map((item, index) => (
