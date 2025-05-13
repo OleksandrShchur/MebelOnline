@@ -55,7 +55,10 @@ const MultiLevelSidebar = () => {
                     {menuData.map((item, index) => (
                         <ListItem
                             key={index}
-                            onMouseEnter={() => setHoveredMain(index)}
+                            onMouseEnter={() => {
+                                setHoveredMain(index);
+                                setHoveredSub(null); // Reset third column when first column item is changed
+                            }}
                             sx={{ cursor: 'pointer' }}
                         >
                             <ListItemText primary={item?.label} />
@@ -67,7 +70,10 @@ const MultiLevelSidebar = () => {
             {/* Submenu */}
             {hoveredMain !== null && (
                 <Grow in={true} timeout={300}>
-                    <Box sx={{ position: 'absolute', left: 205, top: 0, width: 200, height: '100%', bgcolor: '#f0f0f0', boxShadow: 3 }}>
+                    <Box sx={{
+                        position: 'absolute', left: 205, top: 0, width: 200, height: '100%',
+                        bgcolor: '#f0f0f0', boxShadow: 3, color: 'black'
+                    }}>
                         <List>
                             {menuData[hoveredMain]?.children.map((subItem, subIndex) => (
                                 <ListItem
@@ -84,19 +90,26 @@ const MultiLevelSidebar = () => {
             )}
 
             {/* Third Level Menu */}
-            {hoveredMain !== null && hoveredSub !== null && (
-                <Grow in={true} timeout={300}>
-                    <Box sx={{ position: 'absolute', left: 409, top: 0, width: 200, height: '100%', bgcolor: '#e0e0e0', boxShadow: 3 }}>
-                        <List>
-                            {menuData[hoveredMain]?.children[hoveredSub].children?.map((item, index) => (
-                                <ListItem key={index} sx={{ cursor: 'pointer' }}>
-                                    <ListItemText primary={item} />
-                                </ListItem>
-                            ))}
-                        </List>
-                    </Box>
-                </Grow>
-            )}
+            {hoveredMain !== null &&
+                hoveredSub !== null &&
+                menuData[hoveredMain]?.children &&
+                menuData[hoveredMain]?.children[hoveredSub]?.children &&
+                menuData[hoveredMain]?.children[hoveredSub]?.children.length > 0 && (
+                    <Grow in={true} timeout={300}>
+                        <Box sx={{
+                            position: 'absolute', left: 409, top: 0, width: 200, height: '100%',
+                            bgcolor: '#e0e0e0', boxShadow: 3, color: 'black'
+                        }}>
+                            <List>
+                                {menuData[hoveredMain].children[hoveredSub].children!.map((item, index) => (
+                                    <ListItem key={index} sx={{ cursor: 'pointer' }}>
+                                        <ListItemText primary={item} />
+                                    </ListItem>
+                                ))}
+                            </List>
+                        </Box>
+                    </Grow>
+                )}
         </Box>
     );
 };
