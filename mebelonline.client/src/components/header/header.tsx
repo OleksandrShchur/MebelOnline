@@ -65,15 +65,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const Header: React.FC = () => {
   const [isDrawerOpen, setDrawerOpen] = React.useState(false);
-  const [isClosing, setIsClosing] = React.useState(false);
 
   const toggleDrawer = () => {
-    setIsClosing(true);
     setDrawerOpen(!isDrawerOpen);
-  };
-
-  const handleDrawerTransitionEnd = () => {
-    setIsClosing(false);
   };
 
   const drawer = (
@@ -107,15 +101,13 @@ const Header: React.FC = () => {
             >
               <MenuIcon />
             </IconButton>
-
             <Drawer
               anchor="top"
               variant="temporary"
               open={isDrawerOpen}
-              onTransitionEnd={handleDrawerTransitionEnd}
               onClose={toggleDrawer}
               sx={{
-                display: { xs: 'block', sm: 'none' },
+                display: { xs: 'block', md: 'none' },
                 '& .MuiDrawer-paper': {
                   boxSizing: 'border-box',
                   width: '100%',
@@ -130,29 +122,6 @@ const Header: React.FC = () => {
             >
               {drawer}
             </Drawer>
-
-            {/* <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{ display: { xs: 'block', md: 'none' } }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu> */}
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
