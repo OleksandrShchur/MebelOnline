@@ -1,10 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using MebelOnline.Db.Entities;
 
-namespace MebelOnline.Db.Entities
+namespace MebelOnline.Server.Models
 {
-    [Table("Products")]
-    public class ProductEntity : BaseEntity
+    public class ProductModel
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
@@ -12,6 +12,6 @@ namespace MebelOnline.Db.Entities
         public string ImageUrl { get; set; }
         public DateTime DateAdded { get; set; }
         public int CategoryId { get; set; }
-        public virtual CategoryEntity Category { get; set; }
+        public virtual CategoryModel Category { get; set; }
     }
 }

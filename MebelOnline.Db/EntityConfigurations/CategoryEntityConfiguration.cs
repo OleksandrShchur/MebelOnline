@@ -13,11 +13,6 @@ namespace MebelOnline.Db.EntityConfigurations
             builder.HasMany(c => c.Products)
                 .WithOne(p => p.Category)
                 .HasForeignKey(p => p.CategoryId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            builder.HasMany(c => c.SubCategories)
-                .WithOne(sc => sc.ParentCategory)
-                .HasForeignKey(sc => sc.ParentCategoryId)
                 .OnDelete(DeleteBehavior.SetNull);
 
             builder.Property(c => c.Name)
