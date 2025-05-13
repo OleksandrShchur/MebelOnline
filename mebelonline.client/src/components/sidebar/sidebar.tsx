@@ -5,6 +5,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import React, { useEffect, useRef, useState } from 'react';
+import { useMediaQuery, useTheme } from '@mui/material';  // Import the necessary hooks
 
 const menuData = [
     {
@@ -52,6 +53,10 @@ const MultiLevelSidebar = () => {
     const [hoveredSub, setHoveredSub] = useState<number | null>(null);
     const sidebarRef = useRef<HTMLDivElement | null>(null);
 
+    // Access the theme to use for responsive breakpoints
+    const theme = useTheme();
+    const isDesktop = useMediaQuery(theme.breakpoints.up('md'));  // Check if the screen is medium or larger (desktop)
+
     useEffect(() => {
         const handleMouseLeave = (event: MouseEvent) => {
             const target = event.target as Node;
@@ -90,8 +95,12 @@ const MultiLevelSidebar = () => {
         };
     }, []);
 
+    if (!isDesktop) {
+        return null;  // Do not render the sidebar on small screens
+    }
+
     return (
-        <Box sx={{ display: 'flex', paddingTop: 64 }} ref={sidebarRef}>
+        <Box ref={sidebarRef}>
             <Drawer variant="permanent" anchor="left" sx={{ width: 200, '& .MuiDrawer-paper': { width: 200, paddingTop: 8 } }}>
                 <List>
                     {menuData.map((item, index) => (
@@ -112,7 +121,7 @@ const MultiLevelSidebar = () => {
             {hoveredMain !== null && (
                 <Grow in={true} timeout={300}>
                     <Box sx={{
-                        position: 'absolute', left: 205, top: 0, width: 200, height: 'calc(100vh - 64px)',
+                        position: 'absolute', left: 201, top: 0, width: 200, height: 'calc(100vh - 64px)',
                         bgcolor: '#f0f0f0', boxShadow: 30, color: 'black', paddingTop: 8
                     }}>
                         <List>
@@ -137,7 +146,7 @@ const MultiLevelSidebar = () => {
                 menuData[hoveredMain]?.children[hoveredSub]?.children.length > 0 && (
                     <Grow in={true} timeout={300}>
                         <Box sx={{
-                            position: 'absolute', left: 409, top: 0, width: 200, height: 'calc(100vh - 64px)',
+                            position: 'absolute', left: 402, top: 0, width: 200, height: 'calc(100vh - 64px)',
                             bgcolor: '#e0e0e0', boxShadow: 30, color: 'black', paddingTop: 8
                         }}>
                             <List>
