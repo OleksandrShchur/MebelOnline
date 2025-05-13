@@ -10,11 +10,6 @@ namespace MebelOnline.Db.EntityConfigurations
         {
             builder.HasKey(p => p.Id);
 
-            builder.HasOne(p => p.Category)
-                .WithMany(c => c.Products)
-                .HasForeignKey(p => p.CategoryId)
-                .OnDelete(DeleteBehavior.Cascade);
-
             builder.Property(p => p.Name)
                 .IsRequired()
                 .HasMaxLength(255);

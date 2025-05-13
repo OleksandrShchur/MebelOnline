@@ -3,38 +3,38 @@ using MebelOnline.Server.Models;
 
 namespace MebelOnline.Server.Mappings
 {
-    public class CategoryEntityMapper : IMappingService<CategoryEntity, CategoryModel>
+    public class ProductEntityMapper : IMappingService<ProductEntity, ProductModel>
     {
-        public CategoryModel Map(CategoryEntity source)
+        public ProductModel Map(ProductEntity source)
         {
             if (source == null)
             {
                 return default;
             }
 
-            var model = new CategoryModel
+            var model = new ProductModel
             {
                 Id = source.Id,
                 Name = source.Name,
                 Description = source.Description,
-                ParentCategoryId = source.ParentCategoryId,
-                ParentCategory = source.ParentCategory != null 
-                    ? Map(source.ParentCategory) 
-                    : null
+                Price = source.Price,
+                StockQuantity = source.StockQuantity,
+                ImageUrl = source.ImageUrl,
+                DateAdded = source.DateAdded,
+                CategoryId = source.CategoryId
             };
 
             return model;
         }
 
-
-        public IList<CategoryModel> MapList(IList<CategoryEntity> source)
+        public IList<ProductModel> MapList(IList<ProductEntity> source)
         {
             if (source == null)
             {
-                return new List<CategoryModel>();
+                return new List<ProductModel>();
             }
 
-            var mappedList = new List<CategoryModel>();
+            var mappedList = new List<ProductModel>();
             foreach (var item in source)
             {
                 mappedList.Add(Map(item));

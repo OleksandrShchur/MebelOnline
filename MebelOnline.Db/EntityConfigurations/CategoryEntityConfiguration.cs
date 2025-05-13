@@ -10,11 +10,6 @@ namespace MebelOnline.Db.EntityConfigurations
         {
             builder.HasKey(c => c.Id);
 
-            builder.HasMany(c => c.Products)
-                .WithOne(p => p.Category)
-                .HasForeignKey(p => p.CategoryId)
-                .OnDelete(DeleteBehavior.SetNull);
-
             builder.Property(c => c.Name)
                 .IsRequired()
                 .HasMaxLength(255);
@@ -27,6 +22,9 @@ namespace MebelOnline.Db.EntityConfigurations
 
             builder.Property(c => c.ParentCategoryId)
                 .IsRequired(false);
+
+            builder.Property(c => c.HasProducts)
+                .IsRequired(true);
         }
     }
 }

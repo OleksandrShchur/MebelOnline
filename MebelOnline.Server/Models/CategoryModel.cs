@@ -1,6 +1,4 @@
-﻿using MebelOnline.Db.Entities;
-
-namespace MebelOnline.Server.Models
+﻿namespace MebelOnline.Server.Models
 {
     public class CategoryModel
     {
@@ -9,6 +7,5 @@ namespace MebelOnline.Server.Models
         public string Description { get; set; }
         public int? ParentCategoryId { get; set; }
         public virtual CategoryModel ParentCategory { get; set; }
-        public virtual ICollection<ProductEntity> Products { get; set; }
     }
 }

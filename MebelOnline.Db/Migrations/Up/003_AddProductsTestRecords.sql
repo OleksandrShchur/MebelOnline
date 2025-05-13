@@ -60,3 +60,8 @@ VALUES
 ('Cordless Vacuum', 'Lightweight cordless vacuum', 150.00, 10, 'images/vacuum1.jpg', GETDATE(), 20),
 ('Robotic Vacuum', 'Smart robotic vacuum cleaner', 400.00, 8, 'images/vacuum2.jpg', GETDATE(), 20),
 ('Handheld Vacuum', 'Portable handheld vacuum', 75.00, 20, 'images/vacuum3.jpg', GETDATE(), 20);
+
+UPDATE c
+SET c.HasProducts = 1
+FROM Categories c
+JOIN Products p ON p.CategoryId = c.Id;

@@ -1,7 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using MebelOnline.Db;
+using MebelOnline.Server.Mappings;
+using MebelOnline.Db.Entities;
+using MebelOnline.Server.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Register services
+builder.Services.AddSingleton<IMappingService<CategoryEntity, CategoryModel>, CategoryEntityMapper>();
+builder.Services.AddSingleton<IMappingService<ProductEntity, ProductModel>, ProductEntityMapper>();
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -21,6 +28,13 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
+
+// Ensure the database is created (only if using Database First approach)
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    dbContext.Database.EnsureCreated();
+}
 
 app.UseDefaultFiles();
 app.UseStaticFiles();

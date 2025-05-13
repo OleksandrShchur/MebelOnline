@@ -1,6 +1,4 @@
-﻿using MebelOnline.Db.Entities;
-
-namespace MebelOnline.Server.Models
+﻿namespace MebelOnline.Server.Models
 {
     public class ProductModel
     {
@@ -12,6 +10,5 @@ namespace MebelOnline.Server.Models
         public string ImageUrl { get; set; }
         public DateTime DateAdded { get; set; }
         public int CategoryId { get; set; }
-        public virtual CategoryModel Category { get; set; }
     }
 }
