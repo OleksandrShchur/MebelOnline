@@ -5,6 +5,7 @@ BEGIN
         Name NVARCHAR(255) NOT NULL,
         Description NVARCHAR(500) NULL,
         ParentCategoryId INT NULL,
+        HasProducts BIT NOT NULL DEFAULT 0,
         CONSTRAINT FK_Category_ParentCategory 
             FOREIGN KEY (ParentCategoryId) REFERENCES Categories(Id) ON DELETE NO ACTION
     );
