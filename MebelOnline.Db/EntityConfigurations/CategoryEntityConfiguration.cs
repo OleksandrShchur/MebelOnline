@@ -14,8 +14,9 @@ namespace MebelOnline.Db.EntityConfigurations
                 .IsRequired()
                 .HasMaxLength(255);
 
-            builder.Property(c => c.Description)
-                .HasMaxLength(500);
+            builder.Property(c => c.ImageUrl)
+                .HasMaxLength(500)
+                .IsRequired(false);
 
             builder.HasIndex(c => c.Name)
                 .IsUnique();
