@@ -4,7 +4,7 @@ import Grow from '@mui/material/Grow';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useMediaQuery, useTheme } from '@mui/material';  // Import the necessary hooks
 
 const menuData = [

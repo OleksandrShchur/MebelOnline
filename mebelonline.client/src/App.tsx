@@ -1,5 +1,6 @@
 import './App.css';
 import Header from './components/header/header';
+import ProductGrid from './components/productGrid/productGrid';
 import MultiLevelSidebar from './components/sidebar/sidebar';
 
 function App() {
@@ -7,6 +8,7 @@ function App() {
         <>
             <Header />
             <MultiLevelSidebar />
+            <ProductGrid />
         </>
     );
 
