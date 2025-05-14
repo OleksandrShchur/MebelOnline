@@ -100,7 +100,7 @@ const MultiLevelSidebar = () => {
     }
 
     return (
-        <Box ref={sidebarRef}>
+        <Box ref={sidebarRef} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
             <Drawer variant="permanent" anchor="left" sx={{ width: 200, '& .MuiDrawer-paper': { width: 200, paddingTop: 8 } }}>
                 <List>
                     {menuData.map((item, index) => (

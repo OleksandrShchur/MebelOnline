@@ -1,3 +1,4 @@
+import Box from '@mui/material/Box';
 import './App.css';
 import Header from './components/header/header';
 import ProductGrid from './components/productGrid/productGrid';
@@ -7,8 +8,10 @@ function App() {
     return (
         <>
             <Header />
-            <MultiLevelSidebar />
-            <ProductGrid />
+            <Box display="flex">
+                <MultiLevelSidebar />
+                <ProductGrid />
+            </Box>
         </>
     );
 

@@ -9,10 +9,11 @@ import Typography from '@mui/material/Typography';
 import React from 'react';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import type { ProductCardModel } from '../../models/productCardModel';
+import { CardActions } from '@mui/material';
 
 const ProductCard: React.FC<{ product: ProductCardModel }> = ({ product }) => {
   return (
-    <Card sx={{ position: 'relative', maxWidth: 300, mx: 'auto' }}>
+    <Card sx={{ position: 'relative', maxWidth: 300, height: 350, mx: 'auto', display: 'flex', flexDirection: 'column' }}>
       <CardMedia
         component="img"
         height="180"
@@ -20,24 +21,33 @@ const ProductCard: React.FC<{ product: ProductCardModel }> = ({ product }) => {
         alt={product.title}
       />
 
-      <CardContent>
-        {product.options > 0 && (
-          <Typography variant="caption" color="text.secondary" display="block" mb={1}>
-            Можливі варіанти: {product.options}
+      <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+        <CardContent sx={{ flexGrow: 1, px: 2, py: 1 }}>
+          {product.options > 0 && (
+            <Typography variant="caption" color="text.secondary" display="block" mb={1}>
+              Можливі варіанти: {product.options}
+            </Typography>
+          )}
+
+          <Typography variant="body2" fontWeight={500} gutterBottom // think about tooltip TODO
+            sx={{
+              display: '-webkit-box',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              WebkitBoxOrient: 'vertical',
+              WebkitLineClamp: product.options > 0 ? 2 : 3, // number of lines shown
+            }}
+          >
+            {product.title}
           </Typography>
-        )}
 
-        <Typography variant="body2" fontWeight={500} gutterBottom>
-          {product.title}
-        </Typography>
+          <Rating value={product.rating} readOnly size="small" />
+        </CardContent>
 
-        <Rating value={product.rating} readOnly size="small" />
-
-        <Box mt={1} display="flex" justifyContent="space-between" alignItems="center">
+        <CardActions sx={{ justifyContent: 'space-between', px: 2 }}>
           <Typography variant="h6">{product.price.toLocaleString()} грн</Typography>
 
           <Tooltip title="Додати в обране">
-            {/* Wishlist icon */}
             <IconButton
               sx={{
                 bgcolor: 'white',
@@ -47,8 +57,8 @@ const ProductCard: React.FC<{ product: ProductCardModel }> = ({ product }) => {
               <FavoriteBorderIcon />
             </IconButton>
           </Tooltip>
-        </Box>
-      </CardContent>
+        </CardActions>
+      </Box>
     </Card>
   );
 };
