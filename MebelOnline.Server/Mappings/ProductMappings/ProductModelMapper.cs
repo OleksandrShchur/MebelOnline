@@ -1,9 +1,9 @@
 ﻿using MebelOnline.Db.Entities;
 using MebelOnline.Server.Models;
 
-namespace MebelOnline.Server.Mappings
+namespace MebelOnline.Server.Mappings.ProductMappings
 {
-    public class ProductEntityMapper : IMappingService<ProductEntity, ProductModel>
+    public class ProductModelMapper : IMappingService<ProductEntity, ProductModel>
     {
         public ProductModel Map(ProductEntity source)
         {

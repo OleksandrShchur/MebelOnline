@@ -3,7 +3,7 @@ BEGIN
     CREATE TABLE dbo.Categories (
         Id INT PRIMARY KEY,
         Name NVARCHAR(255) NOT NULL,
-        Description NVARCHAR(500) NULL,
+        ImageUrl NVARCHAR(500) NULL,
         ParentCategoryId INT NULL,
         HasProducts BIT NOT NULL DEFAULT 0,
         CONSTRAINT FK_Category_ParentCategory 
