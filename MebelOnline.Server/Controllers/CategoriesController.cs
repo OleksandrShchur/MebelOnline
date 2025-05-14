@@ -12,8 +12,8 @@ namespace MebelOnline.Server.Controllers
     public class CategoriesController : ControllerBase
     {
         private readonly AppDbContext _dbContext;
-        private readonly IMappingService<CategoryEntity, CategoryModel> _mapper;
-        public CategoriesController(AppDbContext dbContext, IMappingService<CategoryEntity, CategoryModel> mapper) 
+        private readonly IMappingService<CategoryEntity, CategorySidebarModel> _mapper;
+        public CategoriesController(AppDbContext dbContext, IMappingService<CategoryEntity, CategorySidebarModel> mapper) 
         {
             _dbContext = dbContext;
             _mapper = mapper;
@@ -21,14 +21,16 @@ namespace MebelOnline.Server.Controllers
 
         [HttpGet]
         [Route("all")]
-        public async Task<IEnumerable<CategoryModel>> GetAll()
+        public async Task<IEnumerable<CategorySidebarModel>> GetAll()
         {
-            var entities = await _dbContext.Categories
-                .Include(c => c.ParentCategory)
-                    .ThenInclude(pc => pc.ParentCategory)
-                .Where(c => c.HasProducts)
-                .OrderBy(c => c.Id)
-                .ToListAsync();
+            var query = _dbContext.Categories
+                            .Include(c => c.ParentCategory)
+                                .ThenInclude(pc => pc.ParentCategory)
+                            .Where(c => c.HasProducts)
+                            .OrderBy(c => c.Id);
+
+            Console.WriteLine(query.ToQueryString());
+            var entities = await query.ToListAsync();
 
             var mappedModels = _mapper.MapList(entities);
 
