@@ -3,12 +3,14 @@ using MebelOnline.Db;
 using MebelOnline.Server.Mappings;
 using MebelOnline.Db.Entities;
 using MebelOnline.Server.Models;
+using MebelOnline.Server.Mappings.CategoryMappings;
+using MebelOnline.Server.Mappings.ProductMappings;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Register services
-builder.Services.AddSingleton<IMappingService<CategoryEntity, CategoryModel>, CategoryEntityMapper>();
-builder.Services.AddSingleton<IMappingService<ProductEntity, ProductModel>, ProductEntityMapper>();
+builder.Services.AddSingleton<IMappingService<CategoryEntity, CategorySidebarModel>, CategorySidebarModelMapper>();
+builder.Services.AddSingleton<IMappingService<ProductEntity, ProductModel>, ProductModelMapper>();
 
 // Add services to the container.
 builder.Services.AddControllers();
