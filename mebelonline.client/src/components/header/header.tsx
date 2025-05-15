@@ -14,6 +14,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
+import CloseIcon from '@mui/icons-material/Close';
 
 const pages = ['Головна', 'Контакти', 'Про нас'];
 
@@ -95,13 +96,12 @@ const Header: React.FC = () => {
               onClick={toggleDrawer}
               color="inherit"
             >
-              <MenuIcon />
+              {isDrawerOpen ? <CloseIcon /> : <MenuIcon />}
             </IconButton>
             <Drawer
               anchor="top"
               variant="temporary"
               open={isDrawerOpen}
-              onClose={toggleDrawer}
               sx={{
                 display: { xs: 'block', md: 'none' },
                 '& .MuiDrawer-paper': {
