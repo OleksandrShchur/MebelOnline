@@ -3,8 +3,20 @@ import './App.css';
 import Header from './components/header/header';
 import ProductGrid from './components/productGrid/productGrid';
 import MultiLevelSidebar from './components/sidebar/sidebar';
+import { useEffect } from 'react';
 
 function App() {
+
+    async function populateCategories() {
+        const response = await fetch('api/categories/all');
+
+        console.log(response.json());
+    }
+
+    useEffect(() => {
+        populateCategories();
+    }, []);
+
     return (
         <>
             <Header />

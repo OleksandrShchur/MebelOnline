@@ -23,14 +23,12 @@ namespace MebelOnline.Server.Controllers
         [Route("all")]
         public async Task<IEnumerable<CategorySidebarModel>> GetAll()
         {
-            var query = _dbContext.Categories
+            var entities = await _dbContext.Categories
                             .Include(c => c.ParentCategory)
                                 .ThenInclude(pc => pc.ParentCategory)
                             .Where(c => c.HasProducts)
-                            .OrderBy(c => c.Id);
-
-            Console.WriteLine(query.ToQueryString());
-            var entities = await query.ToListAsync();
+                            .OrderBy(c => c.Id)
+                            .ToListAsync();
 
             var mappedModels = _mapper.MapList(entities);
 
