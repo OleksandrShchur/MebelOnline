@@ -29,17 +29,18 @@ const ProductCard: React.FC<{ product: ProductCardModel }> = ({ product }) => {
             </Typography>
           )}
 
-          <Typography variant="body2" fontWeight={500} gutterBottom // think about tooltip TODO
-            sx={{
-              display: '-webkit-box',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              WebkitBoxOrient: 'vertical',
-              WebkitLineClamp: product.options > 0 ? 2 : 3, // number of lines shown
-            }}
-          >
-            {product.title}
-          </Typography>
+          <Tooltip title={product.title} arrow>
+            <Typography variant="body2" fontWeight={500} gutterBottom
+              sx={{
+                display: '-webkit-box',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                WebkitBoxOrient: 'vertical',
+                WebkitLineClamp: product.options > 0 ? 2 : 3, // number of lines shown
+              }}
+            >
+              {product.title}
+            </Typography></Tooltip>
 
           <Rating value={product.rating} readOnly size="small" />
         </CardContent>
