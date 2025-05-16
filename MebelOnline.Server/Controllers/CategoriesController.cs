@@ -1,7 +1,8 @@
 ﻿using MebelOnline.Db;
 using MebelOnline.Db.Entities;
+using MebelOnline.Server.Helpers.Categories;
 using MebelOnline.Server.Mappings;
-using MebelOnline.Server.Models;
+using MebelOnline.Server.Models.Categories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,7 +22,7 @@ namespace MebelOnline.Server.Controllers
 
         [HttpGet]
         [Route("all")]
-        public async Task<IEnumerable<CategorySidebarModel>> GetAll()
+        public async Task<IEnumerable<CategorySidebarRevertedModel>> GetAll()
         {
             var entities = await _dbContext.Categories
                             .Include(c => c.ParentCategory)
@@ -31,8 +32,9 @@ namespace MebelOnline.Server.Controllers
                             .ToListAsync();
 
             var mappedModels = _mapper.MapList(entities);
+            var revertedModels = CategoryTransformer.ConvertHierarchy(mappedModels);
 
-            return mappedModels;
+            return revertedModels;
         }
     }
 }

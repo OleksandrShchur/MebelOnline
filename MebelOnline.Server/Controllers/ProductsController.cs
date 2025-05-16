@@ -1,9 +1,9 @@
 ﻿using MebelOnline.Db.Entities;
 using MebelOnline.Db;
 using MebelOnline.Server.Mappings;
-using MebelOnline.Server.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MebelOnline.Server.Models.Products;
 
 namespace MebelOnline.Server.Controllers
 {
