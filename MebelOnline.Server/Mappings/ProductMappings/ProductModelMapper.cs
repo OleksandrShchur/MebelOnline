@@ -1,5 +1,5 @@
 ﻿using MebelOnline.Db.Entities;
-using MebelOnline.Server.Models;
+using MebelOnline.Server.Models.Products;
 
 namespace MebelOnline.Server.Mappings.ProductMappings
 {

@@ -8,7 +8,7 @@ BEGIN
         HasProducts BIT NOT NULL DEFAULT 0,
         CONSTRAINT FK_Category_ParentCategory 
             FOREIGN KEY (ParentCategoryId) REFERENCES Categories(Id) ON DELETE NO ACTION
-    );
+    )
 END;
 
 IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Users')
@@ -16,7 +16,7 @@ BEGIN
     CREATE TABLE dbo.Users (
 	Id int NOT NULL,
 	PasswordHash varchar(256) COLLATE SQL_Latin1_General_CP1_CI_AI NOT NULL
-);
+)
 END;
 
 IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Products')
@@ -31,5 +31,5 @@ BEGIN
         DateAdded DATETIME NOT NULL,
         CategoryId INT NOT NULL,
         CONSTRAINT FK_Products_Categories FOREIGN KEY (CategoryId) REFERENCES dbo.Categories(Id) ON DELETE CASCADE
-    );
+    )
 END;

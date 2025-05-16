@@ -3,25 +3,36 @@ import './App.css';
 import Header from './components/header/header';
 import ProductGrid from './components/productGrid/productGrid';
 import MultiLevelSidebar from './components/sidebar/sidebar';
+import React, { useEffect, useRef, useState } from 'react';
+import type { CategorySidebarModel } from './models/categorySidebarModel';
+import categoriesService from './services/categoriesService';
 
-function App() {
+const App: React.FC = () => {
+    const [categories, setCategories] = useState<CategorySidebarModel[]>([]);
+    const isMounted = useRef(false); // <-- Added this reference to track first render
+
+    const populateCategories = async () => {
+        const data = await categoriesService.fetchAll();
+
+        setCategories(data);
+    }
+
+    useEffect(() => {
+        if (!isMounted.current) {
+            populateCategories();
+            isMounted.current = true;
+        }
+    }, []);
+
     return (
         <>
             <Header />
             <Box display="flex">
-                <MultiLevelSidebar />
+                <MultiLevelSidebar categories={categories} />
                 <ProductGrid />
             </Box>
         </>
     );
-
-    // async function populateWeatherData() {
-    //     const response = await fetch('weatherforecast');
-    //     if (response.ok) {
-    //         const data = await response.json();
-    //         setForecasts(data);
-    //     }
-    // }
 }
 
 export default App;

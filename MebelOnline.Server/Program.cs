@@ -2,9 +2,10 @@ using Microsoft.EntityFrameworkCore;
 using MebelOnline.Db;
 using MebelOnline.Server.Mappings;
 using MebelOnline.Db.Entities;
-using MebelOnline.Server.Models;
 using MebelOnline.Server.Mappings.CategoryMappings;
 using MebelOnline.Server.Mappings.ProductMappings;
+using MebelOnline.Server.Models.Categories;
+using MebelOnline.Server.Models.Products;
 
 var builder = WebApplication.CreateBuilder(args);
 

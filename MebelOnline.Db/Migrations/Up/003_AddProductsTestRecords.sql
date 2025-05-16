@@ -1,66 +1,74 @@
--- Insert products for 'Sofas' (CategoryId = 12)
+-- Insert products for 'Sofas' (CategoryId = 16)
 INSERT INTO dbo.Products (Name, Description, Price, StockQuantity, ImageUrl, DateAdded, CategoryId) 
 VALUES 
-('Luxury Leather Sofa', 'Premium leather sofa with adjustable headrests', 599.99, 10, 'images/sofa1.jpg', GETDATE(), 12),
-('Fabric Recliner Sofa', 'Comfortable fabric recliner with cup holders', 450.00, 8, 'images/sofa2.jpg', GETDATE(), 12),
-('Sectional Sofa', 'Modern sectional sofa with chaise', 799.99, 5, 'images/sofa3.jpg', GETDATE(), 12);
+('Leather Sofa', 'Luxury leather sofa', 599.99, 10, 'images/sofa1.jpg', GETDATE(), 16),
+('Fabric Sofa', 'Comfortable fabric sofa', 450.00, 8, 'images/sofa2.jpg', GETDATE(), 16),
+('Corner Sofa', 'Stylish corner sofa', 700.00, 12, 'images/sofa3.jpg', GETDATE(), 16),
+('Modern Sofa', 'Modern design sofa', 520.00, 6, 'images/sofa4.jpg', GETDATE(), 16),
+('Recliner Sofa', 'Recliner with cup holders', 580.00, 7, 'images/sofa5.jpg', GETDATE(), 16),
+('Loveseat Sofa', 'Loveseat with plush fabric', 320.00, 9, 'images/sofa6.jpg', GETDATE(), 16),
+('Sectional Sofa', 'Spacious sectional sofa', 820.00, 5, 'images/sofa7.jpg', GETDATE(), 16),
+('Chaise Sofa', 'Chaise lounge sofa', 460.00, 14, 'images/sofa8.jpg', GETDATE(), 16),
+('Sofa Bed', 'Convertible sofa bed', 700.00, 7, 'images/sofa9.jpg', GETDATE(), 16),
+('Outdoor Sofa', 'Water-resistant outdoor sofa', 500.00, 12, 'images/sofa10.jpg', GETDATE(), 16),
+('Vintage Sofa', 'Vintage style sofa', 400.00, 8, 'images/sofa11.jpg', GETDATE(), 16),
+('Compact Sofa', 'Compact design sofa', 250.00, 15, 'images/sofa12.jpg', GETDATE(), 16),
+('Double Sofa', 'Double seater sofa', 300.00, 10, 'images/sofa13.jpg', GETDATE(), 16),
+('Adjustable Sofa', 'Adjustable backrest sofa', 650.00, 5, 'images/sofa14.jpg', GETDATE(), 16),
+('Velvet Sofa', 'Velvet fabric sofa', 550.00, 6, 'images/sofa15.jpg', GETDATE(), 16);
 
--- Insert products for 'Coffee Tables' (CategoryId = 13)
+-- Repeat similar insert statements for other last-level categories
+
+-- 'Coffee Tables' (CategoryId = 31)
 INSERT INTO dbo.Products (Name, Description, Price, StockQuantity, ImageUrl, DateAdded, CategoryId) 
 VALUES 
-('Wooden Coffee Table', 'Classic wooden coffee table with storage', 150.00, 12, 'images/table1.jpg', GETDATE(), 13),
-('Glass Coffee Table', 'Round glass coffee table with metal legs', 220.00, 7, 'images/table2.jpg', GETDATE(), 13),
-('Marble Coffee Table', 'Luxury marble coffee table, white', 300.00, 4, 'images/table3.jpg', GETDATE(), 13);
+('Glass Coffee Table', 'Modern glass coffee table', 120.00, 10, 'images/table1.jpg', GETDATE(), 31),
+('Wood Coffee Table', 'Rustic wood coffee table', 100.00, 15, 'images/table2.jpg', GETDATE(), 31),
+('Marble Coffee Table', 'Luxury marble coffee table', 300.00, 7, 'images/table3.jpg', GETDATE(), 31);
 
--- Insert products for 'Beds' (CategoryId = 14)
+-- 'Beds' (CategoryId = 17)
 INSERT INTO dbo.Products (Name, Description, Price, StockQuantity, ImageUrl, DateAdded, CategoryId) 
 VALUES 
-('King Size Bed', 'Wooden king size bed with headboard', 550.00, 6, 'images/bed1.jpg', GETDATE(), 14),
-('Queen Size Bed', 'Metal queen size bed frame', 400.00, 10, 'images/bed2.jpg', GETDATE(), 14),
-('Single Bed', 'Single bed with storage drawers', 300.00, 15, 'images/bed3.jpg', GETDATE(), 14);
+('King Bed', 'King size wooden bed', 800.00, 9, 'images/bed1.jpg', GETDATE(), 17),
+('Queen Bed', 'Queen size metal bed', 600.00, 12, 'images/bed2.jpg', GETDATE(), 17),
+('Single Bed', 'Single bed with storage', 400.00, 18, 'images/bed3.jpg', GETDATE(), 17);
 
--- Insert products for 'Wardrobes' (CategoryId = 15)
+-- 'Wardrobes' (CategoryId = 33)
 INSERT INTO dbo.Products (Name, Description, Price, StockQuantity, ImageUrl, DateAdded, CategoryId) 
 VALUES 
-('3-Door Wardrobe', 'Spacious 3-door wardrobe with mirror', 500.00, 5, 'images/wardrobe1.jpg', GETDATE(), 15),
-('Sliding Door Wardrobe', 'Sliding door wardrobe with shelves', 650.00, 3, 'images/wardrobe2.jpg', GETDATE(), 15),
-('Compact Wardrobe', 'Compact wardrobe with two drawers', 300.00, 9, 'images/wardrobe3.jpg', GETDATE(), 15);
+('2-Door Wardrobe', 'Classic 2-door wardrobe', 350.00, 7, 'images/wardrobe1.jpg', GETDATE(), 33),
+('3-Door Wardrobe', 'Spacious 3-door wardrobe', 500.00, 5, 'images/wardrobe2.jpg', GETDATE(), 33),
+('Sliding Door Wardrobe', 'Sliding door wardrobe', 600.00, 10, 'images/wardrobe3.jpg', GETDATE(), 33);
 
--- Insert products for 'Smartphones' (CategoryId = 16)
+-- 'Smartphones' (CategoryId = 18)
 INSERT INTO dbo.Products (Name, Description, Price, StockQuantity, ImageUrl, DateAdded, CategoryId) 
 VALUES 
-('iPhone 14', 'Apple iPhone 14 with 256GB storage', 999.99, 20, 'images/phone1.jpg', GETDATE(), 16),
-('Samsung Galaxy S22', 'Samsung Galaxy S22, 128GB', 899.99, 25, 'images/phone2.jpg', GETDATE(), 16),
-('Google Pixel 7', 'Google Pixel 7 with advanced camera', 799.99, 18, 'images/phone3.jpg', GETDATE(), 16);
+('iPhone 14 Pro', '256GB, Space Gray', 1200.00, 25, 'images/phone1.jpg', GETDATE(), 18),
+('Samsung Galaxy S23', '128GB, Blue', 999.00, 30, 'images/phone2.jpg', GETDATE(), 18),
+('Google Pixel 8', '128GB, Black', 899.00, 20, 'images/phone3.jpg', GETDATE(), 18);
 
--- Insert products for 'Accessories' (CategoryId = 17)
+-- 'Vacuum Cleaners' (CategoryId = 38)
 INSERT INTO dbo.Products (Name, Description, Price, StockQuantity, ImageUrl, DateAdded, CategoryId) 
 VALUES 
-('Wireless Charger', 'Fast wireless charger for smartphones', 49.99, 30, 'images/accessory1.jpg', GETDATE(), 17),
-('Phone Case', 'Shockproof phone case', 19.99, 40, 'images/accessory2.jpg', GETDATE(), 17),
-('Screen Protector', 'Anti-glare screen protector', 9.99, 50, 'images/accessory3.jpg', GETDATE(), 17);
+('Cordless Vacuum', 'Powerful cordless vacuum', 150.00, 10, 'images/vacuum1.jpg', GETDATE(), 38),
+('Robot Vacuum', 'Smart robot vacuum', 400.00, 8, 'images/vacuum2.jpg', GETDATE(), 38),
+('Handheld Vacuum', 'Portable handheld vacuum', 75.00, 15, 'images/vacuum3.jpg', GETDATE(), 38);
 
--- Insert products for 'Blenders' (CategoryId = 18)
+-- 'Microwaves' (CategoryId = 20)
 INSERT INTO dbo.Products (Name, Description, Price, StockQuantity, ImageUrl, DateAdded, CategoryId) 
 VALUES 
-('Portable Blender', 'USB rechargeable portable blender', 35.00, 20, 'images/blender1.jpg', GETDATE(), 18),
-('Countertop Blender', 'High-speed countertop blender', 120.00, 10, 'images/blender2.jpg', GETDATE(), 18),
-('Food Processor', 'Multi-functional food processor', 150.00, 7, 'images/blender3.jpg', GETDATE(), 18);
+('Compact Microwave', 'Small microwave oven', 120.00, 20, 'images/microwave1.jpg', GETDATE(), 20),
+('Convection Microwave', 'Convection microwave', 250.00, 15, 'images/microwave2.jpg', GETDATE(), 20),
+('Built-in Microwave', 'Built-in microwave', 300.00, 12, 'images/microwave3.jpg', GETDATE(), 20);
 
--- Insert products for 'Microwaves' (CategoryId = 19)
+-- 'Ovens' (CategoryId = 37)
 INSERT INTO dbo.Products (Name, Description, Price, StockQuantity, ImageUrl, DateAdded, CategoryId) 
 VALUES 
-('Solo Microwave', 'Compact solo microwave oven', 100.00, 15, 'images/microwave1.jpg', GETDATE(), 19),
-('Convection Microwave', 'Convection microwave with grill', 220.00, 12, 'images/microwave2.jpg', GETDATE(), 19),
-('Built-in Microwave', 'Built-in microwave with sensor cooking', 300.00, 5, 'images/microwave3.jpg', GETDATE(), 19);
+('Electric Oven', 'Freestanding electric oven', 500.00, 7, 'images/oven1.jpg', GETDATE(), 37),
+('Double Oven', 'Double oven with grill', 750.00, 5, 'images/oven2.jpg', GETDATE(), 37),
+('Gas Oven', 'Gas oven with safety features', 550.00, 10, 'images/oven3.jpg', GETDATE(), 37);
 
--- Insert products for 'Vacuum Cleaners' (CategoryId = 20)
-INSERT INTO dbo.Products (Name, Description, Price, StockQuantity, ImageUrl, DateAdded, CategoryId) 
-VALUES 
-('Cordless Vacuum', 'Lightweight cordless vacuum', 150.00, 10, 'images/vacuum1.jpg', GETDATE(), 20),
-('Robotic Vacuum', 'Smart robotic vacuum cleaner', 400.00, 8, 'images/vacuum2.jpg', GETDATE(), 20),
-('Handheld Vacuum', 'Portable handheld vacuum', 75.00, 20, 'images/vacuum3.jpg', GETDATE(), 20);
-
+-- Update HasProducts field for categories
 UPDATE c
 SET c.HasProducts = 1
 FROM Categories c
