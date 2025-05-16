@@ -3,14 +3,20 @@ import './App.css';
 import Header from './components/header/header';
 import ProductGrid from './components/productGrid/productGrid';
 import MultiLevelSidebar from './components/sidebar/sidebar';
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import type { CategorySidebarModel } from './models/categorySidebarModel';
 
-function App() {
+const App: React.FC = () => {
+    const [categories, setCategories] = useState<CategorySidebarModel[]>([]);
 
-    async function populateCategories() {
+    const populateCategories = async () => {
         const response = await fetch('api/categories/all');
 
-        console.log(response.json());
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data);
+            setCategories(data);
+        }
     }
 
     useEffect(() => {
@@ -21,19 +27,11 @@ function App() {
         <>
             <Header />
             <Box display="flex">
-                <MultiLevelSidebar />
+                <MultiLevelSidebar categories={categories} />
                 <ProductGrid />
             </Box>
         </>
     );
-
-    // async function populateWeatherData() {
-    //     const response = await fetch('weatherforecast');
-    //     if (response.ok) {
-    //         const data = await response.json();
-    //         setForecasts(data);
-    //     }
-    // }
 }
 
 export default App;

@@ -5,50 +5,14 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { useEffect, useRef, useState } from 'react';
-import { useMediaQuery, useTheme } from '@mui/material';  // Import the necessary hooks
+import { useMediaQuery, useTheme } from '@mui/material';
+import type { CategorySidebarModel } from '../../models/categorySidebarModel';
 
-const menuData = [
-    {
-        label: 'Living Room',
-        children: [
-            {
-                label: 'Sofas',
-                children: ['Leather Sofas', 'Fabric Sofas']
-            },
-            {
-                label: 'Tables',
-                children: ['Coffee Tables', 'Side Tables']
-            }
-        ]
-    },
-    {
-        label: 'Bedroom',
-        children: [
-            {
-                label: 'Beds',
-                children: ['King Size', 'Queen Size']
-            },
-            {
-                label: 'Wardrobes',
-                children: ['Sliding Door', 'Hinged Door']
-            }
-        ]
-    },
-    {
-        label: 'Bedroom example',
-        children: [
-            {
-                label: 'Beds example'
-            },
-            {
-                label: 'Wardrobes',
-                children: ['Sliding Door', 'Hinged Door']
-            }
-        ]
-    }
-];
+interface IMultiLevelSidebarProps {
+    categories: CategorySidebarModel[];
+}
 
-const MultiLevelSidebar = () => {
+const MultiLevelSidebar: React.FC<IMultiLevelSidebarProps> = ({ categories = [] }) => {
     const [hoveredMain, setHoveredMain] = useState<number | null>(null);
     const [hoveredSub, setHoveredSub] = useState<number | null>(null);
     const sidebarRef = useRef<HTMLDivElement | null>(null);
@@ -103,7 +67,7 @@ const MultiLevelSidebar = () => {
         <Box ref={sidebarRef} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
             <Drawer variant="permanent" anchor="left" sx={{ width: 200, '& .MuiDrawer-paper': { width: 200, paddingTop: 8 } }}>
                 <List>
-                    {menuData.map((item, index) => (
+                    {categories.map((item, index) => (
                         <ListItem
                             key={index}
                             onMouseEnter={() => {
@@ -112,7 +76,7 @@ const MultiLevelSidebar = () => {
                             }}
                             sx={{ cursor: 'pointer' }}
                         >
-                            <ListItemText primary={item?.label} />
+                            <ListItemText primary={item?.name} />
                         </ListItem>
                     ))}
                 </List>
@@ -125,13 +89,13 @@ const MultiLevelSidebar = () => {
                         bgcolor: '#f0f0f0', boxShadow: 30, color: 'black', paddingTop: 8
                     }}>
                         <List>
-                            {menuData[hoveredMain]?.children.map((subItem, subIndex) => (
+                            {categories[hoveredMain]?.childrenCategories.map((subItem, subIndex) => (
                                 <ListItem
                                     key={subIndex}
                                     onMouseEnter={() => setHoveredSub(subIndex)}
                                     sx={{ cursor: 'pointer' }}
                                 >
-                                    <ListItemText primary={subItem.label} />
+                                    <ListItemText primary={subItem.name} />
                                 </ListItem>
                             ))}
                         </List>
@@ -141,18 +105,18 @@ const MultiLevelSidebar = () => {
 
             {hoveredMain !== null &&
                 hoveredSub !== null &&
-                menuData[hoveredMain]?.children &&
-                menuData[hoveredMain]?.children[hoveredSub]?.children &&
-                menuData[hoveredMain]?.children[hoveredSub]?.children.length > 0 && (
+                categories[hoveredMain]?.childrenCategories &&
+                categories[hoveredMain]?.childrenCategories[hoveredSub]?.childrenCategories &&
+                categories[hoveredMain]?.childrenCategories[hoveredSub]?.childrenCategories.length > 0 && (
                     <Grow in={true} timeout={300}>
                         <Box sx={{
                             position: 'absolute', left: 402, top: 0, width: 200, height: 'calc(100vh - 64px)',
                             bgcolor: '#e0e0e0', boxShadow: 30, color: 'black', paddingTop: 8
                         }}>
                             <List>
-                                {menuData[hoveredMain].children[hoveredSub].children!.map((item, index) => (
+                                {categories[hoveredMain].childrenCategories[hoveredSub].childrenCategories!.map((item, index) => (
                                     <ListItem key={index} sx={{ cursor: 'pointer' }}>
-                                        <ListItemText primary={item} />
+                                        <ListItemText primary={item.name} />
                                     </ListItem>
                                 ))}
                             </List>
