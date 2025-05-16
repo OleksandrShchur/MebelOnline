@@ -3,24 +3,25 @@ import './App.css';
 import Header from './components/header/header';
 import ProductGrid from './components/productGrid/productGrid';
 import MultiLevelSidebar from './components/sidebar/sidebar';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import type { CategorySidebarModel } from './models/categorySidebarModel';
+import categoriesService from './services/categoriesService';
 
 const App: React.FC = () => {
     const [categories, setCategories] = useState<CategorySidebarModel[]>([]);
+    const isMounted = useRef(false); // <-- Added this reference to track first render
 
     const populateCategories = async () => {
-        const response = await fetch('api/categories/all');
+        const data = await categoriesService.fetchAll();
 
-        if (response.ok) {
-            const data = await response.json();
-            console.log(data);
-            setCategories(data);
-        }
+        setCategories(data);
     }
 
     useEffect(() => {
-        populateCategories();
+        if (!isMounted.current) {
+            populateCategories();
+            isMounted.current = true;
+        }
     }, []);
 
     return (
