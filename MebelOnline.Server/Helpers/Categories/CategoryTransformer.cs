@@ -6,113 +6,68 @@ namespace MebelOnline.Server.Helpers.Categories
     {
         public static IList<CategorySidebarRevertedModel> ConvertHierarchy(IList<CategorySidebarModel> categories)
         {
-            var roots = new List<CategorySidebarRevertedModel>();
+            var roots = new Dictionary<int, CategorySidebarRevertedModel>();
 
             foreach (var firstLevel in categories)
             {
-                if (firstLevel.ParentCategory.ParentCategory == null) // second level is max
-                {
-                    var root = roots.Where(x => x.Id == firstLevel.ParentCategory.Id)
-                        .FirstOrDefault();
+                var parent = firstLevel.ParentCategory;
+                var grandparent = parent?.ParentCategory;
 
-                    if (root != null) // root already exists
+                if (grandparent == null)
+                {
+                    // Handle second level structure
+                    if (!roots.TryGetValue(parent.Id, out var root))
                     {
-                        root.ChildrenCategories.Add(new CategorySidebarRevertedModel
+                        root = new CategorySidebarRevertedModel
                         {
-                            Id = firstLevel.Id,
-                            Name = firstLevel.Name,
-                            ChildrenCategories = null
-                        });
+                            Id = parent.Id,
+                            Name = parent.Name,
+                            ChildrenCategories = new List<CategorySidebarRevertedModel>()
+                        };
+                        roots[parent.Id] = root;
                     }
-                    else // add new root element
+
+                    root.ChildrenCategories.Add(new CategorySidebarRevertedModel
                     {
-                        roots.Add(new CategorySidebarRevertedModel
-                        {
-                            Id = firstLevel.ParentCategory.Id,
-                            Name = firstLevel.ParentCategory.Name,
-                            ChildrenCategories = new List<CategorySidebarRevertedModel>
-                            {
-                                new CategorySidebarRevertedModel
-                                {
-                                    Id = firstLevel.Id,
-                                    Name = firstLevel.Name,
-                                    ChildrenCategories = null
-                                }
-                            }
-                        });
-                    }
+                        Id = firstLevel.Id,
+                        Name = firstLevel.Name
+                    });
                 }
-                else // third level is max
+                else
                 {
-                    var root = roots.FirstOrDefault(x => x.Id == firstLevel.ParentCategory.ParentCategory.Id);
-
-                    if (root != null) // root exists
+                    // Handle third level structure
+                    if (!roots.TryGetValue(grandparent.Id, out var root))
                     {
-                        var secondLevel = root.ChildrenCategories
-                            .FirstOrDefault(x => x.Id == firstLevel.ParentCategory.Id);
-
-                        if (secondLevel != null)
+                        root = new CategorySidebarRevertedModel
                         {
-                            secondLevel.ChildrenCategories.Add(new CategorySidebarRevertedModel
-                            {
-                                Id = firstLevel.Id,
-                                Name = firstLevel.Name,
-                                ChildrenCategories = null
-                            });
-
-                            var index = root.ChildrenCategories.IndexOf(secondLevel);
-
-                            root.ChildrenCategories[index] = secondLevel;
-                        }
-                        else
-                        {
-                            secondLevel = new CategorySidebarRevertedModel
-                            {
-                                Id = firstLevel.ParentCategory.Id,
-                                Name = firstLevel.ParentCategory.Name,
-                                ChildrenCategories = new List<CategorySidebarRevertedModel>
-                                {
-                                    new CategorySidebarRevertedModel
-                                    {
-                                        Id = firstLevel.Id,
-                                        Name = firstLevel.Name,
-                                        ChildrenCategories = null
-                                    }
-                                }
-                            };
-
-                            root.ChildrenCategories.Add(secondLevel);
-                        }
+                            Id = grandparent.Id,
+                            Name = grandparent.Name,
+                            ChildrenCategories = new List<CategorySidebarRevertedModel>()
+                        };
+                        roots[grandparent.Id] = root;
                     }
-                    else
+
+                    var secondLevel = root.ChildrenCategories.FirstOrDefault(x => x.Id == parent.Id);
+                    if (secondLevel == null)
                     {
-                        roots.Add(new CategorySidebarRevertedModel
+                        secondLevel = new CategorySidebarRevertedModel
                         {
-                            Id = firstLevel.ParentCategory.ParentCategory.Id,
-                            Name = firstLevel.ParentCategory.ParentCategory.Name,
-                            ChildrenCategories = new List<CategorySidebarRevertedModel>
-                            {
-                                new CategorySidebarRevertedModel
-                                {
-                                    Id = firstLevel.ParentCategory.Id,
-                                    Name = firstLevel.ParentCategory.Name,
-                                    ChildrenCategories = new List<CategorySidebarRevertedModel>
-                                    {
-                                        new CategorySidebarRevertedModel
-                                        {
-                                            Id = firstLevel.Id,
-                                            Name = firstLevel.Name,
-                                            ChildrenCategories = null
-                                        }
-                                    }
-                                }
-                            }
-                        });
+                            Id = parent.Id,
+                            Name = parent.Name,
+                            ChildrenCategories = new List<CategorySidebarRevertedModel>()
+                        };
+                        root.ChildrenCategories.Add(secondLevel);
                     }
+
+                    secondLevel.ChildrenCategories.Add(new CategorySidebarRevertedModel
+                    {
+                        Id = firstLevel.Id,
+                        Name = firstLevel.Name
+                    });
                 }
             }
 
-            return roots;
+            return roots.Values.ToList();
         }
     }
 }
