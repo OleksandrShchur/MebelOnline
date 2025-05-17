@@ -9,7 +9,7 @@ import categoriesService from './services/categoriesService';
 
 const App: React.FC = () => {
     const [categories, setCategories] = useState<CategorySidebarModel[]>([]);
-    const isMounted = useRef(false); // <-- Added this reference to track first render
+    const isMounted = useRef(false); // Added this reference to track first render
 
     const populateCategories = async () => {
         const data = await categoriesService.fetchAll();
