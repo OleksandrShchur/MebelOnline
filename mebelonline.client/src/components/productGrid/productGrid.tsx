@@ -144,7 +144,7 @@ const ProductGrid: React.FC = () => {
       </Typography>
       <Grid container spacing={3}>
         {mockProducts.map((product) => (
-          <Grid size={{ md: 4, lg: 3 }} sx={{ justifyContent: "flex-end", alignItems: "stretch", mx: 'auto' }}>
+          <Grid size={{ xs: 6, md: 4, lg: 3 }} sx={{ justifyContent: "flex-end", alignItems: "stretch", mx: 'auto' }}>
             <ProductCard product={product} />
           </Grid>
         ))}

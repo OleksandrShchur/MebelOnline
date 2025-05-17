@@ -1,6 +1,5 @@
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import Grow from '@mui/material/Grow';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -17,9 +16,8 @@ const MultiLevelSidebar: React.FC<IMultiLevelSidebarProps> = ({ categories = [] 
     const [hoveredSub, setHoveredSub] = useState<number | null>(null);
     const sidebarRef = useRef<HTMLDivElement | null>(null);
 
-    // Access the theme to use for responsive breakpoints
     const theme = useTheme();
-    const isDesktop = useMediaQuery(theme.breakpoints.up('md'));  // Check if the screen is medium or larger (desktop)
+    const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
 
     useEffect(() => {
         const handleMouseLeave = (event: MouseEvent) => {
@@ -65,7 +63,8 @@ const MultiLevelSidebar: React.FC<IMultiLevelSidebarProps> = ({ categories = [] 
 
     return (
         <Box ref={sidebarRef} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-            <Drawer variant="permanent" anchor="left" sx={{ width: 200, '& .MuiDrawer-paper': { width: 200, paddingTop: 8 } }}>
+            {/* Main Drawer */}
+            <Drawer variant="permanent" anchor="left" sx={{ width: 200, '& .MuiDrawer-paper': { width: 200, paddingTop: 8, marginLeft: 0 } }}>
                 <List>
                     {categories.map((item, index) => (
                         <ListItem
@@ -82,47 +81,45 @@ const MultiLevelSidebar: React.FC<IMultiLevelSidebarProps> = ({ categories = [] 
                 </List>
             </Drawer>
 
+            {/* Second Drawer */}
             {hoveredMain !== null && (
-                <Grow in={true} timeout={300}>
-                    <Box sx={{
-                        position: 'absolute', left: 201, top: 0, width: 200, height: 'calc(100vh - 64px)',
-                        bgcolor: '#f0f0f0', boxShadow: 30, color: 'black', paddingTop: 8
-                    }}>
-                        <List>
-                            {categories[hoveredMain]?.childrenCategories.map((subItem, subIndex) => (
-                                <ListItem
-                                    key={subIndex}
-                                    onMouseEnter={() => setHoveredSub(subIndex)}
-                                    sx={{ cursor: 'pointer' }}
-                                >
-                                    <ListItemText primary={subItem.name} />
-                                </ListItem>
-                            ))}
-                        </List>
-                    </Box>
-                </Grow>
+                <Drawer 
+                    PaperProps={{ sx: { left: 201 } }}
+                    variant="permanent"
+                    anchor="left"
+                    sx={{ width: 200, left: 200, '& .MuiDrawer-paper': { width: 200, paddingTop: 8, marginLeft: 0 } }}
+                >
+                    <List>
+                        {categories[hoveredMain]?.childrenCategories.map((subItem, subIndex) => (
+                            <ListItem
+                                key={subIndex}
+                                onMouseEnter={() => setHoveredSub(subIndex)}
+                                sx={{ cursor: 'pointer' }}
+                            >
+                                <ListItemText primary={subItem.name} />
+                            </ListItem>
+                        ))}
+                    </List>
+                </Drawer>
             )}
 
-            {hoveredMain !== null &&
-                hoveredSub !== null &&
-                categories[hoveredMain]?.childrenCategories &&
-                categories[hoveredMain]?.childrenCategories[hoveredSub]?.childrenCategories &&
-                categories[hoveredMain]?.childrenCategories[hoveredSub]?.childrenCategories.length > 0 && (
-                    <Grow in={true} timeout={300}>
-                        <Box sx={{
-                            position: 'absolute', left: 402, top: 0, width: 200, height: 'calc(100vh - 64px)',
-                            bgcolor: '#e0e0e0', boxShadow: 30, color: 'black', paddingTop: 8
-                        }}>
-                            <List>
-                                {categories[hoveredMain].childrenCategories[hoveredSub].childrenCategories!.map((item, index) => (
-                                    <ListItem key={index} sx={{ cursor: 'pointer' }}>
-                                        <ListItemText primary={item.name} />
-                                    </ListItem>
-                                ))}
-                            </List>
-                        </Box>
-                    </Grow>
-                )}
+            {/* Third Drawer */}
+            {hoveredMain !== null && hoveredSub !== null && categories[hoveredMain]?.childrenCategories[hoveredSub]?.childrenCategories && (
+                <Drawer 
+                    PaperProps={{ sx: { left: 402 } }}
+                    variant="permanent"
+                    anchor="left"
+                    sx={{ width: 200, left: 400, '& .MuiDrawer-paper': { width: 200, paddingTop: 8, marginLeft: 0 } }}
+                >
+                    <List>
+                        {categories[hoveredMain].childrenCategories[hoveredSub].childrenCategories!.map((item, index) => (
+                            <ListItem key={index} sx={{ cursor: 'pointer' }}>
+                                <ListItemText primary={item.name} />
+                            </ListItem>
+                        ))}
+                    </List>
+                </Drawer>
+            )}
         </Box>
     );
 };
