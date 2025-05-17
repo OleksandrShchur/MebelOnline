@@ -1,6 +1,5 @@
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import Grow from '@mui/material/Grow';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
