@@ -15,12 +15,9 @@ namespace MebelOnline.Server.Mappings.ProductMappings
             var model = new ProductModel
             {
                 Id = source.Id,
-                Name = source.Name,
+                Title = source.Title,
                 Description = source.Description,
                 Price = source.Price,
-                StockQuantity = source.StockQuantity,
-                ImageUrl = source.ImageUrl,
-                DateAdded = source.DateAdded,
                 CategoryId = source.CategoryId
             };
 

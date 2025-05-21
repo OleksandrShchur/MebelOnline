@@ -10,9 +10,7 @@ namespace MebelOnline.Db.EntityConfigurations
         {
             builder.HasKey(p => p.Id);
 
-            builder.HasOne(p => p.Category);
-
-            builder.Property(p => p.Name)
+            builder.Property(p => p.Title)
                 .IsRequired()
                 .HasMaxLength(255);
 
@@ -21,18 +19,6 @@ namespace MebelOnline.Db.EntityConfigurations
 
             builder.Property(p => p.Price)
                 .IsRequired();
-
-            builder.Property(p => p.StockQuantity)
-                .IsRequired();
-
-            builder.Property(p => p.ImageUrl)
-                .HasMaxLength(500);
-
-            builder.Property(p => p.DateAdded)
-                .IsRequired();
-
-            builder.HasIndex(p => p.Name)
-                .IsUnique();
         }
     }
 }
