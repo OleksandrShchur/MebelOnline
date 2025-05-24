@@ -15,10 +15,41 @@ namespace MebelOnline.Db.EntityConfigurations
                 .HasMaxLength(255);
 
             builder.Property(p => p.Description)
-                .HasMaxLength(500);
+                .HasMaxLength(4000);
 
             builder.Property(p => p.Price)
                 .IsRequired();
+
+            builder.Property(p => p.CategoryId)
+                .IsRequired();
+
+            builder.Property(p => p.BrandId)
+                .IsRequired(false);
+
+            builder.HasOne(p => p.Brand)
+                .WithMany()
+                .HasForeignKey(p => p.BrandId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            builder.HasMany(p => p.FrontOptions)
+                .WithOne()
+                .HasForeignKey(o => o.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(p => p.FrameOptions)
+                .WithOne()
+                .HasForeignKey(o => o.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(p => p.Images)
+                .WithOne()
+                .HasForeignKey(i => i.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(p => p.Attributes)
+                .WithOne()
+                .HasForeignKey(a => a.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

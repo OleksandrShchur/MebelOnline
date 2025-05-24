@@ -23,8 +23,8 @@ IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Brand
 BEGIN
     CREATE TABLE dbo.Brands (
         Id INT PRIMARY KEY IDENTITY(1,1),
-        Name NVARCHAR(255) NOT NULL,
-        Description NVARCHAR(MAX),
+        Name NVARCHAR(100) NOT NULL,
+        Description NVARCHAR(4000),
         ImageUrl NVARCHAR(500)
     );
 END;
@@ -33,7 +33,7 @@ IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Produ
 BEGIN
     CREATE TABLE dbo.ProductAttributes (
         Id INT PRIMARY KEY IDENTITY(1,1),
-        Name NVARCHAR(255) NOT NULL
+        Name NVARCHAR(100) NOT NULL
     );
 END;
 
@@ -42,7 +42,7 @@ BEGIN
     CREATE TABLE dbo.Products (
         Id INT PRIMARY KEY IDENTITY(1,1),
         Title NVARCHAR(255) NOT NULL,
-        Description NVARCHAR(MAX),
+        Description NVARCHAR(4000),
         Price DECIMAL(18, 2) NOT NULL,
         OldPrice DECIMAL(18, 2),
         CategoryId INT NOT NULL,
@@ -82,7 +82,7 @@ BEGIN
     CREATE TABLE dbo.ProductAttributeValues (
         ProductId INT NOT NULL,
         AttributeId INT NOT NULL,
-        Value NVARCHAR(255),
+        Value NVARCHAR(100),
         PRIMARY KEY (ProductId, AttributeId),
         FOREIGN KEY (ProductId) REFERENCES dbo.Products(Id),
         FOREIGN KEY (AttributeId) REFERENCES dbo.ProductAttributes(Id)

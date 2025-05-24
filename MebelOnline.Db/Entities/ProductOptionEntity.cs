@@ -1,5 +1,8 @@
-﻿namespace MebelOnline.Db.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace MebelOnline.Db.Entities
 {
+    [Table("ProductOptions")]
     public class ProductOptionEntity : BaseEntity
     {
         public int ProductId { get; set; }

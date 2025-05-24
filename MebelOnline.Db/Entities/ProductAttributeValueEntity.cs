@@ -1,5 +1,8 @@
-﻿namespace MebelOnline.Db.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace MebelOnline.Db.Entities
 {
+    [Table("ProductAttributeValues")]
     public class ProductAttributeValueEntity
     {
         public int ProductId { get; set; }
