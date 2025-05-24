@@ -12,9 +12,9 @@ namespace MebelOnline.Server.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly AppDbContext _dbContext;
-        private readonly IMappingService<ProductEntity, ProductModel> _mapper;
+        private readonly IMappingService<ProductEntity, ProductCardModel> _mapper;
 
-        public ProductsController(AppDbContext dbContext, IMappingService<ProductEntity, ProductModel> mapper)
+        public ProductsController(AppDbContext dbContext, IMappingService<ProductEntity, ProductCardModel> mapper)
         {
             _dbContext = dbContext;
             _mapper = mapper;
@@ -22,10 +22,11 @@ namespace MebelOnline.Server.Controllers
 
         [HttpGet]
         [Route("all")]
-        public async Task<IEnumerable<ProductModel>> GetAll()
+        public async Task<IEnumerable<ProductCardModel>> GetAll()
         {
             var entities = await _dbContext.Products
                 .OrderBy(p => p.Id)
+                .Take(12)
                 .ToListAsync();
 
             var mappedModels = _mapper.MapList(entities);
