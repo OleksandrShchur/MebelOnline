@@ -3,35 +3,35 @@ using MebelOnline.Server.Models.Products;
 
 namespace MebelOnline.Server.Mappings.ProductMappings
 {
-    public class ProductModelMapper : IMappingService<ProductEntity, ProductModel>
+    public class ProductCardModelMapper : IMappingService<ProductEntity, ProductCardModel>
     {
-        public ProductModel Map(ProductEntity source)
+        public ProductCardModel Map(ProductEntity source)
         {
             if (source == null)
             {
                 return default;
             }
 
-            var model = new ProductModel
+            var model = new ProductCardModel
             {
                 Id = source.Id,
                 Title = source.Title,
-                Description = source.Description,
                 Price = source.Price,
-                CategoryId = source.CategoryId
+                OldPrice = source.OldPrice,
+                ImageUrl = source.Images.FirstOrDefault(x => x.IsPrimary).Url
             };
 
             return model;
         }
 
-        public IList<ProductModel> MapList(IList<ProductEntity> source)
+        public IList<ProductCardModel> MapList(IList<ProductEntity> source)
         {
             if (source == null)
             {
-                return new List<ProductModel>();
+                return new List<ProductCardModel>();
             }
 
-            var mappedList = new List<ProductModel>();
+            var mappedList = new List<ProductCardModel>();
             foreach (var item in source)
             {
                 mappedList.Add(Map(item));
