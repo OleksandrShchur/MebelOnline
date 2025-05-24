@@ -5,14 +5,14 @@ import ProductGrid from './components/productGrid/productGrid';
 import MultiLevelSidebar from './components/sidebar/sidebar';
 import React, { useEffect, useRef, useState } from 'react';
 import type { CategorySidebarModel } from './models/categorySidebarModel';
-import categoriesService from './services/categoriesService';
+import categoryService from './services/categoryService';
 
 const App: React.FC = () => {
     const [categories, setCategories] = useState<CategorySidebarModel[]>([]);
     const isMounted = useRef(false); // Added this reference to track first render
 
     const populateCategories = async () => {
-        const data = await categoriesService.fetchAll();
+        const data = await categoryService.fetchAll();
 
         setCategories(data);
     }

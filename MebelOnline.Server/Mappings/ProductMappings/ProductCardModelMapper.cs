@@ -18,7 +18,7 @@ namespace MebelOnline.Server.Mappings.ProductMappings
                 Title = source.Title,
                 Price = source.Price,
                 OldPrice = source.OldPrice,
-                ImageUrl = source.Images.FirstOrDefault(x => x.IsPrimary).Url
+                ImageUrl = source.Images.FirstOrDefault(i => i.IsPrimary).Url
             };
 
             return model;

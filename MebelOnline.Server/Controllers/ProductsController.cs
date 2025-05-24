@@ -21,10 +21,11 @@ namespace MebelOnline.Server.Controllers
         }
 
         [HttpGet]
-        [Route("all")]
+        [Route("latest")]
         public async Task<IEnumerable<ProductCardModel>> GetAll()
         {
             var entities = await _dbContext.Products
+                .Include(p => p.Images)
                 .OrderBy(p => p.Id)
                 .Take(12)
                 .ToListAsync();
