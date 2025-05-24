@@ -10,29 +10,46 @@ namespace MebelOnline.Db.EntityConfigurations
         {
             builder.HasKey(p => p.Id);
 
-            builder.HasOne(p => p.Category);
-
-            builder.Property(p => p.Name)
+            builder.Property(p => p.Title)
                 .IsRequired()
                 .HasMaxLength(255);
 
             builder.Property(p => p.Description)
-                .HasMaxLength(500);
+                .HasMaxLength(4000);
 
             builder.Property(p => p.Price)
                 .IsRequired();
 
-            builder.Property(p => p.StockQuantity)
+            builder.Property(p => p.CategoryId)
                 .IsRequired();
 
-            builder.Property(p => p.ImageUrl)
-                .HasMaxLength(500);
+            builder.Property(p => p.BrandId)
+                .IsRequired(false);
 
-            builder.Property(p => p.DateAdded)
-                .IsRequired();
+            builder.HasOne(p => p.Brand)
+                .WithMany()
+                .HasForeignKey(p => p.BrandId)
+                .OnDelete(DeleteBehavior.SetNull);
 
-            builder.HasIndex(p => p.Name)
-                .IsUnique();
+            builder.HasMany(p => p.FrontOptions)
+                .WithOne()
+                .HasForeignKey(o => o.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(p => p.FrameOptions)
+                .WithOne()
+                .HasForeignKey(o => o.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(p => p.Images)
+                .WithOne()
+                .HasForeignKey(i => i.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(p => p.Attributes)
+                .WithOne()
+                .HasForeignKey(a => a.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

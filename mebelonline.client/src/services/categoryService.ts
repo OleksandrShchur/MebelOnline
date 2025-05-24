@@ -1,4 +1,4 @@
-const categoriesService = () => {
+const categoryService = () => {
     const baseUrl = '/api/categories';
 
     const fetchAll = async () => {
@@ -20,4 +20,4 @@ const categoriesService = () => {
     return { fetchAll };
 };
 
-export default categoriesService();
+export default categoryService();

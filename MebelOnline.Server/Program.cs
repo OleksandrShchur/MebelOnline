@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Register services
 builder.Services.AddSingleton<IMappingService<CategoryEntity, CategorySidebarModel>, CategorySidebarModelMapper>();
-builder.Services.AddSingleton<IMappingService<ProductEntity, ProductModel>, ProductModelMapper>();
+builder.Services.AddSingleton<IMappingService<ProductEntity, ProductCardModel>, ProductCardModelMapper>();
 
 // Add services to the container.
 builder.Services.AddControllers();

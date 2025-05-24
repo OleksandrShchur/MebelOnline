@@ -13,6 +13,11 @@ namespace MebelOnline.Db
         public DbSet<CategoryEntity> Categories { get; set; }
         public DbSet<ProductEntity> Products { get; set; }
         public DbSet<UserEntity> Users { get; set; }
+        public DbSet<BrandEntity> Brands { get; set; }
+        public DbSet<ProductAttributeEntity> ProductAttributes { get; set; }
+        public DbSet<ProductAttributeValueEntity> ProductAttributeValues { get; set; }
+        public DbSet<ProductImageEntity> ProductImages { get; set; }
+        public DbSet<ProductOptionEntity> ProductOptions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -3,7 +3,6 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import IconButton from '@mui/material/IconButton';
-import Rating from '@mui/material/Rating';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import React from 'react';
@@ -17,18 +16,12 @@ const ProductCard: React.FC<{ product: ProductCardModel }> = ({ product }) => {
       <CardMedia
         component="img"
         height="180"
-        image={product.image}
+        image={product.imageUrl}
         alt={product.title}
       />
 
       <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
         <CardContent sx={{ flexGrow: 1, px: 2, py: 1 }}>
-          {product.options > 0 && (
-            <Typography variant="caption" color="text.secondary" display="block" mb={1}>
-              Можливі варіанти: {product.options}
-            </Typography>
-          )}
-
           <Tooltip title={product.title} arrow>
             <Typography variant="body2" fontWeight={500} gutterBottom
               sx={{
@@ -36,13 +29,11 @@ const ProductCard: React.FC<{ product: ProductCardModel }> = ({ product }) => {
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 WebkitBoxOrient: 'vertical',
-                WebkitLineClamp: product.options > 0 ? 2 : 3, // number of lines shown
+                WebkitLineClamp: 3, // number of lines shown
               }}
             >
               {product.title}
             </Typography></Tooltip>
-
-          <Rating value={product.rating} readOnly size="small" />
         </CardContent>
 
         <CardActions sx={{ justifyContent: 'space-between', px: 2 }}>

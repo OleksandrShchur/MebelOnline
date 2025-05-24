@@ -5,13 +5,19 @@ namespace MebelOnline.Db.Entities
     [Table("Products")]
     public class ProductEntity : BaseEntity
     {
-        public string Name { get; set; }
+        public string Title { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
-        public int StockQuantity { get; set; }
-        public string ImageUrl { get; set; }
-        public DateTime DateAdded { get; set; }
+        public decimal? OldPrice { get; set; }
         public int CategoryId { get; set; }
-        public virtual CategoryEntity Category { get; set; }
+        public decimal? Width { get; set; }
+        public decimal? Height { get; set; }
+        public decimal? Depth { get; set; }
+        public int? BrandId { get; set; }
+        public BrandEntity Brand { get; set; }
+        public virtual ICollection<ProductOptionEntity> FrontOptions { get; set; }
+        public virtual ICollection<ProductOptionEntity> FrameOptions { get; set; }
+        public virtual ICollection<ProductImageEntity> Images { get; set; }
+        public virtual ICollection<ProductAttributeValueEntity> Attributes { get; set; }
     }
 }
