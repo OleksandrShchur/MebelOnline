@@ -42,8 +42,8 @@ BEGIN
     BEGIN
         INSERT INTO ProductImages (ProductId, Url, IsPrimary)
         VALUES 
-            (@ProductId, 'https://example.com/sample-image1.jpg', 1),
-            (@ProductId, 'https://example.com/sample-image2.jpg', 0);
+            (@ProductId, 'https://miromark.shop/image/cache/catalog/goods/image/a1/a15f0da3-1c01-11ea-8106-448a5bd88b61_0-200x200.jpg', 1),
+            (@ProductId, 'https://miromark.shop/image/cache/catalog/goods/image/0f/0f94bec7-eb95-11ea-8141-448a5bd88b61_0-200x200.jpg', 0);
     END
 
     FETCH NEXT FROM category_cursor INTO @CategoryId;
