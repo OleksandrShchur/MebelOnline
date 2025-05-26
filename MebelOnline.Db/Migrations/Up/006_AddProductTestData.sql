@@ -51,3 +51,8 @@ END
 
 CLOSE category_cursor;
 DEALLOCATE category_cursor;
+
+UPDATE c
+SET c.HasProducts = 1
+FROM dbo.Categories c
+JOIN dbo.Products p ON p.CategoryId = c.Id
