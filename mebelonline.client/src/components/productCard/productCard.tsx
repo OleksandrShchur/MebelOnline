@@ -12,10 +12,20 @@ import { CardActions } from '@mui/material';
 
 const ProductCard: React.FC<{ product: ProductCardModel }> = ({ product }) => {
   return (
-    <Card sx={{ position: 'relative', maxWidth: 300, height: 350, mx: 'auto', display: 'flex', flexDirection: 'column' }}>
+    <Card
+      sx={{
+        position: 'relative', maxWidth: 300, height: 350, mx: 'auto', display: 'flex', flexDirection: 'column',
+        boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.15)',
+        borderRadius: 2,
+        transition: 'box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out',
+        '&:hover': {
+          boxShadow: '0px 6px 20px rgba(0, 0, 0, 0.3)',
+          transform: 'translateY(-4px)',
+        },
+      }}>
       <CardMedia
         component="img"
-        height="180"
+        height="200"
         image={product.imageUrl}
         alt={product.title}
       />
