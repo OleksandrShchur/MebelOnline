@@ -4,8 +4,9 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { useEffect, useRef, useState } from 'react';
-import { useMediaQuery, useTheme } from '@mui/material';
+import { ListItemButton, ListItemIcon, useMediaQuery, useTheme } from '@mui/material';
 import type { CategorySidebarModel } from '../../models/categorySidebarModel';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 interface IMultiLevelSidebarProps {
     categories: CategorySidebarModel[];
@@ -75,7 +76,14 @@ const MultiLevelSidebar: React.FC<IMultiLevelSidebarProps> = ({ categories = [] 
                             }}
                             sx={{ cursor: 'pointer' }}
                         >
-                            <ListItemText primary={item?.name} />
+                            <ListItemButton>
+                                <ListItemText primary={item?.name} />
+                                {(hoveredMain === index) && (
+                                    <ListItemIcon sx={{ minWidth: 0 }}>
+                                        <ChevronRightIcon />
+                                    </ListItemIcon>
+                                )}
+                            </ListItemButton>
                         </ListItem>
                     ))}
                 </List>
@@ -83,7 +91,7 @@ const MultiLevelSidebar: React.FC<IMultiLevelSidebarProps> = ({ categories = [] 
 
             {/* Second Drawer */}
             {hoveredMain !== null && (
-                <Drawer 
+                <Drawer
                     PaperProps={{ sx: { left: 201 } }}
                     variant="permanent"
                     anchor="left"
@@ -96,7 +104,15 @@ const MultiLevelSidebar: React.FC<IMultiLevelSidebarProps> = ({ categories = [] 
                                 onMouseEnter={() => setHoveredSub(subIndex)}
                                 sx={{ cursor: 'pointer' }}
                             >
-                                <ListItemText primary={subItem.name} />
+                                <ListItemButton>
+                                    <ListItemText primary={subItem?.name} />
+                                    {(hoveredSub === subIndex 
+                                        && categories[hoveredMain]?.childrenCategories[hoveredSub]?.childrenCategories) && (
+                                        <ListItemIcon sx={{ minWidth: 0 }}>
+                                            <ChevronRightIcon />
+                                        </ListItemIcon>
+                                    )}
+                                </ListItemButton>
                             </ListItem>
                         ))}
                     </List>
@@ -105,7 +121,7 @@ const MultiLevelSidebar: React.FC<IMultiLevelSidebarProps> = ({ categories = [] 
 
             {/* Third Drawer */}
             {hoveredMain !== null && hoveredSub !== null && categories[hoveredMain]?.childrenCategories[hoveredSub]?.childrenCategories && (
-                <Drawer 
+                <Drawer
                     PaperProps={{ sx: { left: 402 } }}
                     variant="permanent"
                     anchor="left"
@@ -114,7 +130,9 @@ const MultiLevelSidebar: React.FC<IMultiLevelSidebarProps> = ({ categories = [] 
                     <List>
                         {categories[hoveredMain].childrenCategories[hoveredSub].childrenCategories!.map((item, index) => (
                             <ListItem key={index} sx={{ cursor: 'pointer' }}>
-                                <ListItemText primary={item.name} />
+                                <ListItemButton>
+                                    <ListItemText primary={item?.name} />
+                                </ListItemButton>
                             </ListItem>
                         ))}
                     </List>
