@@ -22,7 +22,7 @@
     <ProjectReference Include="..\mebelonline.client\mebelonline.client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\MebelOnline.Db\MebelOnline.Db.csproj" />
+    <ProjectReference Include="..\MebelOnline.Core\MebelOnline.Core.csproj" />
   </ItemGroup>
 
 </Project>

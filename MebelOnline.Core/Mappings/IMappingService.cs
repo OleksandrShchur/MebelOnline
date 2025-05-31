@@ -1,4 +1,4 @@
-﻿namespace MebelOnline.Server.Mappings
+﻿namespace MebelOnline.Core.Mappings
 {
     public interface IMappingService<TSource, TTarget>
     {

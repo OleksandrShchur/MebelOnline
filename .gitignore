@@ -8,3 +8,5 @@ MebelOnline.Server/MebelOnline.Server.csproj.user
 MebelOnline.Server/MebelOnline.Server.csproj.user
 MebelOnline.Server/Properties/PublishProfiles
 mebelonline.client/mebelonline.client.esproj.user
+MebelOnline.Core/bin
+MebelOnline.Core/obj

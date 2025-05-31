@@ -1,8 +1,8 @@
-﻿using MebelOnline.Server.Models.Categories;
+﻿using MebelOnline.Core.Models.Categories;
 
-namespace MebelOnline.Server.Helpers.Categories
+namespace MebelOnline.Core.Helpers.Categories
 {
-    public static class CategoryTransformer
+    public static class CategorySidebarTransformer
     {
         public static IList<CategorySidebarRevertedModel> ConvertHierarchy(IList<CategorySidebarModel> categories)
         {

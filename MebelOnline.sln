@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MebelOnline.Server", "MebelOnline.Server\MebelOnline.Server.csproj", "{6D62D736-99C1-41F8-9083-A386C80BD6C0}"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "mebelonline.client", "mebelonline.client\mebelonline.client.esproj", "{D5E8C4C0-A8BD-4EED-B3FC-C435F75897E8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MebelOnline.Db", "MebelOnline.Db\MebelOnline.Db.csproj", "{5618E84B-BC07-4087-8D6D-F0A98D7EE73A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MebelOnline.Core", "MebelOnline.Core\MebelOnline.Core.csproj", "{01F71F90-829F-4CDD-95EF-9DE8A0C1DFA2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,10 @@ Global
 		{5618E84B-BC07-4087-8D6D-F0A98D7EE73A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5618E84B-BC07-4087-8D6D-F0A98D7EE73A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5618E84B-BC07-4087-8D6D-F0A98D7EE73A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01F71F90-829F-4CDD-95EF-9DE8A0C1DFA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01F71F90-829F-4CDD-95EF-9DE8A0C1DFA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01F71F90-829F-4CDD-95EF-9DE8A0C1DFA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01F71F90-829F-4CDD-95EF-9DE8A0C1DFA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

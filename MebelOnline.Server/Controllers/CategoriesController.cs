@@ -1,10 +1,6 @@
-﻿using MebelOnline.Db;
-using MebelOnline.Db.Entities;
-using MebelOnline.Server.Helpers.Categories;
-using MebelOnline.Server.Mappings;
-using MebelOnline.Server.Models.Categories;
+﻿using MebelOnline.Core.Models.Categories;
+using MebelOnline.Core.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace MebelOnline.Server.Controllers
 {
@@ -12,29 +8,20 @@ namespace MebelOnline.Server.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        private readonly AppDbContext _dbContext;
-        private readonly IMappingService<CategoryEntity, CategorySidebarModel> _mapper;
-        public CategoriesController(AppDbContext dbContext, IMappingService<CategoryEntity, CategorySidebarModel> mapper) 
+        private readonly ICategoryService _categoryService;
+
+        public CategoriesController(ICategoryService categoryService) 
         {
-            _dbContext = dbContext;
-            _mapper = mapper;
+            _categoryService = categoryService;
         }
 
         [HttpGet]
         [Route("all")]
         public async Task<IEnumerable<CategorySidebarRevertedModel>> GetAll()
         {
-            var entities = await _dbContext.Categories
-                            .Include(c => c.ParentCategory)
-                                .ThenInclude(pc => pc.ParentCategory)
-                            .Where(c => c.HasProducts)
-                            .OrderBy(c => c.Id)
-                            .ToListAsync();
+            var categories = await _categoryService.GetCategoriesForSidebar();
 
-            var mappedModels = _mapper.MapList(entities);
-            var revertedModels = CategoryTransformer.ConvertHierarchy(mappedModels);
-
-            return revertedModels;
+            return categories;
         }
     }
 }

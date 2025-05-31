@@ -1,7 +1,7 @@
 ﻿using MebelOnline.Db.Entities;
-using MebelOnline.Server.Models.Categories;
+using MebelOnline.Core.Models.Categories;
 
-namespace MebelOnline.Server.Mappings.CategoryMappings
+namespace MebelOnline.Core.Mappings.CategoryMappings
 {
     public class CategorySidebarModelMapper : IMappingService<CategoryEntity, CategorySidebarModel>
     {

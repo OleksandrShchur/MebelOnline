@@ -1,9 +1,10 @@
 ﻿using MebelOnline.Db.Entities;
 using MebelOnline.Db;
-using MebelOnline.Server.Mappings;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MebelOnline.Server.Models.Products;
+using MebelOnline.Core.Models.Products;
+using MebelOnline.Core.Mappings;
+using MebelOnline.Core.Services;
 
 namespace MebelOnline.Server.Controllers
 {
@@ -11,28 +12,27 @@ namespace MebelOnline.Server.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly AppDbContext _dbContext;
-        private readonly IMappingService<ProductEntity, ProductCardModel> _mapper;
+        private readonly IProductService _productService;
 
-        public ProductsController(AppDbContext dbContext, IMappingService<ProductEntity, ProductCardModel> mapper)
+        public ProductsController(IProductService productService)
         {
-            _dbContext = dbContext;
-            _mapper = mapper;
+            _productService = productService;
         }
 
         [HttpGet]
         [Route("latest")]
-        public async Task<IEnumerable<ProductCardModel>> GetAll()
+        public async Task<IEnumerable<ProductCardModel>> GetLatest()
         {
-            var entities = await _dbContext.Products
-                .Include(p => p.Images)
-                .OrderBy(p => p.Id)
-                .Take(12)
-                .ToListAsync();
+            var products = await _productService.GetLatestProducts();
 
-            var mappedModels = _mapper.MapList(entities);
+            return products;
+        }
 
-            return mappedModels;
+        [HttpGet]
+        [Route("breadcrumbs")]
+        public async Task<IEnumerable<string>> GetBreadcrumbs([FromQuery]int productId)
+        {
+            return null;
         }
     }
 }
