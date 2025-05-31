@@ -19,7 +19,7 @@ namespace MebelOnline.Server.Controllers
         [Route("all")]
         public async Task<IEnumerable<CategorySidebarRevertedModel>> GetAll()
         {
-            var categories = await _categoryService.GetCategoriesForSidebar();
+            var categories = await _categoryService.GetCategoriesHierarchy();
 
             return categories;
         }

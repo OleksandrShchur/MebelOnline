@@ -4,6 +4,6 @@ namespace MebelOnline.Core.Services
 {
     public interface ICategoryService
     {
-        Task<IEnumerable<CategorySidebarRevertedModel>> GetCategoriesForSidebar();
+        Task<IEnumerable<CategorySidebarRevertedModel>> GetCategoriesHierarchy();
     }
 }

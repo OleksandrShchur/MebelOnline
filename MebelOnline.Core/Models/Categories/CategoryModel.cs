@@ -1,9 +1,9 @@
 ﻿namespace MebelOnline.Core.Models.Categories
 {
-    public class CategorySidebarModel
+    public class CategoryModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public CategorySidebarModel ParentCategory { get; set; }
+        public CategoryModel ParentCategory { get; set; }
     }
 }

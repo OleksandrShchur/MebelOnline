@@ -4,6 +4,7 @@ using MebelOnline.Db.Entities;
 using MebelOnline.Db;
 using Microsoft.EntityFrameworkCore;
 using MebelOnline.Core.Models.Categories;
+using MebelOnline.Core.Helpers.Categories;
 
 namespace MebelOnline.Core.Services.Impl
 {
@@ -39,12 +40,13 @@ namespace MebelOnline.Core.Services.Impl
             var product = await _dbContext.Products
                 .FirstOrDefaultAsync(p => p.Id == productId);
 
-            var categories = await _dbContext.Categories
+            var category = await _dbContext.Categories
                 .Include(c => c.ParentCategory)
                     .ThenInclude(pc => pc.ParentCategory)
-                .ToListAsync();
+                .FirstOrDefaultAsync();
 
-            var mappedCategories = _categoryMapper.MapList(categories);
+            var mappedCategory = _categoryMapper.Map(category);
+            var transformedCategory = CategorySidebarTransformer
 
             return null;
         }

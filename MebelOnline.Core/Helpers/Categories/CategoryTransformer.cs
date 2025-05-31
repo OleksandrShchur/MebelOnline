@@ -2,9 +2,9 @@
 
 namespace MebelOnline.Core.Helpers.Categories
 {
-    public static class CategorySidebarTransformer
+    public static class CategoryTransformer
     {
-        public static IList<CategorySidebarRevertedModel> ConvertHierarchy(IList<CategorySidebarModel> categories)
+        public static IList<CategorySidebarRevertedModel> ConvertHierarchy(IList<CategoryModel> categories)
         {
             var roots = new Dictionary<int, CategorySidebarRevertedModel>();
 

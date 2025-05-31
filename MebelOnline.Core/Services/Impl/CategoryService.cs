@@ -10,15 +10,15 @@ namespace MebelOnline.Core.Services.Impl
     public class CategoryService : ICategoryService
     {
         private readonly AppDbContext _dbContext;
-        private readonly IMappingService<CategoryEntity, CategorySidebarModel> _mapper;
+        private readonly IMappingService<CategoryEntity, CategoryModel> _mapper;
 
-        public CategoryService(AppDbContext dbContext, IMappingService<CategoryEntity, CategorySidebarModel> mapper)
+        public CategoryService(AppDbContext dbContext, IMappingService<CategoryEntity, CategoryModel> mapper)
         {
             _dbContext = dbContext;
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<CategorySidebarRevertedModel>> GetCategoriesForSidebar()
+        public async Task<IEnumerable<CategorySidebarRevertedModel>> GetCategoriesHierarchy()
         {
             var entities = await _dbContext.Categories
                             .Include(c => c.ParentCategory)
@@ -28,7 +28,7 @@ namespace MebelOnline.Core.Services.Impl
                             .ToListAsync();
 
             var mappedModels = _mapper.MapList(entities);
-            var revertedModels = CategorySidebarTransformer.ConvertHierarchy(mappedModels);
+            var revertedModels = CategoryTransformer.ConvertHierarchy(mappedModels);
 
             return revertedModels;
         }

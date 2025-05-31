@@ -12,7 +12,7 @@ using MebelOnline.Core.Services.Impl;
 var builder = WebApplication.CreateBuilder(args);
 
 // Register mappers
-builder.Services.AddSingleton<IMappingService<CategoryEntity, CategorySidebarModel>, CategorySidebarModelMapper>();
+builder.Services.AddSingleton<IMappingService<CategoryEntity, CategoryModel>, CategoryModelMapper>();
 builder.Services.AddSingleton<IMappingService<ProductEntity, ProductCardModel>, ProductCardModelMapper>();
 
 // Register services
