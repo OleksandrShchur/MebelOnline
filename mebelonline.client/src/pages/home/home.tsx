@@ -1,12 +1,12 @@
 import Box from "@mui/material/Box";
 import type React from "react";
-import MultiLevelSidebar from "../sidebar/sidebar";
-import ProductGrid from "../productGrid/productGrid";
+import MultiLevelSidebar from "../../components/sidebar/sidebar";
+import ProductGrid from "../../components/productGrid/productGrid";
 import { useEffect, useRef, useState } from "react";
 import type { CategorySidebarModel } from "../../models/categorySidebarModel";
 import categoryService from "../../services/categoryService";
 
-const HomeWrapper: React.FC = () => {
+const Home: React.FC = () => {
     const [categories, setCategories] = useState<CategorySidebarModel[]>([]);
     const isMounted = useRef(false); // Added this reference to track first render
 
@@ -32,4 +32,4 @@ const HomeWrapper: React.FC = () => {
     );
 };
 
-export default HomeWrapper;
+export default Home;

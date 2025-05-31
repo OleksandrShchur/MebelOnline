@@ -1,14 +1,18 @@
 import './App.css';
-import Header from './components/header/header';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React from 'react';
-import HomeWrapper from './components/homeWrapper/homeWrapper';
+import Home from './pages/home/home';
+import Layout from './components/layout/layout';
 
 const App: React.FC = () => {
     return (
-        <>
-            <Header />
-            <HomeWrapper />
-        </>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Layout />}>
+                    <Route index element={<Home />} />
+                </Route>
+            </Routes>
+        </BrowserRouter>
     );
 }
 
