@@ -1,4 +1,4 @@
-﻿namespace MebelOnline.Server.Models.Categories
+﻿namespace MebelOnline.Core.Models.Categories
 {
     public class CategorySidebarModel
     {

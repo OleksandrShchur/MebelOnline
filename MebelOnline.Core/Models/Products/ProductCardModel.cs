@@ -1,4 +1,4 @@
-﻿namespace MebelOnline.Server.Models.Products
+﻿namespace MebelOnline.Core.Models.Products
 {
     public class ProductCardModel
     {
