@@ -17,7 +17,7 @@ namespace MebelOnline.Server.Controllers
 
         [HttpGet]
         [Route("all")]
-        public async Task<IEnumerable<CategorySidebarRevertedModel>> GetAll()
+        public async Task<IEnumerable<CategoryRevertedModel>> GetAll()
         {
             var categories = await _categoryService.GetCategoriesHierarchy();
 

@@ -4,9 +4,9 @@ namespace MebelOnline.Core.Helpers.Categories
 {
     public static class CategoryTransformer
     {
-        public static IList<CategorySidebarRevertedModel> ConvertHierarchy(IList<CategoryModel> categories)
+        public static IList<CategoryRevertedModel> ConvertHierarchy(IList<CategoryModel> categories)
         {
-            var roots = new Dictionary<int, CategorySidebarRevertedModel>();
+            var roots = new Dictionary<int, CategoryRevertedModel>();
 
             foreach (var firstLevel in categories)
             {
@@ -18,16 +18,16 @@ namespace MebelOnline.Core.Helpers.Categories
                     // Handle second level structure
                     if (!roots.TryGetValue(parent.Id, out var root))
                     {
-                        root = new CategorySidebarRevertedModel
+                        root = new CategoryRevertedModel
                         {
                             Id = parent.Id,
                             Name = parent.Name,
-                            ChildrenCategories = new List<CategorySidebarRevertedModel>()
+                            ChildrenCategories = new List<CategoryRevertedModel>()
                         };
                         roots[parent.Id] = root;
                     }
 
-                    root.ChildrenCategories.Add(new CategorySidebarRevertedModel
+                    root.ChildrenCategories.Add(new CategoryRevertedModel
                     {
                         Id = firstLevel.Id,
                         Name = firstLevel.Name
@@ -38,11 +38,11 @@ namespace MebelOnline.Core.Helpers.Categories
                     // Handle third level structure
                     if (!roots.TryGetValue(grandparent.Id, out var root))
                     {
-                        root = new CategorySidebarRevertedModel
+                        root = new CategoryRevertedModel
                         {
                             Id = grandparent.Id,
                             Name = grandparent.Name,
-                            ChildrenCategories = new List<CategorySidebarRevertedModel>()
+                            ChildrenCategories = new List<CategoryRevertedModel>()
                         };
                         roots[grandparent.Id] = root;
                     }
@@ -50,16 +50,16 @@ namespace MebelOnline.Core.Helpers.Categories
                     var secondLevel = root.ChildrenCategories.FirstOrDefault(x => x.Id == parent.Id);
                     if (secondLevel == null)
                     {
-                        secondLevel = new CategorySidebarRevertedModel
+                        secondLevel = new CategoryRevertedModel
                         {
                             Id = parent.Id,
                             Name = parent.Name,
-                            ChildrenCategories = new List<CategorySidebarRevertedModel>()
+                            ChildrenCategories = new List<CategoryRevertedModel>()
                         };
                         root.ChildrenCategories.Add(secondLevel);
                     }
 
-                    secondLevel.ChildrenCategories.Add(new CategorySidebarRevertedModel
+                    secondLevel.ChildrenCategories.Add(new CategoryRevertedModel
                     {
                         Id = firstLevel.Id,
                         Name = firstLevel.Name

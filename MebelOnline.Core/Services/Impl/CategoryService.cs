@@ -18,7 +18,7 @@ namespace MebelOnline.Core.Services.Impl
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<CategorySidebarRevertedModel>> GetCategoriesHierarchy()
+        public async Task<IEnumerable<CategoryRevertedModel>> GetCategoriesHierarchy()
         {
             var entities = await _dbContext.Categories
                             .Include(c => c.ParentCategory)
