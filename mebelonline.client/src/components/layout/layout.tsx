@@ -5,7 +5,12 @@ const Layout: React.FC = () => {
     return (
         <>
             <Header />
-            <Outlet />
+            <>
+                <Outlet />
+                <footer style={{ textAlign: 'right' }}>
+                    {(new Date()).getFullYear()}
+                </footer>
+            </>
         </>
     );
 };
