@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import React from 'react';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import type { ProductCardModel } from '../../models/productCardModel';
-import { CardActions } from '@mui/material';
+import { CardActions, Link } from '@mui/material';
 
 const ProductCard: React.FC<{ product: ProductCardModel }> = ({ product }) => {
   return (
@@ -23,28 +23,33 @@ const ProductCard: React.FC<{ product: ProductCardModel }> = ({ product }) => {
           transform: 'translateY(-4px)',
         },
       }}>
-      <CardMedia
-        component="img"
-        height="200"
-        image={product.imageUrl}
-        alt={product.title}
-      />
+      <Link underline="none" href={`/product/${product.id}`} color="inherit">
+        <CardMedia
+          component="img"
+          height="200"
+          image={product.imageUrl}
+          alt={product.title}
+        />
+      </Link>
 
       <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-        <CardContent sx={{ flexGrow: 1, px: 2, py: 1 }}>
-          <Tooltip title={product.title} arrow>
-            <Typography variant="body2" fontWeight={500} gutterBottom
-              sx={{
-                display: '-webkit-box',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                WebkitBoxOrient: 'vertical',
-                WebkitLineClamp: 3, // number of lines shown
-              }}
-            >
-              {product.title}
-            </Typography></Tooltip>
-        </CardContent>
+        <Link underline="none" href={`/product/${product.id}`} color="inherit">
+          <CardContent sx={{ flexGrow: 1, px: 2, py: 1 }}>
+            <Tooltip title={product.title} arrow>
+              <Typography variant="body2" fontWeight={500} gutterBottom
+                sx={{
+                  display: '-webkit-box',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  WebkitBoxOrient: 'vertical',
+                  WebkitLineClamp: 3, // number of lines shown
+                }}
+              >
+                {product.title}
+              </Typography>
+            </Tooltip>
+          </CardContent>
+        </Link>
 
         <CardActions sx={{ justifyContent: 'space-between', px: 2 }}>
           <Typography variant="h6">{product.price.toLocaleString()} грн</Typography>
