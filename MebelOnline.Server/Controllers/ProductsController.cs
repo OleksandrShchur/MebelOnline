@@ -1,9 +1,5 @@
-﻿using MebelOnline.Db.Entities;
-using MebelOnline.Db;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using MebelOnline.Core.Models.Products;
-using MebelOnline.Core.Mappings;
 using MebelOnline.Core.Services;
 
 namespace MebelOnline.Server.Controllers
@@ -23,16 +19,9 @@ namespace MebelOnline.Server.Controllers
         [Route("latest")]
         public async Task<IEnumerable<ProductCardModel>> GetLatest()
         {
-            var products = await _productService.GetLatestProducts();
+            var products = await _productService.GetLatestProductsAsync();
 
             return products;
-        }
-
-        [HttpGet]
-        [Route("breadcrumbs")]
-        public async Task<IEnumerable<string>> GetBreadcrumbs([FromQuery]int productId)
-        {
-            return null;
         }
     }
 }

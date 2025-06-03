@@ -18,7 +18,7 @@ namespace MebelOnline.Core.Services.Impl
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<CategoryRevertedModel>> GetCategoriesHierarchy()
+        public async Task<IEnumerable<CategoryRevertedModel>> GetCategoriesHierarchyAsync()
         {
             var entities = await _dbContext.Categories
                             .Include(c => c.ParentCategory)
@@ -31,6 +31,22 @@ namespace MebelOnline.Core.Services.Impl
             var revertedModels = CategoryTransformer.ConvertHierarchy(mappedModels);
 
             return revertedModels;
+        }
+
+        public async Task<IEnumerable<CategoryBreadcrumbModel>> GetBreadcrumbsAsync(int productId)
+        {
+            var product = await _dbContext.Products
+                .FirstOrDefaultAsync(p => p.Id == productId);
+
+            var category = await _dbContext.Categories
+                .Include(c => c.ParentCategory)
+                    .ThenInclude(pc => pc.ParentCategory)
+                .FirstOrDefaultAsync(c => c.Id == product.CategoryId);
+
+            var mappedCategory = _mapper.Map(category);
+            var convertedList = CategoryTransformer.ConvertToBreadcrumb(mappedCategory);
+
+            return convertedList;
         }
     }
 }

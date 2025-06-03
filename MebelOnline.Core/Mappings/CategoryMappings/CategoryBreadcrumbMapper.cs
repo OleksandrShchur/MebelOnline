@@ -3,16 +3,16 @@ using MebelOnline.Db.Entities;
 
 namespace MebelOnline.Core.Mappings.CategoryMappings
 {
-    public class CategoryBreadcrumbMapper : IMappingService<CategoryEntity, CategoryBreadcrumb>
+    public class CategoryBreadcrumbMapper : IMappingService<CategoryEntity, CategoryBreadcrumbModel>
     {
-        public CategoryBreadcrumb Map(CategoryEntity source)
+        public CategoryBreadcrumbModel Map(CategoryEntity source)
         {
             if (source == null)
             {
                 return default;
             }
 
-            var model = new CategoryBreadcrumb
+            var model = new CategoryBreadcrumbModel
             {
                 Id = source.Id,
                 Name = source.Name,
@@ -24,14 +24,14 @@ namespace MebelOnline.Core.Mappings.CategoryMappings
             return model;
         }
 
-        public IList<CategoryBreadcrumb> MapList(IList<CategoryEntity> source)
+        public IList<CategoryBreadcrumbModel> MapList(IList<CategoryEntity> source)
         {
             if (source == null)
             {
-                return new List<CategoryBreadcrumb>();
+                return new List<CategoryBreadcrumbModel>();
             }
 
-            var mappedList = new List<CategoryBreadcrumb>();
+            var mappedList = new List<CategoryBreadcrumbModel>();
             foreach (var item in source)
             {
                 mappedList.Add(Map(item));

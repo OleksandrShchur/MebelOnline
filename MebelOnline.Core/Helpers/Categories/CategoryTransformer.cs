@@ -1,9 +1,23 @@
-﻿using MebelOnline.Core.Models.Categories;
+﻿using System.ComponentModel.DataAnnotations;
+using MebelOnline.Core.Models.Categories;
 
 namespace MebelOnline.Core.Helpers.Categories
 {
     public static class CategoryTransformer
     {
+        private static readonly IList<CategoryBreadcrumbModel> model = new List<CategoryBreadcrumbModel>() 
+        {
+            new CategoryBreadcrumbModel() 
+            {
+                Name = "Головна",
+                Url = "/"
+            },
+            new CategoryBreadcrumbModel()
+            {
+                Name = "Каталог меблів",
+                Url = "/"
+            } 
+        };
         public static IList<CategoryRevertedModel> ConvertHierarchy(IList<CategoryModel> categories)
         {
             var roots = new Dictionary<int, CategoryRevertedModel>();
@@ -68,6 +82,27 @@ namespace MebelOnline.Core.Helpers.Categories
             }
 
             return roots.Values.ToList();
+        }
+
+        public static IList<CategoryBreadcrumbModel> ConvertToBreadcrumb(CategoryModel category)
+        {
+            var result = new List<CategoryBreadcrumbModel>();
+
+            while (category != null)
+            {
+                result.Add(new CategoryBreadcrumbModel
+                {
+                    Id = category.Id,
+                    Name = category.Name,
+                    Url = $"/category/{category.Id}"
+                });
+
+                category = category.ParentCategory;
+            }
+
+            result.Reverse();
+
+            return [..model, ..result];
         }
     }
 }

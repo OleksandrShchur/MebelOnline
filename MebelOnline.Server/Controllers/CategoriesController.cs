@@ -19,9 +19,16 @@ namespace MebelOnline.Server.Controllers
         [Route("all")]
         public async Task<IEnumerable<CategoryRevertedModel>> GetAll()
         {
-            var categories = await _categoryService.GetCategoriesHierarchy();
+            var categories = await _categoryService.GetCategoriesHierarchyAsync();
 
             return categories;
+        }
+
+        [HttpGet]
+        [Route("breadcrumbs/{productId:int}")]
+        public async Task<IEnumerable<CategoryBreadcrumbModel>> GetBreadcrubmsForProduct([FromRoute]int productId)
+        {
+            return await _categoryService.GetBreadcrumbsAsync(productId);
         }
     }
 }
