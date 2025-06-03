@@ -92,7 +92,6 @@ namespace MebelOnline.Core.Helpers.Categories
             {
                 result.Add(new CategoryBreadcrumbModel
                 {
-                    Id = category.Id,
                     Name = category.Name,
                     Url = $"/category/{category.Id}"
                 });

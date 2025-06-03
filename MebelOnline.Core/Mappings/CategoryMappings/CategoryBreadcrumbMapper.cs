@@ -14,11 +14,7 @@ namespace MebelOnline.Core.Mappings.CategoryMappings
 
             var model = new CategoryBreadcrumbModel
             {
-                Id = source.Id,
-                Name = source.Name,
-                //ParentCategory = source.ParentCategory != null
-                //    ? Map(source.ParentCategory)
-                //    : null
+                Name = source.Name
             };
 
             return model;

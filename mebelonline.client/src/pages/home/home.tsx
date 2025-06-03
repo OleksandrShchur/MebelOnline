@@ -17,7 +17,6 @@ const Home: React.FC = () => {
     }
 
     useEffect(() => {
-        console.log("home");
         if (!isMounted.current) {
             populateCategories();
             isMounted.current = true;
