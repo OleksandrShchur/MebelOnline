@@ -1,7 +1,8 @@
-import { Box, Breadcrumbs, Container, Link, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Breadcrumbs, CardMedia, Container, Link, Tab, Tabs, Typography } from "@mui/material";
 import type React from "react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Carousel from 'react-material-ui-carousel'
 import type { CategoryBreadcrumbModel } from "../../models/categoryBreadcrumbModel";
 import categoryService from "../../services/categoryService";
 
@@ -14,6 +15,21 @@ type TabPanelProps = {
     index: number;
     value: number;
 }
+
+var items = [
+    {
+        name: "Random Name #1",
+        url: "https://www.dybok.com.ua/image/8549/omega-1-24-m-vip-master-166404-product.jpg?v=0.99",
+    },
+    {
+        name: "Random Name #2",
+        url: "https://www.dybok.com.ua/image/8549/omega-1-24-m-vip-master-166405-product.jpg?v=0.99",
+    },
+    {
+        name: "Random Name #3",
+        url: "https://www.dybok.com.ua/image/8549/omega-1-24-m-vip-master-64128-product.jpg?v=0.99",
+    }
+]
 
 const CustomTabPanel = (props: TabPanelProps) => {
     const { children, value, index, ...other } = props;
@@ -43,17 +59,15 @@ const ProductDetails: React.FC = () => {
     const { productId } = useParams<ProductDetailsParams>();
     const [value, setValue] = useState(0);
 
-    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
 
     const populateCategoriesBreadcrumbs = async () => {
-        if (productId) {
+        if (productId) { //TODO: improve condition
             const data = await categoryService.fetchBreadcrumbsForProduct(productId!);
 
             setBreadcrumbs(data);
-        } else {
-            alert('Неправильний шлях!');
         }
     }
 
@@ -92,7 +106,21 @@ const ProductDetails: React.FC = () => {
                     </Tabs>
                 </Box>
                 <CustomTabPanel value={value} index={0}>
-                    Item One
+                    <Carousel interval={6000} animation="slide" navButtonsAlwaysVisible>
+                        {
+                            items.map((item) =>
+                                <img key={item.url} src={item.url} alt={item.name}
+                                    style={{
+                                        maxHeight: '400px',
+                                        width: 'auto',
+                                        height: 'auto',
+                                        objectFit: 'contain',
+                                        display: 'block',
+                                        margin: '0 auto',
+                                    }}
+                                />)
+                        }
+                    </Carousel>
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={1}>
                     Item Two
