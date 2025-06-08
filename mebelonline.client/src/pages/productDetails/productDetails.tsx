@@ -76,7 +76,7 @@ const ProductDetails: React.FC = () => {
     }, []);
 
     return (
-        <Container sx={{ pt: 9, pb: 2 }}>
+        <Container sx={{ pt: 9, pb: 2, maxWidth: 'none !important' }}>
             <Breadcrumbs aria-label="breadcrumb">
                 {breadcrumbs.map((crumb, index) => {
                     const isLast = index === breadcrumbs.length - 1;
