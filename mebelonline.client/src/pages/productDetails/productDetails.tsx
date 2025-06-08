@@ -1,10 +1,11 @@
-import { Box, Breadcrumbs, CardMedia, Container, Link, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Breadcrumbs, Card, CardActions, CardContent, CardMedia, Container, Grid, Link, Tab, Tabs, Typography } from "@mui/material";
 import type React from "react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Carousel from 'react-material-ui-carousel'
 import type { CategoryBreadcrumbModel } from "../../models/categoryBreadcrumbModel";
 import categoryService from "../../services/categoryService";
+import ProductImageModal from "../../components/productImageModal/productImageModal";
 
 type ProductDetailsParams = {
     productId: string;
@@ -58,6 +59,17 @@ const ProductDetails: React.FC = () => {
     const [breadcrumbs, setBreadcrumbs] = useState<CategoryBreadcrumbModel[]>([]);
     const { productId } = useParams<ProductDetailsParams>();
     const [value, setValue] = useState(0);
+    const [isModalOpen, setModalOpen] = useState<boolean>(false);
+    const [selectedImageUrl, setSelectedImageUrl] = useState<string>('');
+
+    const handleModalClose = () => {
+        setModalOpen(false);
+    }
+
+    const handleImageClick = (imageUrl: string) => {
+        setSelectedImageUrl(imageUrl);
+        setModalOpen(true);
+    }
 
     const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
@@ -106,21 +118,45 @@ const ProductDetails: React.FC = () => {
                     </Tabs>
                 </Box>
                 <CustomTabPanel value={value} index={0}>
-                    <Carousel interval={6000} animation="slide" navButtonsAlwaysVisible>
-                        {
-                            items.map((item) =>
-                                <img key={item.url} src={item.url} alt={item.name}
-                                    style={{
-                                        maxHeight: '400px',
-                                        width: 'auto',
-                                        height: 'auto',
-                                        objectFit: 'contain',
-                                        display: 'block',
-                                        margin: '0 auto',
-                                    }}
-                                />)
-                        }
-                    </Carousel>
+                    <ProductImageModal isOpen={isModalOpen} handleClose={handleModalClose} imageUrl={selectedImageUrl} />
+                    <Grid container spacing={2}>
+                        <Grid size={7}>
+                            <Carousel interval={6000} animation="slide" navButtonsAlwaysVisible>
+                                {
+                                    items.map((item) =>
+                                        <img key={item.url} src={item.url} alt={item.name}
+                                            onClick={() => handleImageClick(item.url)}
+                                            style={{
+                                                maxHeight: '400px',
+                                                width: 'auto',
+                                                height: 'auto',
+                                                objectFit: 'contain',
+                                                display: 'block',
+                                                margin: '0 auto',
+                                            }}
+                                        />)
+                                }
+                            </Carousel>
+                        </Grid>
+                        <Grid size={5}>
+                            <Card variant="outlined">
+                                <CardContent>
+                                    <Typography gutterBottom sx={{ color: 'text.secondary', fontSize: 14 }}>
+                                        Word of the Day
+                                    </Typography>
+                                    <Typography variant="h5" component="div">
+                                        be nev lent
+                                    </Typography>
+                                    <Typography sx={{ color: 'text.secondary', mb: 1.5 }}>adjective</Typography>
+                                    <Typography variant="body2">
+                                        well meaning and kindly.
+                                        <br />
+                                        {'"a benevolent smile"'}
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    </Grid>
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={1}>
                     Item Two
