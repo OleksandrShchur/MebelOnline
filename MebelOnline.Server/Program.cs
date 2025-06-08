@@ -1,17 +1,24 @@
 using Microsoft.EntityFrameworkCore;
 using MebelOnline.Db;
-using MebelOnline.Server.Mappings;
 using MebelOnline.Db.Entities;
-using MebelOnline.Server.Mappings.CategoryMappings;
-using MebelOnline.Server.Mappings.ProductMappings;
-using MebelOnline.Server.Models.Categories;
-using MebelOnline.Server.Models.Products;
+using MebelOnline.Core.Mappings;
+using MebelOnline.Core.Models.Categories;
+using MebelOnline.Core.Mappings.CategoryMappings;
+using MebelOnline.Core.Models.Products;
+using MebelOnline.Core.Mappings.ProductMappings;
+using MebelOnline.Core.Services;
+using MebelOnline.Core.Services.Impl;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Register services
-builder.Services.AddSingleton<IMappingService<CategoryEntity, CategorySidebarModel>, CategorySidebarModelMapper>();
+// Register mappers
+builder.Services.AddSingleton<IMappingService<CategoryEntity, CategoryModel>, CategoryModelMapper>();
 builder.Services.AddSingleton<IMappingService<ProductEntity, ProductCardModel>, ProductCardModelMapper>();
+builder.Services.AddSingleton<IMappingService<CategoryEntity, CategoryBreadcrumbModel>, CategoryBreadcrumbMapper>();
+
+// Register services
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 // Add services to the container.
 builder.Services.AddControllers();

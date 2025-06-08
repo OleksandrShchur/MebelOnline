@@ -5,11 +5,11 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { useEffect, useRef, useState } from 'react';
 import { ListItemButton, ListItemIcon, useMediaQuery, useTheme } from '@mui/material';
-import type { CategorySidebarModel } from '../../models/categorySidebarModel';
+import type { CategoryModel } from '../../models/categoryModel';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 interface IMultiLevelSidebarProps {
-    categories: CategorySidebarModel[];
+    categories: CategoryModel[];
 }
 
 const MultiLevelSidebar: React.FC<IMultiLevelSidebarProps> = ({ categories = [] }) => {

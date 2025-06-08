@@ -1,7 +1,7 @@
 ﻿using MebelOnline.Db.Entities;
-using MebelOnline.Server.Models.Products;
+using MebelOnline.Core.Models.Products;
 
-namespace MebelOnline.Server.Mappings.ProductMappings
+namespace MebelOnline.Core.Mappings.ProductMappings
 {
     public class ProductCardModelMapper : IMappingService<ProductEntity, ProductCardModel>
     {

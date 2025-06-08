@@ -1,7 +1,10 @@
+import type { CategoryBreadcrumbModel } from "../models/categoryBreadcrumbModel";
+import type { CategoryModel } from "../models/categoryModel";
+
 const categoryService = () => {
     const baseUrl = '/api/categories';
 
-    const fetchAll = async () => {
+    const fetchAll = async (): Promise<CategoryModel[]> => {
         try {
             const response = await fetch(`${baseUrl}/all`);
 
@@ -17,7 +20,23 @@ const categoryService = () => {
         }
     };
 
-    return { fetchAll };
+    const fetchBreadcrumbsForProduct = async (productId: string): Promise<CategoryBreadcrumbModel[]> => {
+        try {
+            const response = await fetch(`${baseUrl}/breadcrumbs/${productId}`);
+
+            if (!response.ok) {
+                console.error(`Error fetching categories: ${response.statusText}`);
+                return [];
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error('Network error while fetching breadcrumbs for product:', error);
+            return [];
+        }
+    }
+
+    return { fetchAll, fetchBreadcrumbsForProduct };
 };
 
 export default categoryService();
