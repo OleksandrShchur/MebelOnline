@@ -8,7 +8,7 @@ namespace MebelOnline.Db.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<ProductAttributeValueEntity> builder)
         {
-            builder.HasKey(p => new { p.ProductId, p.AttributeId });
+            builder.HasKey(p => p.Id);
 
             builder.Property(p => p.Value)
                 .IsRequired()

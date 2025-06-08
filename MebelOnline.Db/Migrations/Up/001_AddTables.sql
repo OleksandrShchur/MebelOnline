@@ -80,10 +80,11 @@ END;
 IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'ProductAttributeValues')
 BEGIN
     CREATE TABLE dbo.ProductAttributeValues (
+	    Id INT NOT NULL,
         ProductId INT NOT NULL,
         AttributeId INT NOT NULL,
         Value NVARCHAR(100),
-        PRIMARY KEY (ProductId, AttributeId),
+        PRIMARY KEY (Id),
         FOREIGN KEY (ProductId) REFERENCES dbo.Products(Id),
         FOREIGN KEY (AttributeId) REFERENCES dbo.ProductAttributes(Id)
     );

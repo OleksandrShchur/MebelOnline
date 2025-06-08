@@ -3,7 +3,7 @@
 namespace MebelOnline.Db.Entities
 {
     [Table("ProductAttributeValues")]
-    public class ProductAttributeValueEntity
+    public class ProductAttributeValueEntity : BaseEntity
     {
         public int ProductId { get; set; }
         public int AttributeId { get; set; }
