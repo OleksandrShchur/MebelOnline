@@ -1,4 +1,4 @@
-import { Box, Breadcrumbs, Card, CardActions, CardContent, CardMedia, Container, Grid, Link, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Breadcrumbs, Card, CardActions, CardContent, CardMedia, Container, Grid, IconButton, Link, Tab, Tabs, Tooltip, Typography } from "@mui/material";
 import type React from "react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -6,6 +6,7 @@ import Carousel from 'react-material-ui-carousel'
 import type { CategoryBreadcrumbModel } from "../../models/categoryBreadcrumbModel";
 import categoryService from "../../services/categoryService";
 import ProductImageModal from "../../components/productImageModal/productImageModal";
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 type ProductDetailsParams = {
     productId: string;
@@ -120,6 +121,32 @@ const ProductDetails: React.FC = () => {
                 <CustomTabPanel value={value} index={0}>
                     <ProductImageModal isOpen={isModalOpen} handleClose={handleModalClose} imageUrl={selectedImageUrl} />
                     <Grid container spacing={2}>
+                        <Grid size={5}>
+                            <Card variant="outlined">
+                                <CardContent>
+                                    <Typography gutterBottom sx={{ color: 'text.secondary', fontSize: 14 }}>
+                                        Код товару:
+                                    </Typography>
+                                    <Typography variant="h4" component="div">
+                                        Назва товару
+                                    </Typography>
+                                </CardContent>
+                                <CardActions sx={{ justifyContent: 'space-between', px: 2 }}>
+                                    <Typography variant="h6">{} грн</Typography>
+
+                                    <Tooltip title="Додати в обране">
+                                        <IconButton
+                                            sx={{
+                                                bgcolor: 'white',
+                                                '&:hover': { bgcolor: '#f5f5f5' },
+                                            }}
+                                        >
+                                            <FavoriteBorderIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                </CardActions>
+                            </Card>
+                        </Grid>
                         <Grid size={7}>
                             <Carousel interval={6000} animation="slide" navButtonsAlwaysVisible>
                                 {
@@ -137,24 +164,6 @@ const ProductDetails: React.FC = () => {
                                         />)
                                 }
                             </Carousel>
-                        </Grid>
-                        <Grid size={5}>
-                            <Card variant="outlined">
-                                <CardContent>
-                                    <Typography gutterBottom sx={{ color: 'text.secondary', fontSize: 14 }}>
-                                        Word of the Day
-                                    </Typography>
-                                    <Typography variant="h5" component="div">
-                                        be nev lent
-                                    </Typography>
-                                    <Typography sx={{ color: 'text.secondary', mb: 1.5 }}>adjective</Typography>
-                                    <Typography variant="body2">
-                                        well meaning and kindly.
-                                        <br />
-                                        {'"a benevolent smile"'}
-                                    </Typography>
-                                </CardContent>
-                            </Card>
                         </Grid>
                     </Grid>
                 </CustomTabPanel>
