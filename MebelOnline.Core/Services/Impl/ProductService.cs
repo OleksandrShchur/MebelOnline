@@ -29,5 +29,15 @@ namespace MebelOnline.Core.Services.Impl
 
             return mappedModels;
         }
+
+        public async Task GetProductDetailsByIdAsync(int productId)
+        {
+            var product = await _dbContext.Products
+                .Include(p => p.Attributes)
+                .Include(p => p.Images)
+                .FirstOrDefaultAsync(p => p.Id == productId);
+
+
+        }
     }
 }

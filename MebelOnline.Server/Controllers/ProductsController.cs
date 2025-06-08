@@ -23,5 +23,12 @@ namespace MebelOnline.Server.Controllers
 
             return products;
         }
+
+        [HttpGet]
+        [Route("{productId:int}")]
+        public async Task GetById([FromRoute] int productId)
+        {
+            return;
+        }
     }
 }
