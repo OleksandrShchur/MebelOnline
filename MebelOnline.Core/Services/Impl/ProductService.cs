@@ -3,6 +3,7 @@ using MebelOnline.Core.Models.Products;
 using MebelOnline.Db.Entities;
 using MebelOnline.Db;
 using Microsoft.EntityFrameworkCore;
+using MebelOnline.Db.Enums;
 
 namespace MebelOnline.Core.Services.Impl
 {
@@ -10,11 +11,14 @@ namespace MebelOnline.Core.Services.Impl
     {
         private readonly AppDbContext _dbContext;
         private readonly IMappingService<ProductEntity, ProductCardModel> _productMapper;
+        private readonly IProductOptionService _productOptionService;
 
-        public ProductService(AppDbContext dbContext, IMappingService<ProductEntity, ProductCardModel> productMapper)
+        public ProductService(AppDbContext dbContext, IMappingService<ProductEntity, ProductCardModel> productMapper,
+            IProductOptionService productOptionService)
         {
             _dbContext = dbContext;
             _productMapper = productMapper;
+            _productOptionService = productOptionService;
         }
 
         public async Task<IEnumerable<ProductCardModel>> GetLatestProductsAsync()
@@ -37,7 +41,10 @@ namespace MebelOnline.Core.Services.Impl
                 .Include(p => p.Images)
                 .FirstOrDefaultAsync(p => p.Id == productId);
 
-
+            var mappedFrontOptions = await _productOptionService.GetForProductByOptionTypeAsync(productId, 
+                ProductOptionTypeEnum.Front);
+            var mappedFrameOptions = await _productOptionService.GetForProductByOptionTypeAsync(productId,
+                ProductOptionTypeEnum.Frame);
         }
     }
 }
