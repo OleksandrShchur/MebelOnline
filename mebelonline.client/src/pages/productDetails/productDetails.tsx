@@ -1,4 +1,5 @@
-import { Box, Breadcrumbs, Card, CardActions, CardContent, CardMedia, Container, Grid, IconButton, Link, Tab, Tabs, Tooltip, Typography } from "@mui/material";
+import { Box, Breadcrumbs, Card, CardActions, CardContent, Container, Grid, IconButton, Link, 
+    Tab, Tabs, Tooltip, Typography } from "@mui/material";
 import type React from "react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -7,6 +8,8 @@ import type { CategoryBreadcrumbModel } from "../../models/categoryBreadcrumbMod
 import categoryService from "../../services/categoryService";
 import ProductImageModal from "../../components/productImageModal/productImageModal";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import type { ProductDetailsModel } from "../../models/productDetailsModel";
+import productService from "../../services/productService";
 
 type ProductDetailsParams = {
     productId: string;
@@ -17,21 +20,6 @@ type TabPanelProps = {
     index: number;
     value: number;
 }
-
-var items = [
-    {
-        name: "Random Name #1",
-        url: "https://www.dybok.com.ua/image/8549/omega-1-24-m-vip-master-166404-product.jpg?v=0.99",
-    },
-    {
-        name: "Random Name #2",
-        url: "https://www.dybok.com.ua/image/8549/omega-1-24-m-vip-master-166405-product.jpg?v=0.99",
-    },
-    {
-        name: "Random Name #3",
-        url: "https://www.dybok.com.ua/image/8549/omega-1-24-m-vip-master-64128-product.jpg?v=0.99",
-    }
-]
 
 const CustomTabPanel = (props: TabPanelProps) => {
     const { children, value, index, ...other } = props;
@@ -58,6 +46,7 @@ const a11yProps = (index: number) => {
 
 const ProductDetails: React.FC = () => {
     const [breadcrumbs, setBreadcrumbs] = useState<CategoryBreadcrumbModel[]>([]);
+    const [productDetails, setProductDetails] = useState<ProductDetailsModel>({} as ProductDetailsModel);
     const { productId } = useParams<ProductDetailsParams>();
     const [value, setValue] = useState(0);
     const [isModalOpen, setModalOpen] = useState<boolean>(false);
@@ -78,13 +67,26 @@ const ProductDetails: React.FC = () => {
 
     const populateCategoriesBreadcrumbs = async () => {
         if (productId) { //TODO: improve condition
-            const data = await categoryService.fetchBreadcrumbsForProduct(productId!);
+            const data = await categoryService.fetchBreadcrumbsForProduct(productId);
+            console.log(data);
 
             setBreadcrumbs(data);
         }
     }
 
+    const populateProductDetails = async () => {
+        if (productId) { // TODO: improve validation
+            const data = await productService.fetchProductDetails(productId);
+            console.log(data);
+
+            if (data) {
+                setProductDetails(data);
+            }
+        }
+    }
+
     useEffect(() => {
+        populateProductDetails();
         populateCategoriesBreadcrumbs();
     }, []);
 
@@ -125,14 +127,14 @@ const ProductDetails: React.FC = () => {
                             <Card variant="outlined">
                                 <CardContent>
                                     <Typography gutterBottom sx={{ color: 'text.secondary', fontSize: 14 }}>
-                                        Код товару:
+                                        Код товару: {productDetails.id}
                                     </Typography>
                                     <Typography variant="h4" component="div">
-                                        Назва товару
+                                        {productDetails.title}
                                     </Typography>
                                 </CardContent>
                                 <CardActions sx={{ justifyContent: 'space-between', px: 2 }}>
-                                    <Typography variant="h6">{} грн</Typography>
+                                    <Typography variant="h6">{productDetails.price} грн</Typography>
 
                                     <Tooltip title="Додати в обране">
                                         <IconButton
@@ -148,10 +150,10 @@ const ProductDetails: React.FC = () => {
                             </Card>
                         </Grid>
                         <Grid size={7}>
-                            <Carousel interval={6000} animation="slide" navButtonsAlwaysVisible>
+                            <Carousel animation="slide" navButtonsAlwaysVisible>
                                 {
-                                    items.map((item) =>
-                                        <img key={item.url} src={item.url} alt={item.name}
+                                    productDetails.images?.map((item) =>
+                                        <img key={item.url} src={item.url} alt={productDetails.title}
                                             onClick={() => handleImageClick(item.url)}
                                             style={{
                                                 maxHeight: '400px',

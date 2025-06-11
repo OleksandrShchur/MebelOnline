@@ -32,7 +32,7 @@ const ProductCard: React.FC<{ product: ProductCardModel }> = ({ product }) => {
         />
       </Link>
 
-      <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+      <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
         <Link underline="none" href={`/product/${product.id}`} color="inherit">
           <CardContent sx={{ flexGrow: 1, px: 2, py: 1 }}>
             <Tooltip title={product.title} arrow>
