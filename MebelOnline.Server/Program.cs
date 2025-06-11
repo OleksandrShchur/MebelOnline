@@ -8,21 +8,18 @@ using MebelOnline.Core.Models.Products;
 using MebelOnline.Core.Mappings.ProductMappings;
 using MebelOnline.Core.Services;
 using MebelOnline.Core.Services.Impl;
-using MebelOnline.Core.Models.ProductOptions;
-using MebelOnline.Core.Mappings.ProductOptionMappings;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Register mappers
 builder.Services.AddSingleton<IMappingService<CategoryEntity, CategoryModel>, CategoryModelMapper>();
 builder.Services.AddSingleton<IMappingService<ProductEntity, ProductCardModel>, ProductCardModelMapper>();
+builder.Services.AddSingleton<IMappingService<ProductEntity, ProductDetailsModel>, ProductDetailsModelMapper>();
 builder.Services.AddSingleton<IMappingService<CategoryEntity, CategoryBreadcrumbModel>, CategoryBreadcrumbMapper>();
-builder.Services.AddSingleton<IMappingService<ProductOptionEntity, ProductOptionModel>, ProductOptionModelMapper>();
 
 // Register services
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<IProductOptionService, ProductOptionService>();
 
 // Add services to the container.
 builder.Services.AddControllers();

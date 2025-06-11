@@ -26,9 +26,11 @@ namespace MebelOnline.Server.Controllers
 
         [HttpGet]
         [Route("{productId:int}")]
-        public async Task GetById([FromRoute] int productId)
+        public async Task<ProductDetailsModel> GetById([FromRoute] int productId)
         {
-            return;
+            var product = await _productService.GetProductDetailsByIdAsync(productId);
+
+            return product;
         }
     }
 }

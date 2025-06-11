@@ -1,6 +1,6 @@
 ﻿namespace MebelOnline.Db.Enums
 {
-    public enum ProductOptionTypeEnum
+    public enum ProductOptionTypeEnum : byte
     {
         NotSpecified = 0,
         Front = 1,

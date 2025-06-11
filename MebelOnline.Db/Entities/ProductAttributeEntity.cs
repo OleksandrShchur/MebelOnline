@@ -2,7 +2,7 @@
 
 namespace MebelOnline.Db.Entities
 {
-    [Table("ProductAtributes")]
+    [Table("ProductAttributes")]
     public class ProductAttributeEntity : BaseEntity
     {
         public string Name { get; set; }
