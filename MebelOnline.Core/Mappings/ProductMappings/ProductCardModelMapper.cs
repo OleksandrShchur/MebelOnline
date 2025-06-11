@@ -23,21 +23,5 @@ namespace MebelOnline.Core.Mappings.ProductMappings
 
             return model;
         }
-
-        public IList<ProductCardModel> MapList(IList<ProductEntity> source)
-        {
-            if (source == null)
-            {
-                return new List<ProductCardModel>();
-            }
-
-            var mappedList = new List<ProductCardModel>();
-            foreach (var item in source)
-            {
-                mappedList.Add(Map(item));
-            }
-
-            return mappedList;
-        }
     }
 }

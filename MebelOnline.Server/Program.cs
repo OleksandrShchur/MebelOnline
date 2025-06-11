@@ -14,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Register mappers
 builder.Services.AddSingleton<IMappingService<CategoryEntity, CategoryModel>, CategoryModelMapper>();
 builder.Services.AddSingleton<IMappingService<ProductEntity, ProductCardModel>, ProductCardModelMapper>();
+builder.Services.AddSingleton<IMappingService<ProductEntity, ProductDetailsModel>, ProductDetailsModelMapper>();
 builder.Services.AddSingleton<IMappingService<CategoryEntity, CategoryBreadcrumbModel>, CategoryBreadcrumbMapper>();
 
 // Register services
