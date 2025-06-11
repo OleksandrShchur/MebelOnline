@@ -20,21 +20,5 @@ namespace MebelOnline.Core.Mappings.ProductOptionMappings
 
             return model;
         }
-
-        public IList<ProductOptionModel> MapList(IList<ProductOptionEntity> source)
-        {
-            if (source == null)
-            {
-                return new List<ProductOptionModel>();
-            }
-
-            var mappedList = new List<ProductOptionModel>();
-            foreach (var item in source)
-            {
-                mappedList.Add(Map(item));
-            }
-
-            return mappedList;
-        }
     }
 }

@@ -23,22 +23,5 @@ namespace MebelOnline.Core.Mappings.CategoryMappings
 
             return model;
         }
-
-
-        public IList<CategoryModel> MapList(IList<CategoryEntity> source)
-        {
-            if (source == null)
-            {
-                return new List<CategoryModel>();
-            }
-
-            var mappedList = new List<CategoryModel>();
-            foreach (var item in source)
-            {
-                mappedList.Add(Map(item));
-            }
-
-            return mappedList;
-        }
     }
 }
