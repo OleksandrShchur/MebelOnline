@@ -68,7 +68,6 @@ const ProductDetails: React.FC = () => {
     const populateCategoriesBreadcrumbs = async () => {
         if (productId) { //TODO: improve condition
             const data = await categoryService.fetchBreadcrumbsForProduct(productId);
-            console.log(data);
 
             setBreadcrumbs(data);
         }
@@ -77,7 +76,6 @@ const ProductDetails: React.FC = () => {
     const populateProductDetails = async () => {
         if (productId) { // TODO: improve validation
             const data = await productService.fetchProductDetails(productId);
-            console.log(data);
 
             if (data) {
                 setProductDetails(data);
