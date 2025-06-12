@@ -8,10 +8,10 @@ export type ProductDetailsModel = {
     title: string;
     description: string;
     price: number;
-    oldPrice: number | null;
-    width: number | null;
-    height: number | null;
-    depth: number | null;
+    oldPrice?: number;
+    width?: number;
+    height?: number;
+    depth?: number;
     brand: BrandModel;
     frontOptions: ProductOptionModel[];
     frameOptions: ProductOptionModel[];

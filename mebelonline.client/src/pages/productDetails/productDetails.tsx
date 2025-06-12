@@ -1,5 +1,4 @@
-import { Box, Breadcrumbs, Card, CardActions, CardContent, Container, Grid, IconButton, Link, 
-    Tab, Tabs, Tooltip, Typography } from "@mui/material";
+import { Box, Breadcrumbs, Container, Grid, Link, Tab, Tabs, Typography } from "@mui/material";
 import type React from "react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -7,21 +6,21 @@ import Carousel from 'react-material-ui-carousel'
 import type { CategoryBreadcrumbModel } from "../../models/categoryBreadcrumbModel";
 import categoryService from "../../services/categoryService";
 import ProductImageModal from "../../components/productImageModal/productImageModal";
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import type { ProductDetailsModel } from "../../models/productDetailsModel";
 import productService from "../../services/productService";
+import ProductInfoCard from "../../components/productInfoCard/productInfoCard";
 
-type ProductDetailsParams = {
-    productId: string;
-}
-
-type TabPanelProps = {
+interface ITabPanelProps {
     children?: React.ReactNode;
     index: number;
     value: number;
 }
 
-const CustomTabPanel = (props: TabPanelProps) => {
+type ProductDetailsParams = {
+    productId: string;
+}
+
+const CustomTabPanel = (props: ITabPanelProps) => {
     const { children, value, index, ...other } = props;
 
     return (
@@ -45,9 +44,9 @@ const a11yProps = (index: number) => {
 };
 
 const ProductDetails: React.FC = () => {
+    const { productId } = useParams<ProductDetailsParams>();
     const [breadcrumbs, setBreadcrumbs] = useState<CategoryBreadcrumbModel[]>([]);
     const [productDetails, setProductDetails] = useState<ProductDetailsModel>({} as ProductDetailsModel);
-    const { productId } = useParams<ProductDetailsParams>();
     const [value, setValue] = useState(0);
     const [isModalOpen, setModalOpen] = useState<boolean>(false);
     const [selectedImageUrl, setSelectedImageUrl] = useState<string>('');
@@ -122,30 +121,11 @@ const ProductDetails: React.FC = () => {
                     <ProductImageModal isOpen={isModalOpen} handleClose={handleModalClose} imageUrl={selectedImageUrl} />
                     <Grid container spacing={2}>
                         <Grid size={5}>
-                            <Card variant="outlined">
-                                <CardContent>
-                                    <Typography gutterBottom sx={{ color: 'text.secondary', fontSize: 14 }}>
-                                        Код товару: {productDetails.id}
-                                    </Typography>
-                                    <Typography variant="h4" component="div">
-                                        {productDetails.title}
-                                    </Typography>
-                                </CardContent>
-                                <CardActions sx={{ justifyContent: 'space-between', px: 2 }}>
-                                    <Typography variant="h6">{productDetails.price} грн</Typography>
-
-                                    <Tooltip title="Додати в обране">
-                                        <IconButton
-                                            sx={{
-                                                bgcolor: 'white',
-                                                '&:hover': { bgcolor: '#f5f5f5' },
-                                            }}
-                                        >
-                                            <FavoriteBorderIcon />
-                                        </IconButton>
-                                    </Tooltip>
-                                </CardActions>
-                            </Card>
+                            <ProductInfoCard id={productDetails.id} 
+                                title={productDetails.title}
+                                price={productDetails.price}
+                                oldPrice={productDetails.oldPrice}
+                            />
                         </Grid>
                         <Grid size={7}>
                             <Carousel animation="slide" autoPlay={false} navButtonsAlwaysVisible>
