@@ -148,13 +148,13 @@ const ProductDetails: React.FC = () => {
                             </Card>
                         </Grid>
                         <Grid size={7}>
-                            <Carousel animation="slide" navButtonsAlwaysVisible>
+                            <Carousel animation="slide" autoPlay={false} navButtonsAlwaysVisible>
                                 {
                                     productDetails.images?.map((item) =>
                                         <img key={item.url} src={item.url} alt={productDetails.title}
                                             onClick={() => handleImageClick(item.url)}
                                             style={{
-                                                maxHeight: '400px',
+                                                maxHeight: '500px',
                                                 width: 'auto',
                                                 height: 'auto',
                                                 objectFit: 'contain',

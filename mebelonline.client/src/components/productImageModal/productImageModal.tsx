@@ -1,4 +1,4 @@
-import { Box, Card, CardMedia, IconButton, Modal } from "@mui/material";
+import { Box, Card, CardMedia, IconButton, Dialog } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 interface IProductImageModalProps {
@@ -11,23 +11,14 @@ const ProductImageModal: React.FC<IProductImageModalProps> = (props: IProductIma
     const { isOpen, handleClose, imageUrl } = props;
 
     return (
-        <Modal
+        <Dialog
+            fullScreen
             open={isOpen}
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
-            <Box
-                sx={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                    maxHeight: "90vh",
-                    maxWidth: "90vw",
-                    outline: "none",
-                }}
-            >
+            <Box>
                 <IconButton
                     onClick={handleClose}
                     sx={{
@@ -50,15 +41,14 @@ const ProductImageModal: React.FC<IProductImageModalProps> = (props: IProductIma
                         image={imageUrl}
                         alt="Product image"
                         sx={{
-                            height: "93vh",
-                            width: "auto",
-                            maxWidth: "100%",
+                            width: "100vw",
+                            height: "100vh",
                             objectFit: "contain",
                         }}
                     />
                 </Card>
             </Box>
-        </Modal>
+        </Dialog>
     );
 };
 
