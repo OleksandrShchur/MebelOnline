@@ -1,14 +1,12 @@
-import { Box, Breadcrumbs, Container, Grid, Link, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Breadcrumbs, Container, Link, Tab, Tabs, Typography } from "@mui/material";
 import type React from "react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Carousel from 'react-material-ui-carousel'
 import type { CategoryBreadcrumbModel } from "../../models/categoryBreadcrumbModel";
 import categoryService from "../../services/categoryService";
-import ProductImageModal from "../../components/productImageModal/productImageModal";
 import type { ProductDetailsModel } from "../../models/productDetailsModel";
 import productService from "../../services/productService";
-import ProductInfoCard from "../../components/productInfoCard/productInfoCard";
+import ProductAllDetails from "../../components/productAllDetails/productAllDetails";
 
 interface ITabPanelProps {
     children?: React.ReactNode;
@@ -48,17 +46,6 @@ const ProductDetails: React.FC = () => {
     const [breadcrumbs, setBreadcrumbs] = useState<CategoryBreadcrumbModel[]>([]);
     const [productDetails, setProductDetails] = useState<ProductDetailsModel>({} as ProductDetailsModel);
     const [value, setValue] = useState(0);
-    const [isModalOpen, setModalOpen] = useState<boolean>(false);
-    const [selectedImageUrl, setSelectedImageUrl] = useState<string>('');
-
-    const handleModalClose = () => {
-        setModalOpen(false);
-    }
-
-    const handleImageClick = (imageUrl: string) => {
-        setSelectedImageUrl(imageUrl);
-        setModalOpen(true);
-    }
 
     const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
@@ -118,34 +105,12 @@ const ProductDetails: React.FC = () => {
                     </Tabs>
                 </Box>
                 <CustomTabPanel value={value} index={0}>
-                    <ProductImageModal isOpen={isModalOpen} handleClose={handleModalClose} imageUrl={selectedImageUrl} />
-                    <Grid container spacing={2}>
-                        <Grid size={5}>
-                            <ProductInfoCard id={productDetails.id} 
-                                title={productDetails.title}
-                                price={productDetails.price}
-                                oldPrice={productDetails.oldPrice}
-                            />
-                        </Grid>
-                        <Grid size={7}>
-                            <Carousel animation="slide" autoPlay={false} navButtonsAlwaysVisible>
-                                {
-                                    productDetails.images?.map((item) =>
-                                        <img key={item.url} src={item.url} alt={productDetails.title}
-                                            onClick={() => handleImageClick(item.url)}
-                                            style={{
-                                                maxHeight: '500px',
-                                                width: 'auto',
-                                                height: 'auto',
-                                                objectFit: 'contain',
-                                                display: 'block',
-                                                margin: '0 auto',
-                                            }}
-                                        />)
-                                }
-                            </Carousel>
-                        </Grid>
-                    </Grid>
+                    <ProductAllDetails id={productDetails.id}
+                        title={productDetails.title}
+                        price={productDetails.price}
+                        oldPrice={productDetails.oldPrice}
+                        images={productDetails.images}
+                    />
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={1}>
                     Item Two
