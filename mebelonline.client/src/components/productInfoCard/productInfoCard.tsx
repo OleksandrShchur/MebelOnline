@@ -1,6 +1,5 @@
-import { Button, Card, CardActions, CardContent, Divider, IconButton, Stack, Tooltip, Typography } from "@mui/material";
+import { Box, Button, Card, CardActions, CardContent, Divider, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import TelegramIcon from '@mui/icons-material/Send';
 
 interface IProductInfoCardProps {
     id: number;
@@ -18,13 +17,32 @@ const ProductInfoCard: React.FC<IProductInfoCardProps> = (props: IProductInfoCar
                 <Typography gutterBottom sx={{ color: 'text.secondary', fontSize: 14 }}>
                     Код товару: {id}
                 </Typography>
+                <br />
                 <Typography variant="h4" component="div">
                     {title}
                 </Typography>
+                <br />
             </CardContent>
-            <CardActions sx={{ justifyContent: 'space-between', px: 2 }}>
-                <Typography variant="h6">{oldPrice} грн</Typography>
-                <Typography variant="h6">{price} грн</Typography>
+            <CardActions sx={{ justifyContent: 'space-between', alignItems: 'flex-end', px: 2 }}>
+                <Box>
+                    {oldPrice && 
+                        <Typography
+                            variant="h6"
+                            sx={{ textDecoration: 'line-through', color: 'gray' }}
+                        >
+                            {new Intl.NumberFormat('uk-UA', {
+                            minimumFractionDigits: 0,
+                            maximumFractionDigits: 0
+                            }).format(oldPrice)} грн
+                        </Typography>
+                    }
+                    <Typography variant="h5">
+                        {new Intl.NumberFormat('uk-UA', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                        }).format(price)} грн
+                    </Typography>
+                </Box>
 
                 <Tooltip title="Додати в обране">
                     <IconButton
@@ -38,67 +56,61 @@ const ProductInfoCard: React.FC<IProductInfoCardProps> = (props: IProductInfoCar
                 </Tooltip>
             </CardActions>
             <Divider />
-            <CardActions>
-                <Typography variant="h6" fontWeight="bold" gutterBottom>
-                    Є питання чи потрібна консультація?
-                </Typography>
-                <Typography variant="body1" color="text.secondary" mb={3}>
-                    Напишіть нам у будь-який з месенджерів і ми допоможемо з вибором меблів та оформленням замовлення.
-                </Typography>
+            <br />
+            <CardActions sx={{ justifyContent: 'space-between', alignItems: 'flex-end', px: 2 }}>
+                <Box>
+                    <Typography variant="h6" fontWeight="bold" gutterBottom>
+                        Є питання чи потрібна консультація?
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary" mb={3}>
+                        Напишіть нам у будь-який з месенджерів і ми допоможемо з вибором меблів та оформленням замовлення.
+                    </Typography>
 
-                <Stack direction="row" spacing={2} justifyContent="center">
-                    <Button
-                        variant="outlined"
-                        // sx={{
-                        //     borderColor: 'transparent',
-                        //     // background: 'linear-gradient(to right, #e1306c, #6a00f4)',
-                        //     color: '#fff',
-                        //     minWidth: 64,
-                        //     borderRadius: 2,
-                        // }}
-                        sx={{
-                            borderColor: 'linear-gradient(to right, #e1306c, #6a00f4)',
+                    <Stack direction="row" spacing={2} justifyContent="center" width="100%">
+                        <Button
+                            variant="outlined"
+                            sx={{ flex: 1,
+                            borderColor: 'linear-gradient(to right, #e1306c, #6a00f4)', // note: won't work directly
                             color: 'linear-gradient(to right, #e1306c, #6a00f4)',
-                            minWidth: 64,
-                            borderRadius: 2,
-                        }}
-                        href=""
-                        target="_blank"
-                    >
-                        <img src="https://img.icons8.com/?size=100&id=16733&format=png&color=40C057" 
-                            alt="Whatsapp" width={24} height={24} />
-                    </Button>
+                            borderRadius: 2 }}
+                            href=""
+                            target="_blank"
+                        >
+                            <img
+                                src="https://img.icons8.com/?size=100&id=16733&format=png&color=40C057"
+                                alt="Whatsapp"
+                                width={24}
+                                height={24}
+                            />
+                        </Button>
 
-                    <Button
-                        variant="outlined"
-                        sx={{
-                            borderColor: '#665cac',
-                            color: '#665cac',
-                            minWidth: 64,
-                            borderRadius: 2,
-                        }}
-                        href=""
-                        target="_blank"
-                    >
-                        <img src="https://img.icons8.com/?size=100&id=25104&format=png&color=7950F2" 
-                            alt="Viber" width={24} height={24} />
-                    </Button>
+                        <Button
+                            variant="outlined" sx={{ flex: 1, borderColor: '#665cac', color: '#665cac', borderRadius: 2 }}
+                            href="" target="_blank"
+                        >
+                            <img
+                                src="https://img.icons8.com/?size=100&id=25104&format=png&color=7950F2"
+                                alt="Viber"
+                                width={24}
+                                height={24}
+                            />
+                        </Button>
 
-                    <Button
-                        variant="outlined"
-                        sx={{
-                            borderColor: '#0088cc',
-                            color: '#0088cc',
-                            minWidth: 64,
-                            borderRadius: 2,
-                        }}
-                        href=""
-                        target="_blank"
-                    >
-                        <img src="https://img.icons8.com/?size=100&id=YFbzdUk7Q3F8&format=png&color=000000" 
-                            alt="Messenger" width={24} height={24} />
-                    </Button>
-                </Stack>
+                        <Button
+                            variant="outlined"
+                            sx={{ flex: 1, borderColor: '#0088cc', color: '#0088cc', borderRadius: 2 }}
+                            href=""
+                            target="_blank"
+                        >
+                            <img
+                                src="https://img.icons8.com/?size=100&id=YFbzdUk7Q3F8&format=png&color=000000"
+                                alt="Messenger"
+                                width={24}
+                                height={24}
+                            />
+                        </Button>
+                    </Stack>
+                </Box>
             </CardActions>
         </Card>
     );
