@@ -4,17 +4,20 @@ import Carousel from "react-material-ui-carousel";
 import ProductImageModal from "../productImageModal/productImageModal";
 import { useState } from "react";
 import type { ProductImageModel } from "../../models/productImageModel";
+import type { ProductOptionModel } from "../../models/productOptionModel";
 
 interface IProductAllDetailsProps {
     id: number;
     title: string;
     price: number;
     oldPrice?: number;
+    frontOptions: ProductOptionModel[];
+    frameOptions: ProductOptionModel[];
     images: ProductImageModel[];
 };
 
 const ProductAllDetails: React.FC<IProductAllDetailsProps> = (props: IProductAllDetailsProps) => {
-    const { id, title, price, oldPrice, images } = props;
+    const { id, title, price, oldPrice, frontOptions, frameOptions, images } = props;
     const [isModalOpen, setModalOpen] = useState<boolean>(false);
     const [selectedImageUrl, setSelectedImageUrl] = useState<string>('');
 
@@ -36,6 +39,8 @@ const ProductAllDetails: React.FC<IProductAllDetailsProps> = (props: IProductAll
                         title={title}
                         price={price}
                         oldPrice={oldPrice}
+                        frontOptions={frontOptions}
+                        frameOptions={frameOptions}
                     />
                 </Grid>
                 <Grid size={7}>
