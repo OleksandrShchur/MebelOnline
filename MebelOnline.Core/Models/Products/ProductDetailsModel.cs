@@ -15,6 +15,7 @@ namespace MebelOnline.Core.Models.Products
         public decimal? Width { get; set; }
         public decimal? Height { get; set; }
         public decimal? Depth { get; set; }
+        public string Note { get; set; }
         public BrandModel Brand { get; set; }
         public IList<ProductOptionModel> FrontOptions { get; set; }
         public IList<ProductOptionModel> FrameOptions { get; set; }
