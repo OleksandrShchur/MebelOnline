@@ -26,6 +26,10 @@ namespace MebelOnline.Db.EntityConfigurations
             builder.Property(p => p.BrandId)
                 .IsRequired(false);
 
+            builder.Property(p => p.Note)
+                .IsRequired(false)
+                .HasMaxLength(255);
+
             builder.HasOne(p => p.Brand)
                 .WithMany()
                 .HasForeignKey(p => p.BrandId)

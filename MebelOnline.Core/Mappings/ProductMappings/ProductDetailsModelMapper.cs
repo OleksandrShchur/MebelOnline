@@ -27,6 +27,7 @@ namespace MebelOnline.Core.Mappings.ProductMappings
                 Width = source.Width,
                 Height = source.Height,
                 Depth = source.Depth,
+                Note = source.Note,
                 Brand = new BrandModel
                 {
                     Name = source.Brand?.Name,

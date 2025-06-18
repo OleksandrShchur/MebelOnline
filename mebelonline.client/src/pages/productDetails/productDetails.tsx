@@ -110,6 +110,7 @@ const ProductDetails: React.FC = () => {
                         title={productDetails.title}
                         price={productDetails.price}
                         oldPrice={productDetails.oldPrice}
+                        note={productDetails.note}
                         frontOptions={productDetails.frontOptions}
                         frameOptions={productDetails.frameOptions}
                         images={productDetails.images}

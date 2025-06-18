@@ -12,6 +12,7 @@ export type ProductDetailsModel = {
     width?: number;
     height?: number;
     depth?: number;
+    note: string;
     brand: BrandModel;
     frontOptions: ProductOptionModel[];
     frameOptions: ProductOptionModel[];
