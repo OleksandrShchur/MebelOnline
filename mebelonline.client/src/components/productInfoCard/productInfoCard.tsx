@@ -1,6 +1,7 @@
-import { Box, Button, Card, CardActions, CardContent, Divider, Grid, IconButton, ImageList, ImageListItem, Stack, Tooltip, Typography } from "@mui/material";
+import { Box, Button, Card, CardActions, CardContent, Divider, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import type { ProductOptionModel } from "../../models/productOptionModel";
+import ProductOptions from "../productOptions/productOptions";
 
 interface IProductInfoCardProps {
     id: number;
@@ -67,7 +68,7 @@ const ProductInfoCard: React.FC<IProductInfoCardProps> = (props: IProductInfoCar
             </CardActions>
             <Divider />
             <br />
-            <CardActions sx={{ justifyContent: 'space-between', alignItems: 'flex-end', px: 2 }}>
+            <CardActions sx={{ justifyContent: 'space-between', alignItems: 'flex-end', px: 2, pb: 2 }}>
                 <Box>
                     <Typography variant="h6" fontWeight="bold" gutterBottom>
                         Є питання чи потрібна консультація?
@@ -124,81 +125,22 @@ const ProductInfoCard: React.FC<IProductInfoCardProps> = (props: IProductInfoCar
                     </Stack>
                 </Box>
             </CardActions>
-            <Divider />
-            <br />
-            <CardActions sx={{ justifyContent: 'space-between', alignItems: 'flex-end', px: 2 }}>
-                <Box>
-                    <Typography variant="body1" gutterBottom>
-                        Кольори та модифікації
-                    </Typography>
-                    <Box>
-                        <Typography variant="body2" color="text.secondary" mb={1}>
-                            Колір корпусу
-                        </Typography>
-                        <Stack spacing={1} direction='row'>
-                            {frameOptions?.map((item) => (
-                                <Box
-                                    key={item.imageUrl}
-                                    sx={{ position: 'relative', display: 'inline-block' }}
-                                >
-                                    <img
-                                        src={item.imageUrl}
-                                        alt={item.colorName}
-                                        loading="lazy"
-                                        style={{ width: '48px', height: '48px', borderRadius: '10%', cursor: 'pointer' }}
-                                    />
-                                    <Box
-                                        sx={{
-                                            display: 'none',
-                                            position: 'absolute',
-                                            bottom: 'calc(100% + 10px)',
-                                            left: '50%',
-                                            transform: 'translateX(-50%)',
-                                            width: 160,
-                                            bgcolor: 'background.paper',
-                                            boxShadow: 3,
-                                            borderRadius: 2,
-                                            p: 1,
-                                            zIndex: 10,
-                                            textAlign: 'center',
-                                            '& img': {
-                                                width: '100%',
-                                                borderRadius: 1,
-                                                mb: 1
-                                            },
-                                            '& .label': {
-                                                fontSize: 14,
-                                                color: 'text.secondary'
-                                            },
-                                            '& .main-label': {
-                                                fontSize: 13,
-                                                color: 'green',
-                                                fontWeight: 500
-                                            }
-                                        }}
-                                        className="hover-preview"
-                                    >
-                                        <img src={item.imageUrl} alt={item.colorName} />
-                                        <Typography className="label">{item.colorName}</Typography>
-                                    </Box>
-                                    <style>
-                                        {`
-                                            .hover-preview {
-                                                pointer-events: none;
-                                            }
-
-                                            div:hover > .hover-preview {
-                                                display: block;
-                                            }
-                                        `}
-                                    </style>
-                                </Box>
-                            ))}
-
-                        </Stack>
-                    </Box>
-                </Box>
-            </CardActions>
+            {frameOptions?.length !== 0 && frontOptions?.length !== 0 &&
+                <>
+                    <Divider />
+                    <br />
+                    <CardActions sx={{ justifyContent: 'space-between', alignItems: 'flex-end', px: 2 }}>
+                        <Box>
+                            <Typography variant="body1" gutterBottom>
+                                Кольори та модифікації
+                            </Typography>
+                            {frameOptions?.length !== 0 && <ProductOptions title='Колір корпусу' options={frameOptions} />}
+                            <br />
+                            {frontOptions?.length !== 0 && <ProductOptions title='Колір фасаду' options={frontOptions} />}
+                        </Box>
+                    </CardActions>
+                </>
+            }
         </Card>
     );
 };
