@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardActions, CardContent, Divider, IconButton, Stack, Tooltip, Typography } from "@mui/material";
+import { Alert, Box, Button, Card, CardActions, CardContent, Divider, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import type { ProductOptionModel } from "../../models/productOptionModel";
 import ProductOptions from "../productOptions/productOptions";
@@ -8,12 +8,13 @@ interface IProductInfoCardProps {
     title: string;
     price: number;
     oldPrice?: number;
+    note: string;
     frontOptions: ProductOptionModel[];
     frameOptions: ProductOptionModel[];
 };
 
 const ProductInfoCard: React.FC<IProductInfoCardProps> = (props: IProductInfoCardProps) => {
-    const { id, title, price, oldPrice, frontOptions, frameOptions } = props;
+    const { id, title, price, oldPrice, note, frontOptions, frameOptions } = props;
 
     return (
         <Card variant="outlined"
@@ -138,6 +139,16 @@ const ProductInfoCard: React.FC<IProductInfoCardProps> = (props: IProductInfoCar
                             <br />
                             {frontOptions?.length !== 0 && <ProductOptions title='Колір фасаду' options={frontOptions} />}
                         </Box>
+                    </CardActions>
+                </>
+            }
+            {note &&
+                <>
+                    <Divider />
+                    <CardActions sx={{ justifyContent: 'space-between', alignItems: 'flex-end', p: 2 }}>
+                        <Alert severity="info">
+                            {note}
+                        </Alert>
                     </CardActions>
                 </>
             }

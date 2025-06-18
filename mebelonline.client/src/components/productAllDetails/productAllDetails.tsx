@@ -11,13 +11,14 @@ interface IProductAllDetailsProps {
     title: string;
     price: number;
     oldPrice?: number;
+    note: string;
     frontOptions: ProductOptionModel[];
     frameOptions: ProductOptionModel[];
     images: ProductImageModel[];
 };
 
 const ProductAllDetails: React.FC<IProductAllDetailsProps> = (props: IProductAllDetailsProps) => {
-    const { id, title, price, oldPrice, frontOptions, frameOptions, images } = props;
+    const { id, title, price, oldPrice, note, frontOptions, frameOptions, images } = props;
     const [isModalOpen, setModalOpen] = useState<boolean>(false);
     const [selectedImageUrl, setSelectedImageUrl] = useState<string>('');
 
@@ -39,6 +40,7 @@ const ProductAllDetails: React.FC<IProductAllDetailsProps> = (props: IProductAll
                         title={title}
                         price={price}
                         oldPrice={oldPrice}
+                        note={note}
                         frontOptions={frontOptions}
                         frameOptions={frameOptions}
                     />
