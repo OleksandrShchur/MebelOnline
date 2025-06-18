@@ -9,7 +9,7 @@
       },
       {
         "Path": "mebelonline.client\\mebelonline.client.esproj",
-        "Action": "Start",
+        "Action": "StartWithoutDebugging",
         "DebugTarget": "localhost (Chrome)"
       }
     ]

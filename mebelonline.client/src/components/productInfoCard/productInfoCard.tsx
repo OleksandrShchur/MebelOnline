@@ -1,18 +1,29 @@
 import { Box, Button, Card, CardActions, CardContent, Divider, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import type { ProductOptionModel } from "../../models/productOptionModel";
+import ProductOptions from "../productOptions/productOptions";
 
 interface IProductInfoCardProps {
     id: number;
     title: string;
     price: number;
     oldPrice?: number;
+    frontOptions: ProductOptionModel[];
+    frameOptions: ProductOptionModel[];
 };
 
-const ProductInfoCard: React.FC<IProductInfoCardProps> = (props: IProductInfoCardProps) => {    
-    const { id, title, price, oldPrice } = props;
+const ProductInfoCard: React.FC<IProductInfoCardProps> = (props: IProductInfoCardProps) => {
+    const { id, title, price, oldPrice, frontOptions, frameOptions } = props;
 
     return (
-        <Card variant="outlined">
+        <Card variant="outlined"
+            sx={{
+                boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.15)',
+                borderRadius: 2,
+                transition: 'box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out',
+                overflow: 'visible'
+            }}
+        >
             <CardContent>
                 <Typography gutterBottom sx={{ color: 'text.secondary', fontSize: 14 }}>
                     Код товару: {id}
@@ -25,21 +36,21 @@ const ProductInfoCard: React.FC<IProductInfoCardProps> = (props: IProductInfoCar
             </CardContent>
             <CardActions sx={{ justifyContent: 'space-between', alignItems: 'flex-end', px: 2 }}>
                 <Box>
-                    {oldPrice && 
+                    {oldPrice &&
                         <Typography
                             variant="h6"
                             sx={{ textDecoration: 'line-through', color: 'gray' }}
                         >
                             {new Intl.NumberFormat('uk-UA', {
-                            minimumFractionDigits: 0,
-                            maximumFractionDigits: 0
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 0
                             }).format(oldPrice)} грн
                         </Typography>
                     }
                     <Typography variant="h5">
                         {new Intl.NumberFormat('uk-UA', {
-                        minimumFractionDigits: 0,
-                        maximumFractionDigits: 0
+                            minimumFractionDigits: 0,
+                            maximumFractionDigits: 0
                         }).format(price)} грн
                     </Typography>
                 </Box>
@@ -57,7 +68,7 @@ const ProductInfoCard: React.FC<IProductInfoCardProps> = (props: IProductInfoCar
             </CardActions>
             <Divider />
             <br />
-            <CardActions sx={{ justifyContent: 'space-between', alignItems: 'flex-end', px: 2 }}>
+            <CardActions sx={{ justifyContent: 'space-between', alignItems: 'flex-end', px: 2, pb: 2 }}>
                 <Box>
                     <Typography variant="h6" fontWeight="bold" gutterBottom>
                         Є питання чи потрібна консультація?
@@ -69,10 +80,12 @@ const ProductInfoCard: React.FC<IProductInfoCardProps> = (props: IProductInfoCar
                     <Stack direction="row" spacing={2} justifyContent="center" width="100%">
                         <Button
                             variant="outlined"
-                            sx={{ flex: 1,
-                            borderColor: 'linear-gradient(to right, #e1306c, #6a00f4)', // note: won't work directly
-                            color: 'linear-gradient(to right, #e1306c, #6a00f4)',
-                            borderRadius: 2 }}
+                            sx={{
+                                flex: 1,
+                                borderColor: 'linear-gradient(to right, #e1306c, #6a00f4)', // note: won't work directly
+                                color: 'linear-gradient(to right, #e1306c, #6a00f4)',
+                                borderRadius: 2
+                            }}
                             href=""
                             target="_blank"
                         >
@@ -112,6 +125,22 @@ const ProductInfoCard: React.FC<IProductInfoCardProps> = (props: IProductInfoCar
                     </Stack>
                 </Box>
             </CardActions>
+            {frameOptions?.length !== 0 && frontOptions?.length !== 0 &&
+                <>
+                    <Divider />
+                    <br />
+                    <CardActions sx={{ justifyContent: 'space-between', alignItems: 'flex-end', px: 2 }}>
+                        <Box>
+                            <Typography variant="body1" gutterBottom>
+                                Кольори та модифікації
+                            </Typography>
+                            {frameOptions?.length !== 0 && <ProductOptions title='Колір корпусу' options={frameOptions} />}
+                            <br />
+                            {frontOptions?.length !== 0 && <ProductOptions title='Колір фасаду' options={frontOptions} />}
+                        </Box>
+                    </CardActions>
+                </>
+            }
         </Card>
     );
 };

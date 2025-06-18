@@ -110,6 +110,8 @@ const ProductDetails: React.FC = () => {
                         title={productDetails.title}
                         price={productDetails.price}
                         oldPrice={productDetails.oldPrice}
+                        frontOptions={productDetails.frontOptions}
+                        frameOptions={productDetails.frameOptions}
                         images={productDetails.images}
                     />
                 </CustomTabPanel>
