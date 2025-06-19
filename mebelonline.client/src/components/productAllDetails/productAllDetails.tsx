@@ -25,11 +25,11 @@ const ProductAllDetails: React.FC<IProductAllDetailsProps> = (props: IProductAll
     };
 
     return (
-        <Stack direction='column' spacing={2}>
-            <>
-                <ProductImageModal isOpen={isModalOpen} handleClose={handleModalClose} imageUrl={selectedImageUrl} />
-                <Grid container spacing={2}>
-                    <Grid size={6}>
+        <>
+            <ProductImageModal isOpen={isModalOpen} handleClose={handleModalClose} imageUrl={selectedImageUrl} />
+            <Grid container spacing={4}>
+                <Grid size={6}>
+                    <Box>
                         <ProductInfoCard id={productDetails.id}
                             title={productDetails.title}
                             price={productDetails.price}
@@ -38,31 +38,8 @@ const ProductAllDetails: React.FC<IProductAllDetailsProps> = (props: IProductAll
                             frontOptions={productDetails.frontOptions}
                             frameOptions={productDetails.frameOptions}
                         />
-                    </Grid>
-                    <Grid size={6}>
-                        <Box sx={{ position: 'sticky', top: 80, zIndex: 1000, pb: 2 }}>
-                            <Carousel animation="slide" autoPlay={false} navButtonsAlwaysVisible>
-                                {productDetails.images?.map((item) =>
-                                    <img key={item.url} src={item.url} alt={productDetails.title}
-                                        onClick={() => handleImageClick(item.url)}
-                                        style={{
-                                            maxHeight: '500px',
-                                            width: 'auto',
-                                            height: 'auto',
-                                            objectFit: 'contain',
-                                            display: 'block',
-                                            margin: '0 auto',
-                                        }}
-                                    />
-                                )}
-                            </Carousel>
-                        </Box>
-                    </Grid>
-                </Grid>
-            </>
-            <>
-                <Grid container spacing={2}>
-                    <Grid size={6}>
+                    </Box>
+                    <Box>
                         <Card variant="outlined"
                             sx={{
                                 boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.15)',
@@ -138,22 +115,29 @@ const ProductAllDetails: React.FC<IProductAllDetailsProps> = (props: IProductAll
                                 </>
                             }
                         </Card>
-                    </Grid>
-                    <Grid size={6}>
-                        <Card variant="outlined"
-                            sx={{
-                                boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.15)',
-                                borderRadius: 2,
-                                transition: 'box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out',
-                                overflow: 'visible'
-                            }}
-                        >
-                            column 2
-                        </Card>
-                    </Grid>
+                    </Box>
                 </Grid>
-            </>
-        </Stack>
+                <Grid size={6}>
+                    <Box sx={{ position: 'sticky', top: 80, zIndex: 1000, pb: 2 }}>
+                        <Carousel animation="slide" autoPlay={false} navButtonsAlwaysVisible>
+                            {productDetails.images?.map((item) =>
+                                <img key={item.url} src={item.url} alt={productDetails.title}
+                                    onClick={() => handleImageClick(item.url)}
+                                    style={{
+                                        maxHeight: '500px',
+                                        width: 'auto',
+                                        height: 'auto',
+                                        objectFit: 'contain',
+                                        display: 'block',
+                                        margin: '0 auto',
+                                    }}
+                                />
+                            )}
+                        </Carousel>
+                    </Box>
+                </Grid>
+            </Grid>
+        </>
     );
 };
 
