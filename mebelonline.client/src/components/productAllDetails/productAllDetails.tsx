@@ -40,9 +40,9 @@ const ProductAllDetails: React.FC<IProductAllDetailsProps> = (props: IProductAll
                         />
                     </Grid>
                     <Grid size={6}>
-                        <Carousel animation="slide" autoPlay={false} navButtonsAlwaysVisible>
-                            {
-                                productDetails.images?.map((item) =>
+                        <Box sx={{ position: 'sticky', top: 80, zIndex: 1000, pb: 2 }}>
+                            <Carousel animation="slide" autoPlay={false} navButtonsAlwaysVisible>
+                                {productDetails.images?.map((item) =>
                                     <img key={item.url} src={item.url} alt={productDetails.title}
                                         onClick={() => handleImageClick(item.url)}
                                         style={{
@@ -54,9 +54,9 @@ const ProductAllDetails: React.FC<IProductAllDetailsProps> = (props: IProductAll
                                             margin: '0 auto',
                                         }}
                                     />
-                                )
-                            }
-                        </Carousel>
+                                )}
+                            </Carousel>
+                        </Box>
                     </Grid>
                 </Grid>
             </>
@@ -77,7 +77,7 @@ const ProductAllDetails: React.FC<IProductAllDetailsProps> = (props: IProductAll
                             {(productDetails.width || productDetails.height || productDetails.depth) &&
                                 <>
                                     <Divider />
-                                    <CardActions sx={{ justifyContent: 'space-evenly', alignItems: 'flex-end', px: 2, pb: 2 }}>
+                                    <CardActions sx={{ justifyContent: 'space-evenly', alignItems: 'flex-end', p: 2 }}>
                                         {productDetails.width &&
                                             <>
                                                 <Box>
