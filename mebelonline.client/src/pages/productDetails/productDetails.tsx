@@ -106,14 +106,7 @@ const ProductDetails: React.FC = () => {
                     </Tabs>
                 </Box>
                 <CustomTabPanel value={value} index={0}>
-                    <ProductAllDetails id={productDetails.id}
-                        title={productDetails.title}
-                        price={productDetails.price}
-                        oldPrice={productDetails.oldPrice}
-                        note={productDetails.note}
-                        frontOptions={productDetails.frontOptions}
-                        frameOptions={productDetails.frameOptions}
-                        images={productDetails.images}
+                    <ProductAllDetails productDetails={productDetails}
                     />
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={1}>
