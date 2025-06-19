@@ -17,7 +17,7 @@ const ProductInfoCard: React.FC<IProductInfoCardProps> = (props: IProductInfoCar
     const { id, title, price, oldPrice, note, frontOptions, frameOptions } = props;
 
     return (
-        <Box sx={{ position: 'sticky', top: 80, zIndex: 1000, pb: 2 }}>
+        <Box sx={{  pb: 2 }}>
             <Card variant="outlined"
                 sx={{
                     boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.15)',
