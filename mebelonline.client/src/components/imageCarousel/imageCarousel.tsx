@@ -6,12 +6,12 @@ import { DotButton, useDotButton } from './imageCarouselDotButton';
 import './styles/embla.css';
 import type { ProductImageModel } from '../../models/productImageModel';
 
-interface ImageCarouselProps {
+interface IImageCarouselProps {
     images: ProductImageModel[];
     options?: EmblaOptionsType;
 };
 
-const ImageCarousel: React.FC<ImageCarouselProps> = (props) => {
+const ImageCarousel: React.FC<IImageCarouselProps> = (props) => {
     const { images, options } = props;
     const [emblaRef, emblaApi] = useEmblaCarousel(options);
 
