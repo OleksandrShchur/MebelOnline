@@ -1,10 +1,13 @@
-import { Box, Card, CardActions, CardContent, Divider, Grid, Stack, Typography } from "@mui/material";
+import { Box, Card, CardActions, CardContent, Divider, Grid, Typography } from "@mui/material";
 import ProductInfoCard from "../productInfoCard/productInfoCard";
-import Carousel from "react-material-ui-carousel";
 import ProductImageModal from "../productImageModal/productImageModal";
 import { useState } from "react";
 import type { ProductDetailsModel } from "../../models/productDetailsModel";
 import CloseIcon from '@mui/icons-material/Close';
+import { type EmblaOptionsType } from "embla-carousel";
+import ImageCarousel from "../imageCarousel/imageCarousel";
+
+const OPTIONS: EmblaOptionsType = { loop: true };
 
 interface IProductAllDetailsProps {
     productDetails: ProductDetailsModel;
@@ -119,21 +122,7 @@ const ProductAllDetails: React.FC<IProductAllDetailsProps> = (props: IProductAll
                 </Grid>
                 <Grid size={6}>
                     <Box sx={{ position: 'sticky', top: 80, zIndex: 1000, pb: 2 }}>
-                        <Carousel animation="slide" autoPlay={false} navButtonsAlwaysVisible>
-                            {productDetails.images?.map((item) =>
-                                <img key={item.url} src={item.url} alt={productDetails.title}
-                                    onClick={() => handleImageClick(item.url)}
-                                    style={{
-                                        maxHeight: '500px',
-                                        width: 'auto',
-                                        height: 'auto',
-                                        objectFit: 'contain',
-                                        display: 'block',
-                                        margin: '0 auto',
-                                    }}
-                                />
-                            )}
-                        </Carousel>
+                        <ImageCarousel images={productDetails.images} options={OPTIONS} />
                     </Box>
                 </Grid>
             </Grid>
