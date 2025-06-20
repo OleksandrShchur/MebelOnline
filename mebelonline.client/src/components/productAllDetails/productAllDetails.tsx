@@ -16,20 +16,21 @@ interface IProductAllDetailsProps {
 const ProductAllDetails: React.FC<IProductAllDetailsProps> = (props: IProductAllDetailsProps) => {
     const { productDetails } = props;
     const [isModalOpen, setModalOpen] = useState<boolean>(false);
-    const [selectedImageUrl, setSelectedImageUrl] = useState<string>('');
+    const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
 
     const handleModalClose = () => {
         setModalOpen(false);
     };
 
-    const handleImageClick = (imageUrl: string) => {
-        setSelectedImageUrl(imageUrl);
+    const handleImageClick = (index: number) => {
+        setSelectedImageIndex(index);
         setModalOpen(true);
     };
 
     return (
         <>
-            <ProductImageModal isOpen={isModalOpen} handleClose={handleModalClose} imageUrl={selectedImageUrl} />
+            <ProductImageModal isOpen={isModalOpen} handleClose={handleModalClose} images={productDetails.images}
+                startIndex={selectedImageIndex} />
             <Grid container spacing={4}>
                 <Grid size={6}>
                     <Box>
@@ -122,7 +123,9 @@ const ProductAllDetails: React.FC<IProductAllDetailsProps> = (props: IProductAll
                 </Grid>
                 <Grid size={6}>
                     <Box sx={{ position: 'sticky', top: 80, zIndex: 1000, pb: 2 }}>
-                        <ImageCarousel images={productDetails.images} options={OPTIONS} />
+                        <ImageCarousel images={productDetails.images} options={OPTIONS} handleOpen={handleImageClick}
+                            slideHeight="60vh"
+                        />
                     </Box>
                 </Grid>
             </Grid>
