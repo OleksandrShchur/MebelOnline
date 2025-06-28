@@ -108,13 +108,36 @@ const ProductAllDetails: React.FC<IProductAllDetailsProps> = (props: IProductAll
                             {productDetails.attributes &&
                                 <>
                                     <Divider />
-                                    <CardActions sx={{ justifyContent: 'space-between', alignItems: 'flex-end', px: 2, pb: 2 }}>
+                                    <CardActions
+                                        sx={{
+                                            flexWrap: 'wrap',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'flex-end',
+                                            gap: '16px',
+                                            px: 2,
+                                            pb: 2
+                                        }}>
                                         {productDetails.attributes.map(item =>
                                             <Box>
                                                 <Typography variant="subtitle1">{item.key}</Typography>
                                                 <Typography variant="subtitle1">{item.value}</Typography>
                                             </Box>
                                         )}
+                                    </CardActions>
+                                </>
+                            }
+                            {productDetails.description &&
+                                <>
+                                    <Divider />
+                                    <CardActions
+                                        sx={{
+                                            flexDirection: 'column',
+                                            alignItems: 'start',
+                                            px: 2,
+                                            pb: 2
+                                        }}>
+                                        <Typography variant="h6">Опис</Typography>
+                                        <Typography>{productDetails.description}</Typography>
                                     </CardActions>
                                 </>
                             }

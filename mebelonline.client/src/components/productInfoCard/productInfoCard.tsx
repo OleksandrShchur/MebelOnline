@@ -2,6 +2,7 @@ import { Alert, Box, Button, Card, CardActions, CardContent, Divider, IconButton
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import type { ProductOptionModel } from "../../models/productOptionModel";
 import ProductOptions from "../productOptions/productOptions";
+import { useEffect, useState } from "react";
 
 interface IProductInfoCardProps {
     id: number;
@@ -15,9 +16,29 @@ interface IProductInfoCardProps {
 
 const ProductInfoCard: React.FC<IProductInfoCardProps> = (props: IProductInfoCardProps) => {
     const { id, title, price, oldPrice, note, frontOptions, frameOptions } = props;
+    const [selectedFrontOption, setSelectedFrontOption] = useState<string>('');
+    const [selectedFrameOption, setSelectedFrameOption] = useState<string>('');
+
+    useEffect(() => {
+        if (frontOptions?.length) {
+            setSelectedFrontOption(frontOptions[0].colorName);
+        }
+
+        if (frameOptions?.length) {
+            setSelectedFrameOption(frameOptions[0].colorName);
+        }
+    }, [frontOptions, frameOptions]);
+
+    const handleFrameOptionChange = (option: string) => {
+        setSelectedFrameOption(option);
+    };
+
+    const handleFrontOptionChange = (option: string) => {
+        setSelectedFrontOption(option)
+    };
 
     return (
-        <Box sx={{  pb: 2 }}>
+        <Box sx={{ pb: 2 }}>
             <Card variant="outlined"
                 sx={{
                     boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.15)',
@@ -136,9 +157,22 @@ const ProductInfoCard: React.FC<IProductInfoCardProps> = (props: IProductInfoCar
                                 <Typography variant="body1" gutterBottom>
                                     Кольори та модифікації
                                 </Typography>
-                                {frameOptions?.length !== 0 && <ProductOptions title='Колір корпусу' options={frameOptions} />}
+                                {frameOptions?.length !== 0 &&
+                                    <ProductOptions
+                                        handleChange={handleFrameOptionChange}
+                                        title='Колір корпусу'
+                                        options={frameOptions}
+                                        selected={selectedFrameOption}
+                                    />
+                                }
                                 <br />
-                                {frontOptions?.length !== 0 && <ProductOptions title='Колір фасаду' options={frontOptions} />}
+                                {frontOptions?.length !== 0 &&
+                                    <ProductOptions
+                                        handleChange={handleFrontOptionChange}
+                                        title='Колір фасаду'
+                                        options={frontOptions}
+                                        selected={selectedFrontOption}
+                                    />}
                             </Box>
                         </CardActions>
                     </>
