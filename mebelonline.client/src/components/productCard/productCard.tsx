@@ -9,6 +9,7 @@ import React from 'react';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import type { ProductCardModel } from '../../models/productCardModel';
 import { CardActions, Link } from '@mui/material';
+import priceFormatter from '../../helpers/priceFormatter';
 
 const ProductCard: React.FC<{ product: ProductCardModel }> = ({ product }) => {
   return (
@@ -58,17 +59,11 @@ const ProductCard: React.FC<{ product: ProductCardModel }> = ({ product }) => {
                 variant="subtitle2"
                 sx={{ textDecoration: 'line-through', color: 'gray' }}
               >
-                {new Intl.NumberFormat('uk-UA', {
-                  minimumFractionDigits: 0,
-                  maximumFractionDigits: 0
-                }).format(product.oldPrice)} грн
+                {priceFormatter(product.oldPrice)} грн
               </Typography>
             }
             <Typography variant="h6">
-              {new Intl.NumberFormat('uk-UA', {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0
-              }).format(product.price)} грн
+              {priceFormatter(product.price)} грн
             </Typography>
           </Box>
 

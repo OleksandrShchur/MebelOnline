@@ -3,6 +3,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import type { ProductOptionModel } from "../../models/productOptionModel";
 import ProductOptions from "../productOptions/productOptions";
 import { useEffect, useState } from "react";
+import priceFormatter from "../../helpers/priceFormatter";
 
 interface IProductInfoCardProps {
     id: number;
@@ -64,17 +65,11 @@ const ProductInfoCard: React.FC<IProductInfoCardProps> = (props: IProductInfoCar
                                 variant="h6"
                                 sx={{ textDecoration: 'line-through', color: 'gray' }}
                             >
-                                {new Intl.NumberFormat('uk-UA', {
-                                    minimumFractionDigits: 0,
-                                    maximumFractionDigits: 0
-                                }).format(oldPrice)} грн
+                                {priceFormatter(oldPrice)} грн
                             </Typography>
                         }
                         <Typography variant="h5">
-                            {new Intl.NumberFormat('uk-UA', {
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 0
-                            }).format(price)} грн
+                            {priceFormatter(price)} грн
                         </Typography>
                     </Box>
 
