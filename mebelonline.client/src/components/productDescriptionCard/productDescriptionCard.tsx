@@ -1,4 +1,4 @@
-import { Box, Card, CardActions, CardContent, Divider, Typography } from "@mui/material";
+import { Box, Card, CardActions, CardContent, Divider, ImageList, ImageListItem, Typography } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import type { ProductAttributeValueModel } from "../../models/productAttributeValueModel";
 
@@ -80,22 +80,18 @@ const ProductDescriptionCard: React.FC<IProductDescriptionCard> = (props: IProdu
                 {attributes?.length !== 0 &&
                     <>
                         <Divider />
-                        <CardActions
-                            sx={{
-                                flexWrap: 'wrap',
-                                justifyContent: 'space-between',
-                                alignItems: 'flex-end',
-                                gap: '16px',
-                                px: 2,
-                                pb: 2
-                            }}>
-                            {attributes?.map(item =>
-                                <Box>
-                                    <Typography variant="subtitle1">{item.key}</Typography>
-                                    <Typography variant="subtitle1">{item.value}</Typography>
-                                </Box>
-                            )}
-                        </CardActions>
+                        <ImageList sx={{px: 2, py: 0.5}} variant="masonry" cols={3} gap={8}>
+                            {attributes?.map((item) => (
+                                <ImageListItem key={item.key}>
+                                    <Card>
+                                        <CardContent>
+                                            <Typography fontWeight="bold">{item.key}</Typography>
+                                            <Typography>{item.value}</Typography>
+                                        </CardContent>
+                                    </Card>
+                                </ImageListItem>
+                            ))}
+                        </ImageList>
                     </>
                 }
                 {description &&
