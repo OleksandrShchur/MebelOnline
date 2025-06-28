@@ -1,11 +1,11 @@
-import { Box, Card, CardActions, CardContent, Divider, Grid, Typography } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import ProductInfoCard from "../productInfoCard/productInfoCard";
 import ProductImageModal from "../productImageModal/productImageModal";
 import { useState } from "react";
 import type { ProductDetailsModel } from "../../models/productDetailsModel";
-import CloseIcon from '@mui/icons-material/Close';
 import { type EmblaOptionsType } from "embla-carousel";
 import ImageCarousel from "../imageCarousel/imageCarousel";
+import ProductDescriptionCard from "../productDescriptionCard/productDescriptionCard";
 
 const OPTIONS: EmblaOptionsType = { loop: true };
 
@@ -44,104 +44,14 @@ const ProductAllDetails: React.FC<IProductAllDetailsProps> = (props: IProductAll
                         />
                     </Box>
                     <Box>
-                        <Card variant="outlined"
-                            sx={{
-                                boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.15)',
-                                borderRadius: 2,
-                                transition: 'box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out',
-                                overflow: 'visible'
-                            }}
-                        >
-                            <CardContent>
-                                <Typography variant="h5">Характеристики - {productDetails.title}</Typography>
-                            </CardContent>
-                            {(productDetails.width || productDetails.height || productDetails.depth) &&
-                                <>
-                                    <Divider />
-                                    <CardActions sx={{ justifyContent: 'space-evenly', alignItems: 'flex-end', p: 2 }}>
-                                        {productDetails.width &&
-                                            <>
-                                                <Box>
-                                                    <Typography variant="subtitle2">Ширина</Typography>
-                                                    <Typography variant="h5">
-                                                        {new Intl.NumberFormat('uk-UA', {
-                                                            minimumFractionDigits: 2,
-                                                            maximumFractionDigits: 2
-                                                        }).format(productDetails.width)} см
-                                                    </Typography>
-                                                </Box>
-                                                <Typography>
-                                                    <CloseIcon />
-                                                </Typography>
-                                            </>
-                                        }
-                                        {productDetails.height &&
-                                            <>
-                                                <Box>
-                                                    <Typography variant="subtitle2">Висота</Typography>
-                                                    <Typography variant="h5">
-                                                        {new Intl.NumberFormat('uk-UA', {
-                                                            minimumFractionDigits: 2,
-                                                            maximumFractionDigits: 2
-                                                        }).format(productDetails.height)} см
-                                                    </Typography>
-                                                </Box>
-                                                <Typography>
-                                                    <CloseIcon />
-                                                </Typography>
-                                            </>
-                                        }
-                                        {productDetails.depth &&
-                                            <Box>
-                                                <Typography variant="subtitle2">Глибина</Typography>
-                                                <Typography variant="h5">
-                                                    {new Intl.NumberFormat('uk-UA', {
-                                                        minimumFractionDigits: 2,
-                                                        maximumFractionDigits: 2
-                                                    }).format(productDetails.depth)} см
-                                                </Typography>
-                                            </Box>
-                                        }
-                                    </CardActions>
-                                </>
-                            }
-                            {productDetails.attributes?.length !== 0 &&
-                                <>
-                                    <Divider />
-                                    <CardActions
-                                        sx={{
-                                            flexWrap: 'wrap',
-                                            justifyContent: 'space-between',
-                                            alignItems: 'flex-end',
-                                            gap: '16px',
-                                            px: 2,
-                                            pb: 2
-                                        }}>
-                                        {productDetails.attributes.map(item =>
-                                            <Box>
-                                                <Typography variant="subtitle1">{item.key}</Typography>
-                                                <Typography variant="subtitle1">{item.value}</Typography>
-                                            </Box>
-                                        )}
-                                    </CardActions>
-                                </>
-                            }
-                            {productDetails.description &&
-                                <>
-                                    <Divider />
-                                    <CardActions
-                                        sx={{
-                                            flexDirection: 'column',
-                                            alignItems: 'start',
-                                            px: 2,
-                                            pb: 2
-                                        }}>
-                                        <Typography variant="h6">Опис</Typography>
-                                        <Typography>{productDetails.description}</Typography>
-                                    </CardActions>
-                                </>
-                            }
-                        </Card>
+                        <ProductDescriptionCard
+                            title={productDetails.title}
+                            width={productDetails.width}
+                            height={productDetails.height}
+                            depth={productDetails.depth}
+                            description={productDetails.description}
+                            attributes={productDetails.attributes}
+                        />
                     </Box>
                 </Grid>
                 <Grid size={6}>
