@@ -51,8 +51,26 @@ const ProductCard: React.FC<{ product: ProductCardModel }> = ({ product }) => {
           </CardContent>
         </Link>
 
-        <CardActions sx={{ justifyContent: 'space-between', px: 2 }}>
-          <Typography variant="h6">{product.price.toLocaleString()} грн</Typography>
+        <CardActions sx={{ justifyContent: 'space-between', alignItems: 'flex-end', px: 2 }}>
+          <Box>
+            {product.oldPrice &&
+              <Typography
+                variant="subtitle2"
+                sx={{ textDecoration: 'line-through', color: 'gray' }}
+              >
+                {new Intl.NumberFormat('uk-UA', {
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0
+                }).format(product.oldPrice)} грн
+              </Typography>
+            }
+            <Typography variant="h6">
+              {new Intl.NumberFormat('uk-UA', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+              }).format(product.price)} грн
+            </Typography>
+          </Box>
 
           <Tooltip title="Додати в обране">
             <IconButton
