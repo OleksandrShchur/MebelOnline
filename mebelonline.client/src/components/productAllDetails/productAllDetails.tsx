@@ -105,7 +105,7 @@ const ProductAllDetails: React.FC<IProductAllDetailsProps> = (props: IProductAll
                                     </CardActions>
                                 </>
                             }
-                            {productDetails.attributes &&
+                            {productDetails.attributes?.length !== 0 &&
                                 <>
                                     <Divider />
                                     <CardActions
