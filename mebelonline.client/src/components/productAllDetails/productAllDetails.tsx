@@ -117,7 +117,7 @@ const ProductAllDetails: React.FC<IProductAllDetailsProps> = (props: IProductAll
                                             px: 2,
                                             pb: 2
                                         }}>
-                                        {productDetails.attributes.map(item =>
+                                        {productDetails?.attributes?.map(item =>
                                             <Box>
                                                 <Typography variant="subtitle1">{item.key}</Typography>
                                                 <Typography variant="subtitle1">{item.value}</Typography>

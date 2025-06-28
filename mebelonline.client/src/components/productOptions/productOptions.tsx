@@ -13,9 +13,14 @@ const ProductOptions: React.FC<IProductOptionsProps> = (props: IProductOptionsPr
 
     return (
         <>
-            <Typography variant="body2" color="text.secondary" mb={1}>
-                {title}: {selected}
-            </Typography>
+            <Box sx={{ display: 'flex' }}>
+                <Typography variant="body2" color="text.secondary" mb={1}>
+                    {title}
+                </Typography>
+                <Typography variant="body2" mb={1}>
+                    {`: ${selected}`}
+                </Typography>
+            </Box>
             <Stack spacing={1} direction='row'>
                 {options?.map((item) => (
                     <Box
