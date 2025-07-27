@@ -11,7 +11,7 @@ interface IProductAllDetailsMobileProps {
     handleImageClick: (index: number) => void;
 };
 
-export const ProductAllDetailsMobile: React.FC<IProductAllDetailsMobileProps> = (props: IProductAllDetailsMobileProps) => {
+const ProductAllDetailsMobile: React.FC<IProductAllDetailsMobileProps> = (props: IProductAllDetailsMobileProps) => {
     const { productDetails, options, handleImageClick } = props;
 
     return (
@@ -48,3 +48,5 @@ export const ProductAllDetailsMobile: React.FC<IProductAllDetailsMobileProps> = 
         </Grid>
     );
 }
+
+export default ProductAllDetailsMobile;

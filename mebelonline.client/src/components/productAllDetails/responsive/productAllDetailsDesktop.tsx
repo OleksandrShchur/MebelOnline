@@ -11,7 +11,7 @@ interface IProductAllDetailsDesktopProps {
     handleImageClick: (index: number) => void;
 };
 
-export const ProductAllDetailsDesktop: React.FC<IProductAllDetailsDesktopProps> = (props: IProductAllDetailsDesktopProps) => {
+const ProductAllDetailsDesktop: React.FC<IProductAllDetailsDesktopProps> = (props: IProductAllDetailsDesktopProps) => {
     const { productDetails, options, handleImageClick } = props;
 
     return (
@@ -48,3 +48,5 @@ export const ProductAllDetailsDesktop: React.FC<IProductAllDetailsDesktopProps> 
         </Grid>
     );
 }
+
+export default ProductAllDetailsDesktop;
