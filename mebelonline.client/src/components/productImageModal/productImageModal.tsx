@@ -11,10 +11,11 @@ interface IProductImageModalProps {
     handleClose: () => void;
     images: ProductImageModel[];
     startIndex: number;
+    rightMargin: number;
 }
 
 const ProductImageModal: React.FC<IProductImageModalProps> = (props: IProductImageModalProps) => {
-    const { isOpen, handleClose, images, startIndex } = props;
+    const { isOpen, handleClose, images, startIndex, rightMargin } = props;
 
     return (
         <Dialog
@@ -30,7 +31,7 @@ const ProductImageModal: React.FC<IProductImageModalProps> = (props: IProductIma
                     sx={{
                         position: "absolute",
                         top: 8,
-                        right: 8,
+                        right: rightMargin,
                         zIndex: 1,
                         color: (theme) => theme.palette.grey[500],
                         backgroundColor: "rgba(255,255,255,0.8)",
