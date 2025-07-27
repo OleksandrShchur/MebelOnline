@@ -49,37 +49,6 @@ const ProductAllDetails: React.FC<IProductAllDetailsProps> = (props: IProductAll
                     options={OPTIONS}
                     handleImageClick={handleImageClick} />
             }
-            {/* <Grid container spacing={4}>
-                <Grid size={6}>
-                    <Box>
-                        <ProductInfoCard id={productDetails.id}
-                            title={productDetails.title}
-                            price={productDetails.price}
-                            oldPrice={productDetails.oldPrice}
-                            note={productDetails.note}
-                            frontOptions={productDetails.frontOptions}
-                            frameOptions={productDetails.frameOptions}
-                        />
-                    </Box>
-                    <Box>
-                        <ProductDescriptionCard
-                            title={productDetails.title}
-                            width={productDetails.width}
-                            height={productDetails.height}
-                            depth={productDetails.depth}
-                            description={productDetails.description}
-                            attributes={productDetails.attributes}
-                        />
-                    </Box>
-                </Grid>
-                <Grid size={6}>
-                    <Box sx={{ position: 'sticky', top: 80, zIndex: 1000, pb: 2 }}>
-                        <ImageCarousel images={productDetails.images} options={OPTIONS} handleOpen={handleImageClick}
-                            slideHeight="60vh"
-                        />
-                    </Box>
-                </Grid>
-            </Grid> */}
         </>
     );
 };
