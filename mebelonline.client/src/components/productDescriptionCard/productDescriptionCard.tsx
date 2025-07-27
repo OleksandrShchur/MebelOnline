@@ -1,5 +1,4 @@
 import { Box, Card, CardActions, CardContent, Divider, ImageList, ImageListItem, Typography } from "@mui/material";
-import CloseIcon from '@mui/icons-material/Close';
 import type { ProductAttributeValueModel } from "../../models/productAttributeValueModel";
 
 interface IProductDescriptionCard {
@@ -30,57 +29,61 @@ const ProductDescriptionCard: React.FC<IProductDescriptionCard> = (props: IProdu
                 {(width || height || depth) &&
                     <>
                         <Divider />
-                        <CardActions sx={{ justifyContent: 'space-evenly', alignItems: 'flex-end', p: 2 }}>
-                            {width &&
+                        <CardActions sx={{ justifyContent: 'space-evenly', alignItems: 'center', p: 2, display: 'flex', flexWrap: 'wrap' }}>
+                            {width && (
                                 <>
-                                    <Box>
-                                        <Typography variant="subtitle2">Ширина</Typography>
-                                        <Typography variant="h5">
+                                    <Box sx={{ textAlign: 'center' }}>
+                                        <Typography variant="caption">Ширина</Typography>
+                                        <Typography variant="h6">
                                             {new Intl.NumberFormat('uk-UA', {
                                                 minimumFractionDigits: 2,
                                                 maximumFractionDigits: 2
                                             }).format(width)} см
                                         </Typography>
                                     </Box>
-                                    <Typography>
-                                        <CloseIcon />
-                                    </Typography>
+                                    {height && (
+                                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                            <Typography variant="h6" sx={{ mx: 1 }}>×</Typography>
+                                        </Box>
+                                    )}
                                 </>
-                            }
-                            {height &&
+                            )}
+                            {height && (
                                 <>
-                                    <Box>
-                                        <Typography variant="subtitle2">Висота</Typography>
-                                        <Typography variant="h5">
+                                    <Box sx={{ textAlign: 'center' }}>
+                                        <Typography variant="caption">Висота</Typography>
+                                        <Typography variant="h6">
                                             {new Intl.NumberFormat('uk-UA', {
                                                 minimumFractionDigits: 2,
                                                 maximumFractionDigits: 2
                                             }).format(height)} см
                                         </Typography>
                                     </Box>
-                                    <Typography>
-                                        <CloseIcon />
-                                    </Typography>
+                                    {depth && (
+                                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                            <Typography variant="h6" sx={{ mx: 1 }}>×</Typography>
+                                        </Box>
+                                    )}
                                 </>
-                            }
-                            {depth &&
-                                <Box>
-                                    <Typography variant="subtitle2">Глибина</Typography>
-                                    <Typography variant="h5">
+                            )}
+                            {depth && (
+                                <Box sx={{ textAlign: 'center' }}>
+                                    <Typography variant="caption">Глибина</Typography>
+                                    <Typography variant="h6">
                                         {new Intl.NumberFormat('uk-UA', {
                                             minimumFractionDigits: 2,
                                             maximumFractionDigits: 2
                                         }).format(depth)} см
                                     </Typography>
                                 </Box>
-                            }
+                            )}
                         </CardActions>
                     </>
                 }
                 {attributes?.length !== 0 &&
                     <>
                         <Divider />
-                        <ImageList sx={{px: 2, py: 0.5}} variant="masonry" cols={3} gap={8}>
+                        <ImageList sx={{ px: 2, py: 0.5 }} variant="masonry" cols={3} gap={8}>
                             {attributes?.map((item) => (
                                 <ImageListItem key={item.key}>
                                     <Card>
