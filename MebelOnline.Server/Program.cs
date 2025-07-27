@@ -16,6 +16,7 @@ builder.Services.AddSingleton<IMappingService<CategoryEntity, CategoryModel>, Ca
 builder.Services.AddSingleton<IMappingService<ProductEntity, ProductCardModel>, ProductCardModelMapper>();
 builder.Services.AddSingleton<IMappingService<ProductEntity, ProductDetailsModel>, ProductDetailsModelMapper>();
 builder.Services.AddSingleton<IMappingService<CategoryEntity, CategoryBreadcrumbModel>, CategoryBreadcrumbMapper>();
+builder.Services.AddSingleton<IMappingService<CategoryEntity, CategoryCatalogModel>, CategoryCatalogModelMapper>();
 
 // Register services
 builder.Services.AddScoped<ICategoryService, CategoryService>();
