@@ -1,4 +1,15 @@
-import { Box, Card, CardActions, CardContent, Divider, ImageList, ImageListItem, Typography } from "@mui/material";
+import {
+    Box,
+    Card,
+    CardActions,
+    CardContent,
+    Divider,
+    ImageList,
+    ImageListItem,
+    Typography,
+    useMediaQuery,
+    useTheme
+} from "@mui/material";
 import type { ProductAttributeValueModel } from "../../models/productAttributeValueModel";
 
 interface IProductDescriptionCard {
@@ -12,6 +23,11 @@ interface IProductDescriptionCard {
 
 const ProductDescriptionCard: React.FC<IProductDescriptionCard> = (props: IProductDescriptionCard) => {
     const { title, width, height, depth, description, attributes } = props;
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const attributeRowCount = isMobile
+        ? 2
+        : 3;
 
     return (
         <>
@@ -83,7 +99,7 @@ const ProductDescriptionCard: React.FC<IProductDescriptionCard> = (props: IProdu
                 {attributes?.length !== 0 &&
                     <>
                         <Divider />
-                        <ImageList sx={{ px: 2, py: 0.5 }} variant="masonry" cols={3} gap={8}>
+                        <ImageList sx={{ px: 2, py: 0.5 }} variant="masonry" cols={attributeRowCount} gap={8}>
                             {attributes?.map((item) => (
                                 <ImageListItem key={item.key}>
                                     <Card>
