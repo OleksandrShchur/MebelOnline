@@ -43,7 +43,7 @@ const ProductDescriptionCard: React.FC<IProductDescriptionCard> = (props: IProdu
                                     </Box>
                                     {height && (
                                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                            <Typography variant="h6" sx={{ mx: 1 }}>×</Typography>
+                                            <Typography fontWeight="bold" variant="button" sx={{ mx: 1 }}>×</Typography>
                                         </Box>
                                     )}
                                 </>
@@ -61,7 +61,7 @@ const ProductDescriptionCard: React.FC<IProductDescriptionCard> = (props: IProdu
                                     </Box>
                                     {depth && (
                                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                            <Typography variant="h6" sx={{ mx: 1 }}>×</Typography>
+                                            <Typography fontWeight="bold" variant="button" sx={{ mx: 1 }}>×</Typography>
                                         </Box>
                                     )}
                                 </>
