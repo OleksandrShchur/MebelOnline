@@ -11,7 +11,13 @@ import type { ProductCardModel } from '../../models/productCardModel';
 import { CardActions, Link } from '@mui/material';
 import priceFormatter from '../../helpers/priceFormatter';
 
-const ProductCard: React.FC<{ product: ProductCardModel }> = ({ product }) => {
+interface IProductCardProps {
+  product: ProductCardModel;
+};
+
+const ProductCard: React.FC<IProductCardProps> = (props: IProductCardProps) => {
+  const { product } = props;
+
   return (
     <Card
       sx={{
