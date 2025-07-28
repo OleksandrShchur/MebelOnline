@@ -15,8 +15,26 @@ import ListItemButton from '@mui/material/ListItemButton';
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
 import CloseIcon from '@mui/icons-material/Close';
+import { Link } from 'react-router-dom';
 
-const pages = ['Головна', 'Контакти', 'Про нас'];
+const PAGES = [
+  {
+    title: 'Головна',
+    url: ''
+  },
+  {
+    title: 'Каталог',
+    url: '/catalog'
+  },
+  {
+    title: 'Контакти',
+    url: ''
+  },
+  {
+    title: 'Про нас',
+    url: ''
+  },
+];
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -71,10 +89,14 @@ const Header: React.FC = () => {
     <div>
       <Toolbar />
       <List>
-        {pages.map((text) => (
-          <ListItem key={text} disablePadding>
+        {PAGES.map((page) => (
+          <ListItem key={page.title} disablePadding>
             <ListItemButton>
-              <ListItemText primary={text} />
+              <ListItemText>
+                <Link to={page.url} style={{ textDecoration: "none", color: "inherit", }}>
+                  {page.title}
+                </Link>
+              </ListItemText>
             </ListItemButton>
           </ListItem>
         ))}
@@ -121,13 +143,15 @@ const Header: React.FC = () => {
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+            {PAGES.map((page) => (
               <Button
-                key={page}
+                key={page.title}
                 onClick={toggleDrawer}
                 sx={{ margin: 2, my: 2, color: 'white', display: 'block' }}
               >
-                {page}
+                <Link to={page.url} style={{ textDecoration: "none", color: "inherit", }}>
+                  {page.title}
+                </Link>
               </Button>
             ))}
           </Box>
