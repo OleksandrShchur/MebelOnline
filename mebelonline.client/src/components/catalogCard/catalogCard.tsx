@@ -1,6 +1,8 @@
 import { Box, Card, CardContent, CardMedia, Link, Tooltip, Typography } from "@mui/material";
 import type { CatalogModel } from "../../models/catalogModel";
 
+const SUBCATEGORIES_COUNT = 4;
+
 interface ICatalogCardProps {
     category: CatalogModel;
 };
@@ -44,20 +46,20 @@ const CatalogCard: React.FC<ICatalogCardProps> = (props: ICatalogCardProps) => {
                                 {category.name}
                             </Typography>
                         </Tooltip>
-                        {Array.from({ length: 4 }, (_, index) => category.subCategories[index] || { name: '\u00A0' }).map((sub, index) => (
-                            <Typography key={index} variant="caption" gutterBottom
-                                sx={{
-                                    display: '-webkit-box',
-                                    overflow: 'hidden',
-                                    textOverflow: 'ellipsis',
-                                    WebkitBoxOrient: 'vertical',
-                                    WebkitLineClamp: 1, // number of lines shown
-                                    minHeight: '1.5em', // Ensures consistent height for empty lines
-                                }}
-                            >
-                                {sub.name}
-                            </Typography>
-                        ))}
+                        {Array.from({ length: SUBCATEGORIES_COUNT }, (_, index) =>
+                            category.subCategories[index] || { name: '\u00A0' }).map((sub, index) => (
+                                <Typography key={index} variant="caption" gutterBottom
+                                    sx={{
+                                        display: '-webkit-box',
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis',
+                                        WebkitBoxOrient: 'vertical',
+                                        minHeight: '1.5em', // Ensures consistent height for empty lines
+                                    }}
+                                >
+                                    {sub.name}
+                                </Typography>
+                            ))}
                         <Box sx={{ textAlign: 'right' }}>
                             <Typography variant="button">
                                 Показати всі...
