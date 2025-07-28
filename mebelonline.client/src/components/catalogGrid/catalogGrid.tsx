@@ -16,7 +16,7 @@ const CatalogGrid: React.FC<ICatalogGridProps> = (props: ICatalogGridProps) => {
             </Typography>
             <Grid container spacing={3}>
                 {catalog.map((category) => (
-                    <Grid size={{ xs: 6, md: 4, lg: 3 }} sx={{ justifyContent: "flex-end", alignItems: "stretch", mx: 'auto' }}>
+                    <Grid size={{ xs: 6, md: 4, lg: 3 }} sx={{ justifyContent: "flex", alignItems: "stretch" }}>
                         <CatalogCard category={category} />
                     </Grid>
                 ))}
