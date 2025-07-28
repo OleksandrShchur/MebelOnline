@@ -6,5 +6,6 @@ namespace MebelOnline.Core.Services
     {
         Task<IEnumerable<CategoryRevertedModel>> GetCategoriesHierarchyAsync();
         Task<IEnumerable<CategoryBreadcrumbModel>> GetBreadcrumbsAsync(int productId);
+        Task<IEnumerable<CategoryCatalogModel>> GetCatalogAsync();
     }
 }

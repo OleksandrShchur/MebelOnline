@@ -10,7 +10,7 @@ namespace MebelOnline.Server.Controllers
     {
         private readonly ICategoryService _categoryService;
 
-        public CategoriesController(ICategoryService categoryService) 
+        public CategoriesController(ICategoryService categoryService)
         {
             _categoryService = categoryService;
         }
@@ -26,9 +26,20 @@ namespace MebelOnline.Server.Controllers
 
         [HttpGet]
         [Route("breadcrumbs/{productId:int}")]
-        public async Task<IEnumerable<CategoryBreadcrumbModel>> GetBreadcrubmsForProduct([FromRoute]int productId)
+        public async Task<IEnumerable<CategoryBreadcrumbModel>> GetBreadcrubmsForProduct([FromRoute] int productId)
         {
-            return await _categoryService.GetBreadcrumbsAsync(productId);
+            var breadcrumbs = await _categoryService.GetBreadcrumbsAsync(productId);
+
+            return breadcrumbs;
+        }
+
+        [HttpGet]
+        [Route("catalog")]
+        public async Task<IEnumerable<CategoryCatalogModel>> GetCatalog()
+        {
+            var catalog = await _categoryService.GetCatalogAsync();
+
+            return catalog;
         }
     }
 }

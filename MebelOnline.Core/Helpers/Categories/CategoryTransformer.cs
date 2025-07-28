@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using MebelOnline.Core.Models.Categories;
+﻿using MebelOnline.Core.Models.Categories;
 
 namespace MebelOnline.Core.Helpers.Categories
 {
@@ -15,7 +14,7 @@ namespace MebelOnline.Core.Helpers.Categories
             new CategoryBreadcrumbModel()
             {
                 Name = "Каталог меблів",
-                Url = "/"
+                Url = "/catalog"
             } 
         };
         public static IList<CategoryRevertedModel> ConvertHierarchy(IList<CategoryModel> categories)

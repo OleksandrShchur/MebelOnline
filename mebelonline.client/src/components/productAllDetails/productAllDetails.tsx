@@ -3,8 +3,8 @@ import ProductImageModal from "../productImageModal/productImageModal";
 import { useState } from "react";
 import type { ProductDetailsModel } from "../../models/productDetailsModel";
 import { type EmblaOptionsType } from "embla-carousel";
-import { ProductAllDetailsDesktop } from "./responsive/productAllDetailsDesktop";
-import { ProductAllDetailsMobile } from "./responsive/productAllDetailsMobile";
+import ProductAllDetailsDesktop from "./responsive/productAllDetailsDesktop";
+import ProductAllDetailsMobile from "./responsive/productAllDetailsMobile";
 
 const OPTIONS: EmblaOptionsType = { loop: true };
 const DESKTOP_RIGHT_MARGIN = 8;
