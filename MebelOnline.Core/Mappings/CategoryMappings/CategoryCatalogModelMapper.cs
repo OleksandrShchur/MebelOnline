@@ -16,6 +16,7 @@ namespace MebelOnline.Core.Mappings.CategoryMappings
             {
                 Id = source.Id,
                 Name = source.Name,
+                ImageUrl = source.ImageUrl
             };
 
             return model;
