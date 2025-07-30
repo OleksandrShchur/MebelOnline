@@ -1,4 +1,4 @@
-import { Container, Grid, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import type { CatalogModel } from "../../models/catalogModel";
 import CatalogCard from "../catalogCard/catalogCard";
 
