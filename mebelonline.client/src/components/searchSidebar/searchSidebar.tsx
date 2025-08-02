@@ -126,7 +126,7 @@ const SearchSidebar: React.FC = () => {
         : brandItems.slice(0, 5);
 
     const handleMaterialToggle = (item: string) => {
-        setSelectedBrands((prev) =>
+        setSelectedMaterials((prev) =>
             prev.includes(item)
                 ? prev.filter((i) => i !== item)
                 : [...prev, item]
@@ -232,6 +232,14 @@ const SearchSidebar: React.FC = () => {
                         />
                     ))}
                 </Box>
+                {showAllBrands && (
+                    <Button
+                        variant="outlined"
+                        onClick={() => setShowAllBrands(false)}
+                    >
+                        Сховати
+                    </Button>
+                )}
                 {!showAllBrands && brandItems.length > 5 && (
                     <Button
                         variant="outlined"
@@ -269,6 +277,14 @@ const SearchSidebar: React.FC = () => {
                         />
                     ))}
                 </Box>
+                {showAllMaterials && (
+                    <Button
+                        variant="outlined"
+                        onClick={() => setShowAllMaterials(false)}
+                    >
+                        Сховати
+                    </Button>
+                )}
                 {!showAllMaterials && materialItems.length > 5 && (
                     <Button
                         variant="outlined"
