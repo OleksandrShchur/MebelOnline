@@ -7,6 +7,7 @@ import ProductDetails from './pages/productDetails/productDetails';
 import Catalog from './pages/catalog/catalog';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from './theme/theme';
+import Search from './pages/search/search';
 
 const App: React.FC = () => {
     return (
@@ -17,6 +18,7 @@ const App: React.FC = () => {
                         <Route index element={<Home />} />
                         <Route path='/catalog' element={<Catalog />} />
                         <Route path='/product/:productId' element={<ProductDetails />} />
+                        <Route path='/search' element={<Search />} />
                     </Route>
                 </Routes>
             </BrowserRouter>
