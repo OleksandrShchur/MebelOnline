@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MebelOnline.Core.Models.Products;
 using MebelOnline.Core.Services;
+using MebelOnline.Core.Models.Common;
 
 namespace MebelOnline.Server.Controllers
 {
@@ -31,6 +32,15 @@ namespace MebelOnline.Server.Controllers
             var product = await _productService.GetProductDetailsByIdAsync(productId);
 
             return product;
+        }
+
+        [HttpGet]
+        [Route("search")]
+        public async Task<PagedResultModel<ProductCardModel>> SearchByParams([FromQuery] SearchParamsModel searchParams)
+        {
+            var pagedResult = await _productService.GetProductsBySearchParams(searchParams);
+
+            return pagedResult;
         }
     }
 }
