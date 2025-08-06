@@ -1,4 +1,5 @@
-﻿using MebelOnline.Core.Models.Products;
+﻿using MebelOnline.Core.Models.Common;
+using MebelOnline.Core.Models.Products;
 
 namespace MebelOnline.Core.Services
 {
@@ -6,5 +7,6 @@ namespace MebelOnline.Core.Services
     {
         Task<IEnumerable<ProductCardModel>> GetLatestProductsAsync();
         Task<ProductDetailsModel> GetProductDetailsByIdAsync(int productId);
+        Task<PagedResultModel<ProductCardModel>> GetProductsBySearchParams(SearchParamsModel searchParams);
     }
 }
