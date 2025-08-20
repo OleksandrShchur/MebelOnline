@@ -25,7 +25,7 @@ namespace MebelOnline.Core.Services.Impl
                 .Take(12) // TODO: remove magic number
                 .ToListAsync();
 
-            var mappedModels = _mapper.MapList<ProductEntity, ProductCardModel>(entities);
+            var mappedModels = _mapper.Map<IList<ProductEntity>, IList<ProductCardModel>>(entities);
 
             return mappedModels;
         }
