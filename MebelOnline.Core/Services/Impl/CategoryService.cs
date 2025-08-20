@@ -28,7 +28,7 @@ namespace MebelOnline.Core.Services.Impl
                             .OrderBy(c => c.Id)
                             .ToListAsync();
 
-            var mappedModels = _mapper.MapList<CategoryEntity, CategoryModel>(entities);
+            var mappedModels = _mapper.Map<IList<CategoryEntity>, IList<CategoryModel>>(entities);
             var revertedModels = CategoryTransformer.ConvertHierarchy(mappedModels);
 
             return revertedModels;
@@ -61,13 +61,13 @@ namespace MebelOnline.Core.Services.Impl
             var parentCategories = categories.Where(c => c.ParentCategoryId == null).ToList();
             var childCategories = categories.Where(c => c.ParentCategoryId != null).ToList();
 
-            var mappedCatalog = _mapper.MapList<CategoryEntity, CategoryCatalogModel>(parentCategories);
+            var mappedCatalog = _mapper.Map<IList<CategoryEntity>, IList<CategoryCatalogModel>>(parentCategories);
 
             foreach (var category in mappedCatalog)
             {
                 var currentCategoryChilren = childCategories.Where(c => c.ParentCategoryId == category.Id).ToList();
 
-                category.SubCategories = _mapper.MapList<CategoryEntity, CategoryCatalogModel>(currentCategoryChilren);
+                category.SubCategories = _mapper.Map<IList<CategoryEntity>, IList<CategoryCatalogModel>>(currentCategoryChilren);
             }
 
             return mappedCatalog;
