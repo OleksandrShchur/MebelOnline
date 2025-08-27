@@ -1,4 +1,4 @@
-﻿using MebelOnline.Core.Mappings;
+﻿using MebelOnline.Core.Mappings.Config;
 using MebelOnline.Core.Models.Products;
 using MebelOnline.Db;
 using MebelOnline.Db.Entities;
@@ -9,15 +9,12 @@ namespace MebelOnline.Core.Services.Impl
     public class ProductService : IProductService
     {
         private readonly AppDbContext _dbContext;
-        private readonly IMappingService<ProductEntity, ProductCardModel> _productCardMapper;
-        private readonly IMappingService<ProductEntity, ProductDetailsModel> _productDetailsMapper;
+        private readonly IMapper _mapper;
 
-        public ProductService(AppDbContext dbContext, IMappingService<ProductEntity, ProductCardModel> productCardMapper,
-            IMappingService<ProductEntity, ProductDetailsModel> productDetailsMapper)
+        public ProductService(AppDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
-            _productCardMapper = productCardMapper;
-            _productDetailsMapper = productDetailsMapper;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<ProductCardModel>> GetLatestProductsAsync()
@@ -28,7 +25,7 @@ namespace MebelOnline.Core.Services.Impl
                 .Take(12) // TODO: remove magic number
                 .ToListAsync();
 
-            var mappedModels = _productCardMapper.MapList(entities);
+            var mappedModels = _mapper.Map<IList<ProductEntity>, IList<ProductCardModel>>(entities);
 
             return mappedModels;
         }
@@ -43,7 +40,7 @@ namespace MebelOnline.Core.Services.Impl
                 .Include(p => p.Images)
                 .FirstOrDefaultAsync(p => p.Id == productId);
 
-            var mappedProduct = _productDetailsMapper.Map(entity);
+            var mappedProduct = _mapper.Map<ProductEntity, ProductDetailsModel>(entity);
 
             return mappedProduct;
         }
