@@ -34,7 +34,7 @@ const productService = () => {
             console.error('Network error while fetching categories:', error);
             return null;
         }
-    }
+    };
 
     return { fetchLatest, fetchProductDetails };
 };

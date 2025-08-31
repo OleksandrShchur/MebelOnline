@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Box,
     Slider,
@@ -12,6 +12,7 @@ import {
     AccordionDetails,
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import searchService from "../../services/searchService";
 
 interface FilterRange {
     min: number;
@@ -20,57 +21,77 @@ interface FilterRange {
 }
 
 const SearchSidebar: React.FC = () => {
+    const [sidebarLoaded, setSidebarLoaded] = useState<boolean>(false);
     const [priceRange, setPriceRange] = useState<FilterRange>({
         min: 0,
-        max: 300,
-        value: [0, 300],
+        max: 0,
+        value: [0, 0],
     });
 
-    const [brandItems, setBrandItems] = useState([
-        "Виробник 1",
-        "Виробник 2",
-        "Виробник 3",
-        "Виробник 4",
-        "Виробник 5",
-        "Виробник 6",
-        "Виробник 7",
-        "Виробник 8",
-        "Виробник 9",
-        "Виробник 10",
-        "Виробник 11",
-        "Виробник 12",
-        "Виробник 13",
-        "Виробник 14",
-        "Виробник 15",
-        "Виробник 16",
-    ]);
+    const [brandItems, setBrandItems] = useState<string[]>([]);
     const [showAllBrands, setShowAllBrands] = useState<boolean>(false);
     const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
 
-    const [materialItems, setMaterialItems] = useState([
-        "Матеріал 1",
-        "Матеріал 2",
-        "Матеріал 3",
-        "Матеріал 4",
-        "Матеріал 5",
-        "Матеріал 6",
-        "Матеріал 7",
-        "Матеріал 8",
-        "Матеріал 9",
-        "Матеріал 10",
-        "Матеріал 11",
-        "Матеріал 12",
-        "Матеріал 13",
-        "Матеріал 14",
-        "Матеріал 15",
-        "Матеріал 16",
-    ]);
+    const [materialItems, setMaterialItems] = useState<string[]>([]);
     const [showAllMaterials, setShowAllMaterials] = useState<boolean>(false);
     const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
 
     // Temporary states for TextField inputs
     const [priceMinInput, setPriceMinInput] = useState<string>(priceRange.value[0].toString());
     const [priceMaxInput, setPriceMaxInput] = useState<string>(priceRange.value[1].toString());
+
+    useEffect(() => {
+        fetchSidebar();
+    }, []);
+
+    useEffect(() => {
+        if (sidebarLoaded) return;
+        fetchSidebar();
+    }, [selectedBrands.join(','), selectedMaterials.join(','), priceRange.value[0], priceRange.value[1]]);
+
+    const fetchSidebar = async () => {
+        const params = new URLSearchParams();
+        selectedBrands.forEach(brand => params.append('SelectedBrands', brand));
+        selectedMaterials.forEach(material => params.append('SelectedMaterials', material));
+        params.append('MinPrice', priceRange.value[0].toString());
+        params.append('MaxPrice', priceRange.value[1].toString());
+
+        const data = await searchService.fetchSidebar(params);
+        if (data) {
+            const newMin = data.minPrice;
+            const newMax = data.maxPrice;
+            let newValue = [...priceRange.value];
+            if (newValue[0] < newMin) newValue[0] = newMin;
+            if (newValue[1] > newMax) newValue[1] = newMax;
+
+            setPriceRange({
+                min: newMin,
+                max: newMax,
+                value: newValue as [number, number],
+            });
+            setPriceMinInput(newValue[0].toString());
+            setPriceMaxInput(newValue[1].toString());
+
+            setBrandItems(data.brands);
+            setMaterialItems(data.materials);
+
+            if (!sidebarLoaded) {
+                initialPriceRangeLoad(newMin, newMax);
+                setSidebarLoaded(true);
+            }
+        }
+    };
+
+    const initialPriceRangeLoad = (minPrice: number, maxPrice: number) => { // TODO: potential improvement
+        setPriceRange({
+            min: minPrice,
+            max: maxPrice,
+            value: [minPrice, maxPrice]
+        });
+
+        setPriceMinInput(minPrice.toString());
+        setPriceMaxInput(maxPrice.toString());
+    }
 
     // Generic handler for slider changes
     const handleRangeChange = (setter: React.Dispatch<React.SetStateAction<FilterRange>>) => (
