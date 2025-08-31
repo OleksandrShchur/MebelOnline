@@ -1,6 +1,6 @@
 ﻿using MebelOnline.Core.Enums;
 
-namespace MebelOnline.Core.Models.Common
+namespace MebelOnline.Core.Models.Search
 {
     public class SearchParamsModel
     {
@@ -10,7 +10,7 @@ namespace MebelOnline.Core.Models.Common
         public SortBy SortBy { get; set; } = SortBy.Ascending;
         public decimal? MinPrice { get; set; }
         public decimal? MaxPrice { get; set; }
-        public string? BrandName { get; set; }
-        public string? Material { get; set; }
+        public List<string>? SelectedBrands { get; set; }
+        public List<string>? SelectedMaterials { get; set; }
     }
 }
