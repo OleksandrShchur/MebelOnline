@@ -7,7 +7,11 @@ import {
     Checkbox,
     FormControlLabel,
     Button,
+    Accordion,
+    AccordionSummary,
+    AccordionDetails,
 } from "@mui/material";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 interface FilterRange {
     min: number;
@@ -206,94 +210,102 @@ const SearchSidebar: React.FC = () => {
             </Box>
 
             {/* Brand Filter */}
-            <Box sx={{ mb: 3 }}>
-                <Typography variant="subtitle1" gutterBottom>
-                    Виробник:
-                </Typography>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        maxHeight: "350px",
-                        overflowY: "auto",
-                        mb: 1,
-                    }}
-                >
-                    {visibleBrands.map((item) => (
-                        <FormControlLabel
-                            key={item}
-                            control={
-                                <Checkbox
-                                    checked={selectedBrands.includes(item)}
-                                    onChange={() => handleBrandToggle(item)}
-                                />
-                            }
-                            label={item}
-                        />
-                    ))}
-                </Box>
-                {showAllBrands && (
-                    <Button
-                        variant="outlined"
-                        onClick={() => setShowAllBrands(false)}
+            <Accordion defaultExpanded sx={{ mb: 3 }}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                    <Typography variant="subtitle1">
+                        Виробник:
+                    </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            maxHeight: "350px",
+                            overflowY: "auto",
+                            mb: 1,
+                        }}
                     >
-                        Сховати
-                    </Button>
-                )}
-                {!showAllBrands && brandItems.length > 5 && (
-                    <Button
-                        variant="outlined"
-                        onClick={() => setShowAllBrands(true)}
-                    >
-                        Показати всі
-                    </Button>
-                )}
-            </Box>
+                        {visibleBrands.map((item) => (
+                            <FormControlLabel
+                                key={item}
+                                control={
+                                    <Checkbox
+                                        checked={selectedBrands.includes(item)}
+                                        onChange={() => handleBrandToggle(item)}
+                                    />
+                                }
+                                label={item}
+                            />
+                        ))}
+                    </Box>
+                    {showAllBrands && (
+                        <Button
+                            variant="outlined"
+                            onClick={() => setShowAllBrands(false)}
+                        >
+                            Сховати
+                        </Button>
+                    )}
+                    {!showAllBrands && brandItems.length > 5 && (
+                        <Button
+                            variant="outlined"
+                            onClick={() => setShowAllBrands(true)}
+                        >
+                            Показати всі
+                        </Button>
+                    )}
+                </AccordionDetails>
+            </Accordion>
 
             {/* Material Filter */}
-            <Box sx={{ mb: 3 }}>
-                <Typography variant="subtitle1" gutterBottom>
-                    Матеріал:
-                </Typography>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        maxHeight: "350px",
-                        overflowY: "auto",
-                        mb: 1,
-                    }}
-                >
-                    {visibleMaterials.map((item) => (
-                        <FormControlLabel
-                            key={item}
-                            control={
-                                <Checkbox
-                                    checked={selectedMaterials.includes(item)}
-                                    onChange={() => handleMaterialToggle(item)}
-                                />
-                            }
-                            label={item}
-                        />
-                    ))}
-                </Box>
-                {showAllMaterials && (
-                    <Button
-                        variant="outlined"
-                        onClick={() => setShowAllMaterials(false)}
+            <Accordion defaultExpanded sx={{ mb: 3 }}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                    <Typography variant="subtitle1">
+                        Матеріал:
+                    </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            maxHeight: "350px",
+                            overflowY: "auto",
+                            mb: 1,
+                        }}
                     >
-                        Сховати
-                    </Button>
-                )}
-                {!showAllMaterials && materialItems.length > 5 && (
-                    <Button
-                        variant="outlined"
-                        onClick={() => setShowAllMaterials(true)}
-                    >
-                        Показати всі
-                    </Button>
-                )}
-            </Box>
+                        {visibleMaterials.map((item) => (
+                            <FormControlLabel
+                                key={item}
+                                control={
+                                    <Checkbox
+                                        checked={selectedMaterials.includes(item)}
+                                        onChange={() => handleMaterialToggle(item)}
+                                    />
+                                }
+                                label={item}
+                            />
+                        ))}
+                    </Box>
+                    {showAllMaterials && (
+                        <Button
+                            variant="outlined"
+                            onClick={() => setShowAllMaterials(false)}
+                        >
+                            Сховати
+                        </Button>
+                    )}
+                    {!showAllMaterials && materialItems.length > 5 && (
+                        <Button
+                            variant="outlined"
+                            onClick={() => setShowAllMaterials(true)}
+                        >
+                            Показати всі
+                        </Button>
+                    )}
+                </AccordionDetails>
+            </Accordion>
         </Box>
     );
 };
