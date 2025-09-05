@@ -12,15 +12,10 @@ import {
     AccordionDetails,
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
-interface IFilterRange {
-    min: number;
-    max: number;
-    value: [number, number];
-}
+import type { FilterRangeModel } from "../../models/filterRangeModel";
 
 interface ISearchSidebarProps {
-    priceRange: IFilterRange;
+    priceRange: FilterRangeModel;
     onRangeChange: (event: Event, newValue: number | number[]) => void;
     priceMinInput: string;
     onPriceMinInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;

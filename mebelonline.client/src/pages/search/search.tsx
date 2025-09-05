@@ -5,16 +5,11 @@ import SearchSidebar from "../../components/searchSidebar/searchSidebar";
 import SearchProductGrid from "../../components/searchProductGrid/searchProductGrid";
 import searchService from "../../services/searchService";
 import type { PagedResultModel } from "../../models/pagedResultModel";
-
-interface FilterRange {
-    min: number;
-    max: number;
-    value: [number, number];
-}
+import type { FilterRangeModel } from "../../models/filterRangeModel";
 
 const Search: React.FC = () => {
     const [searchParams, setSearchParams] = useSearchParams();
-    const [priceRange, setPriceRange] = useState<FilterRange>({
+    const [priceRange, setPriceRange] = useState<FilterRangeModel>({
         min: 0,
         max: 0,
         value: [0, 0],

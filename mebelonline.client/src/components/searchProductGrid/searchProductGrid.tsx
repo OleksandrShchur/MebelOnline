@@ -1,8 +1,9 @@
 import { Box, Grid, TablePagination } from "@mui/material";
 import ProductCard from "../productCard/productCard";
+import type { ProductCardModel } from "../../models/productCardModel";
 
 interface ISearchProductGridProps {
-    items: any[]; // Adjust type to match your product type
+    items: ProductCardModel[];
     totalCount: number;
     page: number;
     rowsPerPage: number;

@@ -9,7 +9,7 @@ import React from 'react';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import type { ProductCardModel } from '../../models/productCardModel';
 import { CardActions, Link } from '@mui/material';
-import priceFormatter from '../../helpers/priceFormatter';
+import priceFormatter from '../../utils/priceFormatter';
 
 interface IProductCardProps {
   product: ProductCardModel;
