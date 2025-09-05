@@ -11,6 +11,7 @@ import {
     AccordionSummary,
     AccordionDetails,
 } from "@mui/material";
+import { useSearchParams } from "react-router-dom";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import searchService from "../../services/searchService";
 
@@ -21,6 +22,7 @@ interface FilterRange {
 }
 
 const SearchSidebar: React.FC = () => {
+    const [searchParams, setSearchParams] = useSearchParams();
     const [sidebarLoaded, setSidebarLoaded] = useState<boolean>(false);
     const [priceRange, setPriceRange] = useState<FilterRange>({
         min: 0,
@@ -41,13 +43,70 @@ const SearchSidebar: React.FC = () => {
     const [priceMaxInput, setPriceMaxInput] = useState<string>(priceRange.value[1].toString());
 
     useEffect(() => {
-        fetchSidebar();
+        loadFromSearchParams();
     }, []);
 
-    useEffect(() => {
-        if (sidebarLoaded) return;
-        fetchSidebar();
-    }, [selectedBrands.join(','), selectedMaterials.join(','), priceRange.value[0], priceRange.value[1]]);
+    const loadFromSearchParams = async () => {
+        const urlMin = searchParams.get('MinPrice');
+        const urlMax = searchParams.get('MaxPrice');
+        const brands = searchParams.getAll('SelectedBrands');
+        const materials = searchParams.getAll('SelectedMaterials');
+
+        const params = new URLSearchParams();
+        brands.forEach(brand => params.append('SelectedBrands', brand));
+        materials.forEach(material => params.append('SelectedMaterials', material));
+
+        let initMin = 0;
+        let initMax = 0;
+        let hasPrice = false;
+
+        if (urlMin && urlMax) {
+            const minNum = Number(urlMin);
+            const maxNum = Number(urlMax);
+            if (!isNaN(minNum) && !isNaN(maxNum)) {
+                initMin = minNum;
+                initMax = maxNum;
+                params.append('MinPrice', initMin.toString());
+                params.append('MaxPrice', initMax.toString());
+                hasPrice = true;
+            }
+        } else {
+            params.append('MinPrice', '0');
+            params.append('MaxPrice', '0');
+        }
+
+        const data = await searchService.fetchSidebar(params);
+        if (data) {
+            const newMin = data.minPrice;
+            const newMax = data.maxPrice;
+            let newValue: [number, number] = hasPrice ? [initMin, initMax] : [newMin, newMax];
+
+            // Clip the values
+            if (newValue[0] < newMin) newValue[0] = newMin;
+            if (newValue[1] > newMax) newValue[1] = newMax;
+
+            // Ensure min <= max
+            if (newValue[0] > newValue[1]) {
+                newValue = [newMin, newMax];
+            }
+
+            setPriceRange({
+                min: newMin,
+                max: newMax,
+                value: newValue,
+            });
+            setPriceMinInput(newValue[0].toString());
+            setPriceMaxInput(newValue[1].toString());
+
+            setBrandItems(data.brands);
+            setMaterialItems(data.materials);
+
+            setSelectedBrands(brands);
+            setSelectedMaterials(materials);
+
+            setSidebarLoaded(true);
+        }
+    };
 
     const fetchSidebar = async () => {
         const params = new URLSearchParams();
@@ -64,6 +123,11 @@ const SearchSidebar: React.FC = () => {
             if (newValue[0] < newMin) newValue[0] = newMin;
             if (newValue[1] > newMax) newValue[1] = newMax;
 
+            // Ensure min <= max
+            if (newValue[0] > newValue[1]) {
+                newValue = [newMin, newMax];
+            }
+
             setPriceRange({
                 min: newMin,
                 max: newMax,
@@ -74,24 +138,8 @@ const SearchSidebar: React.FC = () => {
 
             setBrandItems(data.brands);
             setMaterialItems(data.materials);
-
-            if (!sidebarLoaded) {
-                initialPriceRangeLoad(newMin, newMax);
-                setSidebarLoaded(true);
-            }
         }
     };
-
-    const initialPriceRangeLoad = (minPrice: number, maxPrice: number) => { // TODO: potential improvement
-        setPriceRange({
-            min: minPrice,
-            max: maxPrice,
-            value: [minPrice, maxPrice]
-        });
-
-        setPriceMinInput(minPrice.toString());
-        setPriceMaxInput(maxPrice.toString());
-    }
 
     // Generic handler for slider changes
     const handleRangeChange = (setter: React.Dispatch<React.SetStateAction<FilterRange>>) => (
@@ -161,6 +209,17 @@ const SearchSidebar: React.FC = () => {
     const visibleMaterials = showAllMaterials
         ? materialItems
         : materialItems.slice(0, 5);
+
+    const handleApply = () => {
+        const newParams = new URLSearchParams();
+        selectedBrands.forEach(brand => newParams.append('SelectedBrands', brand));
+        selectedMaterials.forEach(material => newParams.append('SelectedMaterials', material));
+        newParams.append('MinPrice', priceRange.value[0].toString());
+        newParams.append('MaxPrice', priceRange.value[1].toString());
+
+        setSearchParams(newParams);
+        fetchSidebar();
+    };
 
     return (
         <Box
@@ -327,6 +386,15 @@ const SearchSidebar: React.FC = () => {
                     )}
                 </AccordionDetails>
             </Accordion>
+
+            <Button
+                variant="contained"
+                color="primary"
+                onClick={handleApply}
+                sx={{ mt: 2 }}
+            >
+                Застосувати
+            </Button>
         </Box>
     );
 };
