@@ -1,18 +1,22 @@
-import type { ProductCardModel } from "../models/productCardModel";
-import type { SearchParamsModel } from "../models/searchParamsModel";
+import type { PagedResultModel } from "../models/pagedResultModel";
 import type { SearchSidebarModel } from "../models/searchSidebarModel";
 
 const searchService = () => {
     const baseUrl = 'api/search';
 
-    const fetchByQuery = async (params: SearchParamsModel): Promise<ProductCardModel[]> => {
+    const fetchByQuery = async (params: URLSearchParams): Promise<PagedResultModel | null> => {
         try {
-            const response = await fetch(`${baseUrl}/`);
+            const response = await fetch(`${baseUrl}?${params.toString()}`);
 
-            return [];
+            if (!response.ok) {
+                console.error(`Error fetching search by query data: ${response.statusText}`);
+                return null;
+            }
+
+            return await response.json();
         } catch (error) {
             console.error('Network error while fetching search result:', error);
-            return [];
+            return null;
         }
     };
 
