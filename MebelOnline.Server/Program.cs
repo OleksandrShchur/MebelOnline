@@ -24,6 +24,7 @@ builder.Services.AddSingleton<IMapper, Mapper>();
 // Register services
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ISearchService, SearchService>();
 
 // Add services to the container.
 builder.Services.AddControllers();

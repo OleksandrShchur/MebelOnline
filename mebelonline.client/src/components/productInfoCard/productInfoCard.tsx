@@ -3,7 +3,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import type { ProductOptionModel } from "../../models/productOptionModel";
 import ProductOptions from "../productOptions/productOptions";
 import { useEffect, useState } from "react";
-import priceFormatter from "../../helpers/priceFormatter";
+import priceFormatter from "../../utils/priceFormatter";
 
 interface IProductInfoCardProps {
     id: number;
