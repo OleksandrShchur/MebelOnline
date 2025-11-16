@@ -179,7 +179,7 @@ const Search: React.FC = () => {
         setSearchParams(newParams);
     };
 
-    const handlePageChange = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+    const handlePageChange = (_event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
         const newParams = new URLSearchParams(searchParams);
         newParams.set('Page', newPage.toString());
         setSearchParams(newParams);

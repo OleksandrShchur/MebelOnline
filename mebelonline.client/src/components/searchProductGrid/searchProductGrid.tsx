@@ -18,7 +18,6 @@ const SearchProductGrid: React.FC<ISearchProductGridProps> = (props) => {
         <Box sx={{
             width: '80%',
             padding: 2,
-            marginTop: 2,
             position: "relative",
             display: "flex",
             flexDirection: "column"
