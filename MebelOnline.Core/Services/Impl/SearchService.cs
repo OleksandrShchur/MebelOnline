@@ -31,7 +31,7 @@ namespace MebelOnline.Core.Services.Impl
 
             var totalCount = await query.CountAsync();
             var pagedItems = await query
-                .Skip((page - 1) * pageSize)
+                .Skip((page) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
@@ -93,7 +93,7 @@ namespace MebelOnline.Core.Services.Impl
             return attr?.Id ?? 0;
         }
 
-        private int NormalizePage(int page) => page < 1 ? 1 : page;
+        private int NormalizePage(int page) => page < 0 ? 0 : page;
 
         private int NormalizePageSize(int pageSize) => pageSize < 10 ? 10 : pageSize;
 
