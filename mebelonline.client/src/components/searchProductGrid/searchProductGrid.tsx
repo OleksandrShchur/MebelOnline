@@ -25,7 +25,7 @@ const SearchProductGrid: React.FC<ISearchProductGridProps> = (props) => {
         }}>
             <Grid container spacing={3}>
                 {items.map((product) => (
-                    <Grid size={{ xs: 6, md: 4, lg: 3 }} sx={{ justifyContent: "flex-end", alignItems: "stretch", mx: 'auto' }}>
+                    <Grid size={{ xs: 6, md: 4, lg: 3 }} sx={{ justifyContent: "flex-end", alignItems: "stretch" }}>
                         <ProductCard product={product} />
                     </Grid>
                 ))}
