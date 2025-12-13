@@ -31,11 +31,12 @@ namespace MebelOnline.Core.Services.Impl
 
             var totalCount = await query.CountAsync();
             var pagedItems = await query
-                .Skip((page - 1) * pageSize)
+                .Skip((page) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
-            var mappedResult = _mapper.Map<IList<ProductEntity>, IList<ProductCardModel>>(pagedItems)
+            var mappedResult = _mapper
+                .Map<IList<ProductEntity>, IList<ProductCardModel>>(pagedItems)
                 .ToList();
 
             return new PagedResultModel<ProductCardModel>
@@ -52,13 +53,15 @@ namespace MebelOnline.Core.Services.Impl
         {
             var materialAttrId = await GetMaterialAttrIdAsync();
 
-            // Query for price range (ignore price filter)
             var queryForPrice = await BuildProductQueryAsync(searchParams, applyPriceFilter: false);
             decimal minPrice = await queryForPrice.AnyAsync() ? await queryForPrice.MinAsync(p => p.Price) : 0;
             decimal maxPrice = await queryForPrice.AnyAsync() ? await queryForPrice.MaxAsync(p => p.Price) : 0;
 
-            // Query for brands (ignore brand filter)
-            var queryForBrands = await BuildProductQueryAsync(searchParams, applyBrandFilter: false);
+            var applyPriceFilterForBrands = searchParams.SelectedBrands != null;
+            var queryForBrands = await BuildProductQueryAsync(searchParams, 
+                applyBrandFilter: false, 
+                applyPriceFilter: applyPriceFilterForBrands);
+
             var brands = await queryForBrands
                 .Where(p => p.Brand != null)
                 .Select(p => p.Brand.Name)
@@ -66,8 +69,11 @@ namespace MebelOnline.Core.Services.Impl
                 .OrderBy(name => name)
                 .ToListAsync();
 
-            // Query for materials (ignore material filter)
-            var queryForMaterials = await BuildProductQueryAsync(searchParams, applyMaterialFilter: false);
+            var applyPriceFilterForMaterials = searchParams.SelectedMaterials != null;
+            var queryForMaterials = await BuildProductQueryAsync(searchParams, 
+                applyMaterialFilter: false, 
+                applyPriceFilter: applyPriceFilterForMaterials);
+
             var materials = await _dbContext.ProductAttributeValues
                 .Where(pav => pav.AttributeId == materialAttrId &&
                               queryForMaterials.Any(p => p.Id == pav.ProductId))
@@ -81,7 +87,7 @@ namespace MebelOnline.Core.Services.Impl
                 MinPrice = minPrice,
                 MaxPrice = maxPrice,
                 Brands = brands,
-                Materials = materials,
+                Materials = materials
             };
         }
 
@@ -93,7 +99,7 @@ namespace MebelOnline.Core.Services.Impl
             return attr?.Id ?? 0;
         }
 
-        private int NormalizePage(int page) => page < 1 ? 1 : page;
+        private int NormalizePage(int page) => page < 0 ? 0 : page;
 
         private int NormalizePageSize(int pageSize) => pageSize < 10 ? 10 : pageSize;
 
@@ -110,38 +116,50 @@ namespace MebelOnline.Core.Services.Impl
 
             if (!string.IsNullOrWhiteSpace(searchParams.SearchString))
             {
+                var lower = searchParams.SearchString.ToLower();
+
                 query = query.Where(p =>
-                    p.Title.Contains(searchParams.SearchString) ||
-                    p.Description.Contains(searchParams.SearchString));
+                    (p.Title != null && p.Title.ToLower().Contains(lower)) ||
+                    (p.Description != null && p.Description.ToLower().Contains(lower)) ||
+                    (p.Brand != null && p.Brand.Name.ToLower().Contains(lower)) ||
+                    _dbContext.ProductAttributeValues.Any(pav =>
+                        pav.ProductId == p.Id &&
+                        pav.Value != null &&
+                        pav.Value.ToLower().Contains(lower)
+                    )
+                );
             }
 
             if (applyPriceFilter)
             {
                 if (searchParams.MinPrice.HasValue)
-                {
                     query = query.Where(p => p.Price >= searchParams.MinPrice.Value);
-                }
 
                 if (searchParams.MaxPrice.HasValue)
-                {
                     query = query.Where(p => p.Price <= searchParams.MaxPrice.Value);
-                }
             }
 
             if (applyBrandFilter && searchParams.SelectedBrands?.Any() == true)
             {
-                query = query.Where(p => p.Brand != null && searchParams.SelectedBrands.Contains(p.Brand.Name));
+                query = query.Where(p =>
+                    p.Brand != null &&
+                    searchParams.SelectedBrands.Contains(p.Brand.Name)
+                );
             }
 
             if (applyMaterialFilter && searchParams.SelectedMaterials?.Any() == true)
             {
                 var materialAttrId = await GetMaterialAttrIdAsync();
+
                 if (materialAttrId != 0)
                 {
-                    query = query.Where(p => _dbContext.ProductAttributeValues
-                        .Any(pav => pav.ProductId == p.Id &&
-                                    pav.AttributeId == materialAttrId &&
-                                    searchParams.SelectedMaterials.Contains(pav.Value)));
+                    query = query.Where(p =>
+                        _dbContext.ProductAttributeValues.Any(pav =>
+                            pav.ProductId == p.Id &&
+                            pav.AttributeId == materialAttrId &&
+                            searchParams.SelectedMaterials.Contains(pav.Value)
+                        )
+                    );
                 }
             }
 
@@ -155,7 +173,7 @@ namespace MebelOnline.Core.Services.Impl
                 SortBy.Ascending => query.OrderBy(p => p.Price),
                 SortBy.Descending => query.OrderByDescending(p => p.Price),
                 SortBy.Name => query.OrderBy(p => p.Title),
-                _ => query.OrderBy(p => p.Id),
+                _ => query.OrderByDescending(p => p.Id)
             };
         }
     }

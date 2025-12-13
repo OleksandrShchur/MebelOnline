@@ -36,8 +36,8 @@ const Search: React.FC = () => {
     };
 
     useEffect(() => {
-        const urlPage = searchParams.get('Page');
-        const urlRows = searchParams.get('PageSize');
+        const urlPage = searchParams.get('page');
+        const urlRows = searchParams.get('pageSize');
 
         setPage(parseInt(urlPage ?? '0', 10));
         setRowsPerPage(parseInt(urlRows ?? '10', 10));
@@ -47,14 +47,14 @@ const Search: React.FC = () => {
     }, [searchParams]);
 
     const loadFromSearchParams = async () => {
-        const urlMin = searchParams.get('MinPrice');
-        const urlMax = searchParams.get('MaxPrice');
-        const brands = searchParams.getAll('SelectedBrands');
-        const materials = searchParams.getAll('SelectedMaterials');
+        const urlMin = searchParams.get('minPrice');
+        const urlMax = searchParams.get('maxPrice');
+        const brands = searchParams.getAll('selectedBrands');
+        const materials = searchParams.getAll('selectedMaterials');
 
         const params = new URLSearchParams();
-        brands.forEach(brand => params.append('SelectedBrands', brand));
-        materials.forEach(material => params.append('SelectedMaterials', material));
+        brands.forEach(brand => params.append('selectedBrands', brand));
+        materials.forEach(material => params.append('selectedMaterials', material));
 
         let initMin = 0;
         let initMax = 0;
@@ -66,15 +66,15 @@ const Search: React.FC = () => {
             if (!isNaN(minNum) && !isNaN(maxNum)) {
                 initMin = minNum;
                 initMax = maxNum;
-                params.append('MinPrice', initMin.toString());
-                params.append('MaxPrice', initMax.toString());
+                params.append('minPrice', initMin.toString());
+                params.append('maxPrice', initMax.toString());
                 hasPrice = true;
             }
         } 
 
         if (!hasPrice) {
-            params.append('MinPrice', '0');
-            params.append('MaxPrice', '0');
+            params.append('minPrice', '0');
+            params.append('maxPrice', '0');
         }
 
         const data = await searchService.fetchSidebar(params);
@@ -169,27 +169,28 @@ const Search: React.FC = () => {
 
     const handleApply = () => {
         const newParams = new URLSearchParams();
-        selectedBrands.forEach(brand => newParams.append('SelectedBrands', brand));
-        selectedMaterials.forEach(material => newParams.append('SelectedMaterials', material));
-        newParams.append('MinPrice', priceRange.value[0].toString());
-        newParams.append('MaxPrice', priceRange.value[1].toString());
-        newParams.set('Page', '0');
-        newParams.set('PageSize', rowsPerPage.toString());
+        selectedBrands.forEach(brand => newParams.append('selectedBrands', brand));
+        selectedMaterials.forEach(material => newParams.append('selectedMaterials', material));
+        newParams.append('minPrice', priceRange.value[0].toString());
+        newParams.append('maxPrice', priceRange.value[1].toString());
+        newParams.set('page', '0');
+        newParams.set('pageSize', rowsPerPage.toString());
 
         setSearchParams(newParams);
     };
 
-    const handlePageChange = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+    const handlePageChange = (_event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+        console.log(newPage);
         const newParams = new URLSearchParams(searchParams);
-        newParams.set('Page', newPage.toString());
+        newParams.set('page', newPage.toString());
         setSearchParams(newParams);
     };
 
     const handleRowsPerPageChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const newRows = parseInt(event.target.value, 10);
         const newParams = new URLSearchParams(searchParams);
-        newParams.set('PageSize', newRows.toString());
-        newParams.set('Page', '0');
+        newParams.set('pageSize', newRows.toString());
+        newParams.set('page', '0');
         setSearchParams(newParams);
     };
 

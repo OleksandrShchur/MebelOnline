@@ -18,19 +18,19 @@ const SearchProductGrid: React.FC<ISearchProductGridProps> = (props) => {
         <Box sx={{
             width: '80%',
             padding: 2,
-            marginTop: 2,
             position: "relative",
             display: "flex",
             flexDirection: "column"
         }}>
             <Grid container spacing={3}>
                 {items.map((product) => (
-                    <Grid size={{ xs: 6, md: 4, lg: 3 }} sx={{ justifyContent: "flex-end", alignItems: "stretch", mx: 'auto' }}>
+                    <Grid size={{ xs: 6, md: 4, lg: 3 }} sx={{ justifyContent: "flex-end", alignItems: "stretch" }}>
                         <ProductCard product={product} />
                     </Grid>
                 ))}
             </Grid>
             <TablePagination
+                labelRowsPerPage="Товарів на сторінці:"
                 component="div"
                 count={totalCount}
                 page={page}

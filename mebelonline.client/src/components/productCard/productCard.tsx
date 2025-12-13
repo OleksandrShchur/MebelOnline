@@ -21,7 +21,7 @@ const ProductCard: React.FC<IProductCardProps> = (props: IProductCardProps) => {
   return (
     <Card
       sx={{
-        position: 'relative', maxWidth: 300, height: 350, mx: 'auto', display: 'flex', flexDirection: 'column',
+        position: 'relative', maxWidth: 300, mx: 'auto', display: 'flex', flexDirection: 'column',
         boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.15)',
         borderRadius: 2,
         transition: 'box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out',
