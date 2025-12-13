@@ -105,9 +105,6 @@ const HeaderSearch = () => {
     const handleSelectHistory = (item: string) => {
         setSearchQuery(item);
         setAnchorEl(null);
-        // Optional: Auto-trigger search on history select for better UX
-        // If you want this, uncomment the next line (simulates Enter key)
-        // handleSearch({ key: 'Enter' });
     };
 
     return (
