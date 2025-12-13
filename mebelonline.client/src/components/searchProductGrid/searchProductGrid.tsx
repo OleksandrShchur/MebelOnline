@@ -30,6 +30,7 @@ const SearchProductGrid: React.FC<ISearchProductGridProps> = (props) => {
                 ))}
             </Grid>
             <TablePagination
+                labelRowsPerPage="Товарів на сторінці:"
                 component="div"
                 count={totalCount}
                 page={page}

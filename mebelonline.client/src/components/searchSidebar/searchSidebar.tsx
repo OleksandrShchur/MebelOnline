@@ -129,7 +129,7 @@ const SearchSidebar: React.FC<ISearchSidebarProps> = ({
             </Box>
 
             {/* Brand Filter */}
-            {visibleBrands.length > 0 &&
+            {visibleBrands?.length > 0 &&
                 <Accordion defaultExpanded sx={{ mb: 3 }}>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                         <Typography variant="subtitle1">
@@ -179,7 +179,7 @@ const SearchSidebar: React.FC<ISearchSidebarProps> = ({
                 </Accordion>
             }
             {/* Material Filter */}
-            {visibleMaterials.length > 0 &&
+            {visibleMaterials?.length > 0 &&
                 <Accordion defaultExpanded sx={{ mb: 3 }}>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                         <Typography variant="subtitle1">

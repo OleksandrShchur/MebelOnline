@@ -31,7 +31,7 @@ namespace MebelOnline.Core.Services.Impl
 
             var totalCount = await query.CountAsync();
             var pagedItems = await query
-                .Skip((page - 1) * pageSize)
+                .Skip((page) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
@@ -57,7 +57,11 @@ namespace MebelOnline.Core.Services.Impl
             decimal minPrice = await queryForPrice.AnyAsync() ? await queryForPrice.MinAsync(p => p.Price) : 0;
             decimal maxPrice = await queryForPrice.AnyAsync() ? await queryForPrice.MaxAsync(p => p.Price) : 0;
 
-            var queryForBrands = await BuildProductQueryAsync(searchParams, applyBrandFilter: false);
+            var applyPriceFilterForBrands = searchParams.SelectedBrands != null;
+            var queryForBrands = await BuildProductQueryAsync(searchParams, 
+                applyBrandFilter: false, 
+                applyPriceFilter: applyPriceFilterForBrands);
+
             var brands = await queryForBrands
                 .Where(p => p.Brand != null)
                 .Select(p => p.Brand.Name)
@@ -65,7 +69,11 @@ namespace MebelOnline.Core.Services.Impl
                 .OrderBy(name => name)
                 .ToListAsync();
 
-            var queryForMaterials = await BuildProductQueryAsync(searchParams, applyMaterialFilter: false);
+            var applyPriceFilterForMaterials = searchParams.SelectedMaterials != null;
+            var queryForMaterials = await BuildProductQueryAsync(searchParams, 
+                applyMaterialFilter: false, 
+                applyPriceFilter: applyPriceFilterForMaterials);
+
             var materials = await _dbContext.ProductAttributeValues
                 .Where(pav => pav.AttributeId == materialAttrId &&
                               queryForMaterials.Any(p => p.Id == pav.ProductId))

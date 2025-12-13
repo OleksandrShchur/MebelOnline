@@ -3,6 +3,16 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { styled, alpha } from '@mui/material/styles';
 import { InputBase, Menu, MenuItem } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import CloseIcon from '@mui/icons-material/Close';
+
+const ClearIconWrapper = styled('div')(({ theme }) => ({
+    position: 'absolute',
+    right: theme.spacing(1),
+    top: '50%',
+    transform: 'translateY(-50%)',
+    cursor: 'pointer',
+    display: 'flex',
+}));
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -76,7 +86,7 @@ const HeaderSearch = () => {
             document.cookie = `searchHistory=${encodeURIComponent(JSON.stringify(updatedHistory))}; path=/`;
 
             // Redirect to search page with query params matching backend SearchParamsModel
-            navigate(`/search?searchString=${encodeURIComponent(query)}&page=1&pageSize=10&sortBy=Ascending`);
+            navigate(`/search?searchString=${encodeURIComponent(query)}&page=0&pageSize=10&sortBy=Ascending`);
 
             // Optionally clear the input after redirect or keep it for UX
             setSearchQuery('');
@@ -111,6 +121,11 @@ const HeaderSearch = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyPress={handleSearch}
             />
+            {searchQuery && (
+                <ClearIconWrapper onClick={() => setSearchQuery('')}>
+                    <CloseIcon fontSize="small" />
+                </ClearIconWrapper>
+            )}
             <Menu
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}
