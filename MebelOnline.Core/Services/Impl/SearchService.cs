@@ -118,17 +118,16 @@ namespace MebelOnline.Core.Services.Impl
             {
                 var lower = searchParams.SearchString.ToLower();
 
-                query =
-                    from p in query
-                    join pav in _dbContext.ProductAttributeValues
-                        on p.Id equals pav.ProductId into pavGroup
-                    from pav in pavGroup.DefaultIfEmpty()
-                    where
-                        (p.Title != null && p.Title.ToLower().Contains(lower)) ||
-                        (p.Description != null && p.Description.ToLower().Contains(lower)) ||
-                        (p.Brand != null && p.Brand.Name.ToLower().Contains(lower)) ||
-                        (pav != null && pav.Value != null && pav.Value.ToLower().Contains(lower))
-                    select p;
+                query = query.Where(p =>
+                    (p.Title != null && p.Title.ToLower().Contains(lower)) ||
+                    (p.Description != null && p.Description.ToLower().Contains(lower)) ||
+                    (p.Brand != null && p.Brand.Name.ToLower().Contains(lower)) ||
+                    _dbContext.ProductAttributeValues.Any(pav =>
+                        pav.ProductId == p.Id &&
+                        pav.Value != null &&
+                        pav.Value.ToLower().Contains(lower)
+                    )
+                );
             }
 
             if (applyPriceFilter)
@@ -142,8 +141,10 @@ namespace MebelOnline.Core.Services.Impl
 
             if (applyBrandFilter && searchParams.SelectedBrands?.Any() == true)
             {
-                query = query.Where(p => p.Brand != null &&
-                                         searchParams.SelectedBrands.Contains(p.Brand.Name));
+                query = query.Where(p =>
+                    p.Brand != null &&
+                    searchParams.SelectedBrands.Contains(p.Brand.Name)
+                );
             }
 
             if (applyMaterialFilter && searchParams.SelectedMaterials?.Any() == true)
@@ -152,13 +153,13 @@ namespace MebelOnline.Core.Services.Impl
 
                 if (materialAttrId != 0)
                 {
-                    query =
-                        from p in query
-                        join pav in _dbContext.ProductAttributeValues
-                            on p.Id equals pav.ProductId
-                        where pav.AttributeId == materialAttrId &&
-                              searchParams.SelectedMaterials.Contains(pav.Value)
-                        select p;
+                    query = query.Where(p =>
+                        _dbContext.ProductAttributeValues.Any(pav =>
+                            pav.ProductId == p.Id &&
+                            pav.AttributeId == materialAttrId &&
+                            searchParams.SelectedMaterials.Contains(pav.Value)
+                        )
+                    );
                 }
             }
 
