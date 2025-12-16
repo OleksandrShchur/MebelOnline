@@ -1,12 +1,9 @@
 import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
 import AdbIcon from '@mui/icons-material/Adb';
 import Button from '@mui/material/Button';
 import Drawer from '@mui/material/Drawer';
@@ -19,70 +16,60 @@ import { Link } from 'react-router-dom';
 import HeaderSearch from '../headerSearch/headerSearch';
 
 const PAGES = [
-  {
-    title: 'Головна',
-    url: ''
-  },
-  {
-    title: 'Каталог',
-    url: '/catalog'
-  },
-  {
-    title: 'Контакти',
-    url: ''
-  },
-  {
-    title: 'Про нас',
-    url: ''
-  },
+  { title: 'Головна', url: '' },
+  { title: 'Каталог', url: '/catalog' },
+  { title: 'Контакти', url: '' },
+  { title: 'Про нас', url: '' },
 ];
 
 const Header: React.FC = () => {
   const [isDrawerOpen, setDrawerOpen] = React.useState(false);
 
-  const toggleDrawer = () => {
-    setDrawerOpen(!isDrawerOpen);
-  };
+  const openDrawer = () => setDrawerOpen(true);
+  const closeDrawer = () => setDrawerOpen(false);
+
+  const handleDrawerIconClick = () => isDrawerOpen ? closeDrawer() : openDrawer();
 
   const drawer = (
-    <div>
+    <Box onClick={closeDrawer}>
       <Toolbar />
       <List>
         {PAGES.map((page) => (
           <ListItem key={page.title} disablePadding>
             <ListItemButton>
-              <ListItemText>
-                <Link to={page.url} style={{ textDecoration: "none", color: "inherit", }}>
-                  {page.title}
-                </Link>
-              </ListItemText>
+              <ListItemText
+                primary={
+                  <Link
+                    to={page.url}
+                    style={{ textDecoration: 'none', color: 'inherit' }}
+                  >
+                    {page.title}
+                  </Link>
+                }
+              />
             </ListItemButton>
           </ListItem>
         ))}
       </List>
-    </div>
+    </Box>
   );
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 2, }}>
+      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 2 }}>
         <Toolbar>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={toggleDrawer}
-              color="inherit"
-            >
+            <IconButton size="large" color="inherit" onClick={handleDrawerIconClick}>
               {isDrawerOpen ? <CloseIcon /> : <MenuIcon />}
             </IconButton>
+
             <Drawer
               anchor="top"
               variant="temporary"
               open={isDrawerOpen}
+              onClose={closeDrawer}
               sx={{
                 display: { xs: 'block', md: 'none' },
                 '& .MuiDrawer-paper': {
@@ -91,39 +78,27 @@ const Header: React.FC = () => {
                   height: '100%',
                 },
               }}
-              slotProps={{
-                root: {
-                  keepMounted: true, // Better open performance on mobile.
-                },
-              }}
             >
               {drawer}
             </Drawer>
           </Box>
+
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {PAGES.map((page) => (
               <Button
                 key={page.title}
-                onClick={toggleDrawer}
                 sx={{ margin: 2, my: 2, color: 'white', display: 'block' }}
+                component={Link}
+                to={page.url}
               >
-                <Link to={page.url} style={{ textDecoration: "none", color: "inherit", }}>
-                  {page.title}
-                </Link>
+                {page.title}
               </Button>
             ))}
           </Box>
+
           <HeaderSearch />
-          {/* <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Пошук..."
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search> */}
         </Toolbar>
       </AppBar>
     </Box>
