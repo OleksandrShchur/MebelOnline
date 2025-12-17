@@ -55,7 +55,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-const HeaderSearch = () => {
+const HeaderSearch: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [searchHistory, setSearchHistory] = useState<string[]>([]);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

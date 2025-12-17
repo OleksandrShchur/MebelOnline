@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Header from "../header/header";
+import Footer from "../footer/footer";
 
 const Layout: React.FC = () => {
     return (
@@ -7,10 +8,8 @@ const Layout: React.FC = () => {
             <Header />
             <>
                 <Outlet />
-                <footer style={{ textAlign: 'right' }}>
-                    {(new Date()).getFullYear()}
-                </footer>
             </>
+            <Footer />
         </>
     );
 };

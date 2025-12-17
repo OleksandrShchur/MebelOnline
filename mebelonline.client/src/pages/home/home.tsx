@@ -8,25 +8,30 @@ import categoryService from "../../services/categoryService";
 
 const Home: React.FC = () => {
     const [categories, setCategories] = useState<CategoryModel[]>([]);
-    const isMounted = useRef(false); // Added this reference to track first render
-
-    const populateCategories = async () => {
-        const data = await categoryService.fetchAll();
-
-        setCategories(data);
-    }
+    const isMounted = useRef(false);
 
     useEffect(() => {
         if (!isMounted.current) {
-            populateCategories();
+            categoryService.fetchAll().then(setCategories);
             isMounted.current = true;
         }
     }, []);
 
     return (
-        <Box display="flex">
+        <Box
+            sx={{
+                display: "flex",
+                alignItems: "stretch",
+                width: "100%",
+                position: "relative",  // Keeps absolute children positioned relative to this content area
+                height: "100%",         // Ensure it fills the available space
+            }}
+        >
             <MultiLevelSidebar categories={categories} />
-            <ProductGrid />
+
+            <Box sx={{ flex: 1, pl: { md: '200px' } }}>  {/* Reserves space for the main 200px sidebar */}
+                <ProductGrid />
+            </Box>
         </Box>
     );
 };
