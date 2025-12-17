@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Container, Grid, Typography, Link, Stack, IconButton, useMediaQuery } from "@mui/material";
+import { Box, Container, Grid, Typography, Stack, IconButton, useMediaQuery } from "@mui/material";
 import theme from "../../theme/theme";
 
 const Footer: React.FC = () => {
