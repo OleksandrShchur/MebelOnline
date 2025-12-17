@@ -1,8 +1,5 @@
 import React from "react";
 import { Box, Container, Grid, Typography, Link, Stack, IconButton } from "@mui/material";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import InstagramIcon from "@mui/icons-material/WhatsApp";
-import MusicNoteIcon from "@mui/icons-material/MusicNote";
 
 const Footer: React.FC = () => {
     return (
