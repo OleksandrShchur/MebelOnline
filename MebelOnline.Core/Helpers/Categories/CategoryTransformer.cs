@@ -15,8 +15,9 @@ namespace MebelOnline.Core.Helpers.Categories
             {
                 Name = "Каталог меблів",
                 Url = "/catalog"
-            } 
+            }
         };
+
         public static IList<CategoryRevertedModel> ConvertHierarchy(IList<CategoryModel> categories)
         {
             var roots = new Dictionary<int, CategoryRevertedModel>();
