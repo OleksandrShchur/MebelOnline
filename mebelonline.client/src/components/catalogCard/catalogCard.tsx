@@ -8,6 +8,8 @@ interface ICatalogCardProps {
 }
 
 const CatalogCard: React.FC<ICatalogCardProps> = ({ category }) => {
+    const categorySearchUrl = `/search?searchString=${category.name}&page=0&pageSize=10&sortBy=Ascending`;
+    
     return (
         <Card
             sx={{
@@ -25,7 +27,7 @@ const CatalogCard: React.FC<ICatalogCardProps> = ({ category }) => {
                 },
             }}
         >
-            <Link underline="none" href={`/category/${category.id}`} color="inherit">
+            <Link underline="none" href={categorySearchUrl} color="inherit">
                 <CardMedia
                     component="img"
                     image={category.imageUrl}
@@ -46,7 +48,7 @@ const CatalogCard: React.FC<ICatalogCardProps> = ({ category }) => {
                         paddingBottom: 1,
                     },
                 }}>
-                <Link underline="none" href={`/category/${category.id}`} color="inherit">
+                <Link underline="none" href={categorySearchUrl} color="inherit">
                     <Tooltip title={category.name} arrow>
                         <Typography
                             variant="subtitle1"
@@ -86,7 +88,7 @@ const CatalogCard: React.FC<ICatalogCardProps> = ({ category }) => {
                 ))}
 
                 <Box sx={{ textAlign: "right", mt: 1 }}>
-                    <Link underline="none" href={`/category/${category.id}`} color="inherit">
+                    <Link underline="none" href={categorySearchUrl} color="inherit">
                         <Typography variant="button">Показати всі...</Typography>
                     </Link>
                 </Box>
