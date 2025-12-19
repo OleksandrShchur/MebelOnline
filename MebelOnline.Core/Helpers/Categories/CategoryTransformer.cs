@@ -6,12 +6,12 @@ namespace MebelOnline.Core.Helpers.Categories
     {
         private static readonly IList<CategoryBreadcrumbModel> model = new List<CategoryBreadcrumbModel>()
         {
-            new CategoryBreadcrumbModel()
+            new CategoryBreadcrumbModel
             {
                 Name = "Головна",
                 Url = "/"
             },
-            new CategoryBreadcrumbModel()
+            new CategoryBreadcrumbModel
             {
                 Name = "Каталог меблів",
                 Url = "/catalog"
@@ -90,8 +90,7 @@ namespace MebelOnline.Core.Helpers.Categories
             {
                 result.Add(new CategoryBreadcrumbModel
                 {
-                    Name = category.Name,
-                    Url = $"/category/{category.Id}"
+                    Name = category.Name
                 });
 
                 category = category.ParentCategory;
@@ -99,9 +98,9 @@ namespace MebelOnline.Core.Helpers.Categories
 
             result.Reverse();
 
-            if (result.Count > 0)
+            foreach (var item in result)
             {
-                result[^1].Url = $"/search?searchString={result[^1].Name}&page=0&pageSize=10&sortBy=Ascending";
+                item.Url = $"/search?searchString={item.Name}&page=0&pageSize=10&sortBy=Ascending";
             }
 
             return [.. model, .. result];
