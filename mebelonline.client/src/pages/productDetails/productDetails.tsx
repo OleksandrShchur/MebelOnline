@@ -43,23 +43,16 @@ const ProductDetails: React.FC = () => {
     return (
         <Container sx={{ pt: 9, pb: 2, maxWidth: 'none !important' }}>
             <Breadcrumbs aria-label="breadcrumb">
-                {breadcrumbs.map((crumb, index) => {
-                    const isLast = index === breadcrumbs.length - 1;
-                    return isLast ? (
-                        <Typography color="text.primary" key={crumb.url}>
-                            {crumb.name}
-                        </Typography>
-                    ) : (
-                        <Link
-                            underline="hover"
-                            color="inherit"
-                            href={crumb.url}
-                            key={crumb.url}
-                        >
-                            {crumb.name}
-                        </Link>
-                    );
-                })}
+                {breadcrumbs.map(crumb =>
+                    <Link
+                        underline="hover"
+                        color="inherit"
+                        href={crumb.url}
+                        key={crumb.url}
+                    >
+                        {crumb.name}
+                    </Link>
+                )}
             </Breadcrumbs>
             <br />
             <Box sx={{ width: '100%' }}>

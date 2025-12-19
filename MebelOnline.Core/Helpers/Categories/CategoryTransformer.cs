@@ -4,9 +4,9 @@ namespace MebelOnline.Core.Helpers.Categories
 {
     public static class CategoryTransformer
     {
-        private static readonly IList<CategoryBreadcrumbModel> model = new List<CategoryBreadcrumbModel>() 
+        private static readonly IList<CategoryBreadcrumbModel> model = new List<CategoryBreadcrumbModel>()
         {
-            new CategoryBreadcrumbModel() 
+            new CategoryBreadcrumbModel()
             {
                 Name = "Головна",
                 Url = "/"
@@ -29,7 +29,6 @@ namespace MebelOnline.Core.Helpers.Categories
 
                 if (grandparent == null)
                 {
-                    // Handle second level structure
                     if (!roots.TryGetValue(parent.Id, out var root))
                     {
                         root = new CategoryRevertedModel
@@ -49,7 +48,6 @@ namespace MebelOnline.Core.Helpers.Categories
                 }
                 else
                 {
-                    // Handle third level structure
                     if (!roots.TryGetValue(grandparent.Id, out var root))
                     {
                         root = new CategoryRevertedModel
@@ -101,7 +99,12 @@ namespace MebelOnline.Core.Helpers.Categories
 
             result.Reverse();
 
-            return [..model, ..result];
+            if (result.Count > 0)
+            {
+                result[^1].Url = $"/search?searchString={result[^1].Name}&page=0&pageSize=10&sortBy=Ascending";
+            }
+
+            return [.. model, .. result];
         }
     }
 }
