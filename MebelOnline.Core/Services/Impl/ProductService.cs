@@ -1,4 +1,5 @@
-﻿using MebelOnline.Core.Mappings.Config;
+﻿using MebelOnline.Core.Helpers.Search;
+using MebelOnline.Core.Mappings.Config;
 using MebelOnline.Core.Models.Products;
 using MebelOnline.Db;
 using MebelOnline.Db.Entities;
@@ -17,32 +18,36 @@ namespace MebelOnline.Core.Services.Impl
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<ProductCardModel>> GetLatestProductsAsync()
+        public async Task<IEnumerable<ProductCardModel>> GetLatestProductsAsync(CancellationToken cancellationToken = default)
         {
             var entities = await _dbContext.Products
+                .AsNoTracking()
                 .Include(p => p.Images)
-                .OrderBy(p => p.Id)
-                .Take(12) // TODO: remove magic number
-                .ToListAsync();
+                .OrderByDescending(p => p.Id)
+                .Take(SearchLimits.LatestProductsCount)
+                .ToListAsync(cancellationToken);
 
-            var mappedModels = _mapper.Map<IList<ProductEntity>, IList<ProductCardModel>>(entities);
-
-            return mappedModels;
+            return _mapper.Map<IList<ProductEntity>, IList<ProductCardModel>>(entities);
         }
 
-        public async Task<ProductDetailsModel> GetProductDetailsByIdAsync(int productId)
+        public async Task<ProductDetailsModel?> GetProductDetailsByIdAsync(int productId, CancellationToken cancellationToken = default)
         {
             var entity = await _dbContext.Products
+                .AsNoTracking()
                 .Include(p => p.Brand)
+                .Include(p => p.Category)
                 .Include(p => p.Options)
                 .Include(p => p.Attributes)
                     .ThenInclude(pa => pa.Attribute)
                 .Include(p => p.Images)
-                .FirstOrDefaultAsync(p => p.Id == productId);
+                .FirstOrDefaultAsync(p => p.Id == productId, cancellationToken);
 
-            var mappedProduct = _mapper.Map<ProductEntity, ProductDetailsModel>(entity);
+            if (entity == null)
+            {
+                return null;
+            }
 
-            return mappedProduct;
+            return _mapper.Map<ProductEntity, ProductDetailsModel>(entity);
         }
     }
 }

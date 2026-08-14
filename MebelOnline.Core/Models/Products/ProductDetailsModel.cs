@@ -1,4 +1,5 @@
 ﻿using MebelOnline.Core.Models.Brands;
+using MebelOnline.Core.Models.Categories;
 using MebelOnline.Core.Models.ProductAttributeValues;
 using MebelOnline.Core.Models.ProductImages;
 using MebelOnline.Core.Models.ProductOptions;
@@ -15,8 +16,9 @@ namespace MebelOnline.Core.Models.Products
         public decimal? Width { get; set; }
         public decimal? Height { get; set; }
         public decimal? Depth { get; set; }
-        public string Note { get; set; }
-        public BrandModel Brand { get; set; }
+        public string? Note { get; set; }
+        public BrandModel? Brand { get; set; }
+        public CategorySummaryModel? Category { get; set; }
         public IList<ProductOptionModel> FrontOptions { get; set; }
         public IList<ProductOptionModel> FrameOptions { get; set; }
         public IList<ProductImageModel> Images { get; set; }

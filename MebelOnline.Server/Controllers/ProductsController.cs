@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MebelOnline.Core.Models.Products;
+﻿using MebelOnline.Core.Models.Products;
 using MebelOnline.Core.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MebelOnline.Server.Controllers
 {
@@ -17,20 +17,46 @@ namespace MebelOnline.Server.Controllers
 
         [HttpGet]
         [Route("latest")]
-        public async Task<IEnumerable<ProductCardModel>> GetLatest()
+        [ProducesResponseType(typeof(IEnumerable<ProductCardModel>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<ProductCardModel>>> GetLatest(CancellationToken cancellationToken)
         {
-            var products = await _productService.GetLatestProductsAsync();
-
-            return products;
+            var products = await _productService.GetLatestProductsAsync(cancellationToken);
+            return Ok(products);
         }
 
         [HttpGet]
         [Route("{productId:int}")]
-        public async Task<ProductDetailsModel> GetById([FromRoute] int productId)
+        [ProducesResponseType(typeof(ProductDetailsModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ProductDetailsModel>> GetById([FromRoute] int productId, CancellationToken cancellationToken)
         {
-            var product = await _productService.GetProductDetailsByIdAsync(productId);
+            if (productId <= 0)
+            {
+                return ValidationProblem(new ValidationProblemDetails(new Dictionary<string, string[]>
+                {
+                    [nameof(productId)] = ["Product id must be greater than 0."]
+                }));
+            }
 
-            return product;
+            var product = await _productService.GetProductDetailsByIdAsync(productId, cancellationToken);
+            if (product == null)
+            {
+                return NotFound(CreateNotFoundProblem($"Product {productId} was not found."));
+            }
+
+            return Ok(product);
+        }
+
+        private ProblemDetails CreateNotFoundProblem(string detail)
+        {
+            return new ProblemDetails
+            {
+                Status = StatusCodes.Status404NotFound,
+                Title = "Not Found",
+                Detail = detail,
+                Instance = HttpContext.Request.Path
+            };
         }
     }
 }

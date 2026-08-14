@@ -18,20 +18,26 @@ namespace MebelOnline.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<PagedResultModel<ProductCardModel>> SearchByParams([FromQuery] SearchParamsModel searchParams)
+        [ProducesResponseType(typeof(PagedResultModel<ProductCardModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<PagedResultModel<ProductCardModel>>> SearchByParams(
+            [FromQuery] SearchParamsModel searchParams,
+            CancellationToken cancellationToken)
         {
-            var pagedResult = await _searchService.GetProductsBySearchParamsAsync(searchParams);
-
-            return pagedResult;
+            var pagedResult = await _searchService.GetProductsBySearchParamsAsync(searchParams, cancellationToken);
+            return Ok(pagedResult);
         }
 
         [HttpGet]
         [Route("sidebar")]
-        public async Task<SearchSidebarModel> GetSidebarParams([FromQuery] SearchParamsModel searchParams)
+        [ProducesResponseType(typeof(SearchSidebarModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<SearchSidebarModel>> GetSidebarParams(
+            [FromQuery] SearchParamsModel searchParams,
+            CancellationToken cancellationToken)
         {
-            var sidebarParams = await _searchService.GetSearchSidebarParamsAsync(searchParams);
-
-            return sidebarParams;
+            var sidebarParams = await _searchService.GetSearchSidebarParamsAsync(searchParams, cancellationToken);
+            return Ok(sidebarParams);
         }
     }
 }

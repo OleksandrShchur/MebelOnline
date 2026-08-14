@@ -1,4 +1,5 @@
 ﻿using MebelOnline.Core.Models.Brands;
+using MebelOnline.Core.Models.Categories;
 using MebelOnline.Core.Models.ProductAttributeValues;
 using MebelOnline.Core.Models.ProductImages;
 using MebelOnline.Core.Models.ProductOptions;
@@ -17,7 +18,9 @@ namespace MebelOnline.Core.Mappings.ProductMappings
                 return default;
             }
 
-            var model = new ProductDetailsModel
+            var options = source.Options ?? Enumerable.Empty<ProductOptionEntity>();
+
+            return new ProductDetailsModel
             {
                 Id = source.Id,
                 Title = source.Title,
@@ -28,29 +31,22 @@ namespace MebelOnline.Core.Mappings.ProductMappings
                 Height = source.Height,
                 Depth = source.Depth,
                 Note = source.Note,
-                Brand = new BrandModel
-                {
-                    Name = source.Brand?.Name,
-                    Description = source.Brand?.Description
-                },
-                FrontOptions = source.Options != null 
-                    ? source.Options
-                        .Where(o => o.OptionType == ProductOptionTypeEnum.Front)
-                        .Select(o => new ProductOptionModel
-                        {
-                            ColorName = o.ColorName,
-                            ImageUrl = o.ImageUrl
-                        }).ToList()
-                    : new List<ProductOptionModel>(),
-                FrameOptions = source.Options != null
-                    ? source.Options
-                        .Where(o => o.OptionType == ProductOptionTypeEnum.Frame)
-                        .Select(o => new ProductOptionModel
-                        {
-                            ColorName = o.ColorName,
-                            ImageUrl = o.ImageUrl
-                        }).ToList()
-                    : new List<ProductOptionModel>(),
+                Brand = source.Brand == null
+                    ? null
+                    : new BrandModel
+                    {
+                        Name = source.Brand.Name,
+                        Description = source.Brand.Description
+                    },
+                Category = source.Category == null
+                    ? null
+                    : new CategorySummaryModel
+                    {
+                        Id = source.Category.Id,
+                        Name = source.Category.Name
+                    },
+                FrontOptions = MapOptions(options, ProductOptionTypeEnum.Front),
+                FrameOptions = MapOptions(options, ProductOptionTypeEnum.Frame),
                 Images = source.Images != null
                     ? source.Images
                         .Select(i => new ProductImageModel
@@ -61,6 +57,7 @@ namespace MebelOnline.Core.Mappings.ProductMappings
                     : new List<ProductImageModel>(),
                 Attributes = source.Attributes != null
                     ? source.Attributes
+                        .Where(a => a.Attribute != null)
                         .Select(a => new ProductAttributeValueModel
                         {
                             Key = a.Attribute.Name,
@@ -68,8 +65,21 @@ namespace MebelOnline.Core.Mappings.ProductMappings
                         }).ToList()
                     : new List<ProductAttributeValueModel>()
             };
+        }
 
-            return model;
+        private static IList<ProductOptionModel> MapOptions(
+            IEnumerable<ProductOptionEntity> options,
+            ProductOptionTypeEnum optionType)
+        {
+            return options
+                .Where(o => o.OptionType == optionType)
+                .Select(o => new ProductOptionModel
+                {
+                    ColorName = o.ColorName,
+                    Material = o.Material,
+                    ImageUrl = o.ImageUrl
+                })
+                .ToList();
         }
     }
 }

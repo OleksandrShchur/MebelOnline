@@ -10,3 +10,11 @@ MebelOnline.Server/Properties/PublishProfiles
 mebelonline.client/mebelonline.client.esproj.user
 MebelOnline.Core/bin
 MebelOnline.Core/obj
+MebelOnline.Core.Tests/bin
+MebelOnline.Core.Tests/obj
+MebelOnline.Server.Tests/bin
+MebelOnline.Server.Tests/obj
+mebelonline.client/test-results/
+mebelonline.client/playwright-report/
+mebelonline.client/blob-report/
+mebelonline.client/playwright/.cache/

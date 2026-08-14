@@ -17,29 +17,83 @@ namespace MebelOnline.Server.Controllers
 
         [HttpGet]
         [Route("all")]
-        public async Task<IEnumerable<CategoryRevertedModel>> GetAll()
+        [ProducesResponseType(typeof(IEnumerable<CategoryRevertedModel>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<CategoryRevertedModel>>> GetAll(CancellationToken cancellationToken)
         {
-            var categories = await _categoryService.GetCategoriesHierarchyAsync();
-
-            return categories;
+            var categories = await _categoryService.GetCategoriesHierarchyAsync(cancellationToken);
+            return Ok(categories);
         }
 
         [HttpGet]
         [Route("breadcrumbs/{productId:int}")]
-        public async Task<IEnumerable<CategoryBreadcrumbModel>> GetBreadcrubmsForProduct([FromRoute] int productId)
+        [ProducesResponseType(typeof(IEnumerable<CategoryBreadcrumbModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<CategoryBreadcrumbModel>>> GetBreadcrubmsForProduct(
+            [FromRoute] int productId,
+            CancellationToken cancellationToken)
         {
-            var breadcrumbs = await _categoryService.GetBreadcrumbsAsync(productId);
+            if (productId <= 0)
+            {
+                return ValidationProblem(new ValidationProblemDetails(new Dictionary<string, string[]>
+                {
+                    [nameof(productId)] = ["Product id must be greater than 0."]
+                }));
+            }
 
-            return breadcrumbs;
+            var breadcrumbs = await _categoryService.GetBreadcrumbsAsync(productId, cancellationToken);
+            if (breadcrumbs == null)
+            {
+                return NotFound(CreateNotFoundProblem($"Product {productId} was not found."));
+            }
+
+            return Ok(breadcrumbs);
         }
 
         [HttpGet]
         [Route("catalog")]
-        public async Task<IEnumerable<CategoryCatalogModel>> GetCatalog()
+        [ProducesResponseType(typeof(IEnumerable<CategoryCatalogModel>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<CategoryCatalogModel>>> GetCatalog(CancellationToken cancellationToken)
         {
-            var catalog = await _categoryService.GetCatalogAsync();
+            var catalog = await _categoryService.GetCatalogAsync(cancellationToken);
+            return Ok(catalog);
+        }
 
-            return catalog;
+        [HttpGet]
+        [Route("{categoryId:int}")]
+        [ProducesResponseType(typeof(CategoryDetailsModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<CategoryDetailsModel>> GetById(
+            [FromRoute] int categoryId,
+            CancellationToken cancellationToken)
+        {
+            if (categoryId <= 0)
+            {
+                return ValidationProblem(new ValidationProblemDetails(new Dictionary<string, string[]>
+                {
+                    [nameof(categoryId)] = ["Category id must be greater than 0."]
+                }));
+            }
+
+            var category = await _categoryService.GetCategoryByIdAsync(categoryId, cancellationToken);
+            if (category == null)
+            {
+                return NotFound(CreateNotFoundProblem($"Category {categoryId} was not found."));
+            }
+
+            return Ok(category);
+        }
+
+        private ProblemDetails CreateNotFoundProblem(string detail)
+        {
+            return new ProblemDetails
+            {
+                Status = StatusCodes.Status404NotFound,
+                Title = "Not Found",
+                Detail = detail,
+                Instance = HttpContext.Request.Path
+            };
         }
     }
 }

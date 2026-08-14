@@ -25,7 +25,24 @@ namespace MebelOnline.Core.Helpers.Categories
             foreach (var firstLevel in categories)
             {
                 var parent = firstLevel.ParentCategory;
-                var grandparent = parent?.ParentCategory;
+
+                if (parent == null)
+                {
+                    if (!roots.TryGetValue(firstLevel.Id, out var selfRoot))
+                    {
+                        selfRoot = new CategoryRevertedModel
+                        {
+                            Id = firstLevel.Id,
+                            Name = firstLevel.Name,
+                            ChildrenCategories = new List<CategoryRevertedModel>()
+                        };
+                        roots[firstLevel.Id] = selfRoot;
+                    }
+
+                    continue;
+                }
+
+                var grandparent = parent.ParentCategory;
 
                 if (grandparent == null)
                 {
@@ -90,18 +107,14 @@ namespace MebelOnline.Core.Helpers.Categories
             {
                 result.Add(new CategoryBreadcrumbModel
                 {
-                    Name = category.Name
+                    Name = category.Name,
+                    Url = $"/catalog/{category.Id}"
                 });
 
                 category = category.ParentCategory;
             }
 
             result.Reverse();
-
-            foreach (var item in result)
-            {
-                item.Url = $"/search?searchString={item.Name}&page=0&pageSize=10&sortBy=Ascending";
-            }
 
             return [.. model, .. result];
         }

@@ -3,6 +3,7 @@
     public class ProductOptionModel
     {
         public string ColorName { get; set; }
+        public string? Material { get; set; }
         public string ImageUrl { get; set; }
     }
 }
