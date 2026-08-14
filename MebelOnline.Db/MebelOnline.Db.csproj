@@ -16,8 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
-	<Folder Include="Migrations\Up\" />
-    <Folder Include="Migrations\Down\" />
+    <None Include="Migrations\**\*.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

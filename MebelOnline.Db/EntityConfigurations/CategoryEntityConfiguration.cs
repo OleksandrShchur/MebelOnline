@@ -19,13 +19,23 @@ namespace MebelOnline.Db.EntityConfigurations
                 .IsRequired(false);
 
             builder.HasIndex(c => c.Name)
-                .IsUnique();
+                .IsUnique()
+                .HasDatabaseName("UX_Categories_Name");
 
             builder.Property(c => c.ParentCategoryId)
                 .IsRequired(false);
 
             builder.Property(c => c.HasProducts)
-                .IsRequired(true);
+                .IsRequired()
+                .HasDefaultValue(false);
+
+            builder.HasIndex(c => c.ParentCategoryId)
+                .HasDatabaseName("IX_Categories_ParentCategoryId");
+
+            builder.HasOne(c => c.ParentCategory)
+                .WithMany()
+                .HasForeignKey(c => c.ParentCategoryId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

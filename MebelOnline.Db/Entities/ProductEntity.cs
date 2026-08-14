@@ -14,8 +14,9 @@ namespace MebelOnline.Db.Entities
         public decimal? Height { get; set; }
         public decimal? Depth { get; set; }
         public int? BrandId { get; set; }
-        public string Note { get; set; }
-        public BrandEntity Brand { get; set; }
+        public string? Note { get; set; }
+        public BrandEntity? Brand { get; set; }
+        public CategoryEntity? Category { get; set; }
         public virtual ICollection<ProductOptionEntity> Options { get; set; }
         public virtual ICollection<ProductImageEntity> Images { get; set; }
         public virtual ICollection<ProductAttributeValueEntity> Attributes { get; set; }

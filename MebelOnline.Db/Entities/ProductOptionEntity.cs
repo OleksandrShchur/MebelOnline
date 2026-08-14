@@ -8,6 +8,7 @@ namespace MebelOnline.Db.Entities
     {
         public int ProductId { get; set; }
         public string ColorName { get; set; }
+        public string? Material { get; set; }
         public ProductOptionTypeEnum OptionType { get; set; }
         public string ImageUrl { get; set; }
     }

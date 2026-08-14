@@ -1,17 +1,25 @@
-IF NOT EXISTS (SELECT 1 FROM Brands WHERE Name = 'Brand A')
-BEGIN
-    INSERT INTO Brands (Name, Description, ImageUrl)
-    VALUES ('Brand A', 'Description for Brand A', 'https://example.com/brandA.jpg');
-END
+-- Ukrainian furniture brands (demo). Prices elsewhere are UAH; brands have no currency column.
 
-IF NOT EXISTS (SELECT 1 FROM Brands WHERE Name = 'Brand B')
-BEGIN
-    INSERT INTO Brands (Name, Description, ImageUrl)
-    VALUES ('Brand B', 'Description for Brand B', 'https://example.com/brandB.jpg');
-END
+SET IDENTITY_INSERT dbo.Brands ON;
 
-IF NOT EXISTS (SELECT 1 FROM Brands WHERE Name = 'Brand C')
-BEGIN
-    INSERT INTO Brands (Name, Description, ImageUrl)
-    VALUES ('Brand C', 'Description for Brand C', 'https://example.com/brandC.jpg');
-END
+IF NOT EXISTS (SELECT 1 FROM dbo.Brands WHERE Id = 1)
+INSERT INTO dbo.Brands (Id, Name, Description, ImageUrl)
+VALUES (1, N'ВМК-Україна', N'Український виробник корпусних меблів.', N'https://picsum.photos/seed/brand-vmk/200/200');
+
+IF NOT EXISTS (SELECT 1 FROM dbo.Brands WHERE Id = 2)
+INSERT INTO dbo.Brands (Id, Name, Description, ImageUrl)
+VALUES (2, N'Gerbor', N'Меблі для дому та офісу.', N'https://picsum.photos/seed/brand-gerbor/200/200');
+
+IF NOT EXISTS (SELECT 1 FROM dbo.Brands WHERE Id = 3)
+INSERT INTO dbo.Brands (Id, Name, Description, ImageUrl)
+VALUES (3, N'Еверест', N'Корпусні меблі українського виробництва.', N'https://picsum.photos/seed/brand-everest/200/200');
+
+IF NOT EXISTS (SELECT 1 FROM dbo.Brands WHERE Id = 4)
+INSERT INTO dbo.Brands (Id, Name, Description, ImageUrl)
+VALUES (4, N'Blest', N'М''які меблі: дивани та крісла.', N'https://picsum.photos/seed/brand-blest/200/200');
+
+IF NOT EXISTS (SELECT 1 FROM dbo.Brands WHERE Id = 5)
+INSERT INTO dbo.Brands (Id, Name, Description, ImageUrl)
+VALUES (5, N'Novelty', N'Ліжка, матраци та меблі для спальні.', N'https://picsum.photos/seed/brand-novelty/200/200');
+
+SET IDENTITY_INSERT dbo.Brands OFF;
