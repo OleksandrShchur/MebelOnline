@@ -1,59 +1,40 @@
-import type { CatalogModel } from "../models/catalogModel";
-import type { CategoryBreadcrumbModel } from "../models/categoryBreadcrumbModel";
-import type { CategoryModel } from "../models/categoryModel";
+import type { CatalogModel } from '../models/catalogModel';
+import type { CategoryBreadcrumbModel } from '../models/categoryBreadcrumbModel';
+import type { CategoryDetailsModel } from '../models/categoryDetailsModel';
+import type { CategoryModel } from '../models/categoryModel';
+import { ApiError, fetchJson } from './httpClient';
 
 const categoryService = () => {
-    const baseUrl = '/api/categories';
+  const baseUrl = '/api/categories';
 
-    const fetchAll = async (): Promise<CategoryModel[]> => {
-        try {
-            const response = await fetch(`${baseUrl}/all`);
+  const fetchAll = async (): Promise<CategoryModel[]> => {
+    const data = await fetchJson<CategoryModel[]>(`${baseUrl}/all`);
+    return data ?? [];
+  };
 
-            if (!response.ok) {
-                console.error(`Error fetching categories: ${response.statusText}`);
-                return [];
-            }
+  const fetchBreadcrumbsForProduct = async (
+    productId: string,
+  ): Promise<CategoryBreadcrumbModel[]> => {
+    const data = await fetchJson<CategoryBreadcrumbModel[]>(
+      `${baseUrl}/breadcrumbs/${productId}`,
+    );
+    return data ?? [];
+  };
 
-            return await response.json();
-        } catch (error) {
-            console.error('Network error while fetching categories:', error);
-            return [];
-        }
-    };
+  const fetchCatalog = async (): Promise<CatalogModel[]> => {
+    const data = await fetchJson<CatalogModel[]>(`${baseUrl}/catalog`);
+    return data ?? [];
+  };
 
-    const fetchBreadcrumbsForProduct = async (productId: string): Promise<CategoryBreadcrumbModel[]> => {
-        try {
-            const response = await fetch(`${baseUrl}/breadcrumbs/${productId}`);
+  const fetchById = async (categoryId: number | string): Promise<CategoryDetailsModel> => {
+    const data = await fetchJson<CategoryDetailsModel | null>(`${baseUrl}/${categoryId}`);
+    if (!data) {
+      throw new ApiError(404, 'Категорію не знайдено');
+    }
+    return data;
+  };
 
-            if (!response.ok) {
-                console.error(`Error fetching categories: ${response.statusText}`);
-                return [];
-            }
-
-            return await response.json();
-        } catch (error) {
-            console.error('Network error while fetching breadcrumbs for product:', error);
-            return [];
-        }
-    };
-    
-    const fetchCatalog = async (): Promise<CatalogModel[]> => {
-        try {
-            const response = await fetch(`${baseUrl}/catalog`);
-
-            if (!response.ok) {
-                console.error(`Error fetching categories: ${response.statusText}`);
-                return [];
-            }
-
-            return await response.json();
-        } catch (error) {
-            console.error('Network error while fetching breadcrumbs for product:', error);
-            return [];
-        }
-    };
-
-    return { fetchAll, fetchBreadcrumbsForProduct, fetchCatalog };
+  return { fetchAll, fetchBreadcrumbsForProduct, fetchCatalog, fetchById };
 };
 
 export default categoryService();

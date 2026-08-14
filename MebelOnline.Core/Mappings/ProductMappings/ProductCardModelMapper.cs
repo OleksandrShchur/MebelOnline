@@ -1,5 +1,5 @@
-﻿using MebelOnline.Db.Entities;
-using MebelOnline.Core.Models.Products;
+﻿using MebelOnline.Core.Models.Products;
+using MebelOnline.Db.Entities;
 
 namespace MebelOnline.Core.Mappings.ProductMappings
 {
@@ -12,16 +12,17 @@ namespace MebelOnline.Core.Mappings.ProductMappings
                 return default;
             }
 
-            var model = new ProductCardModel
+            var images = source.Images ?? Enumerable.Empty<ProductImageEntity>();
+            var primary = images.FirstOrDefault(i => i.IsPrimary) ?? images.FirstOrDefault();
+
+            return new ProductCardModel
             {
                 Id = source.Id,
                 Title = source.Title,
                 Price = source.Price,
                 OldPrice = source.OldPrice,
-                ImageUrl = source.Images.FirstOrDefault(i => i.IsPrimary).Url
+                ImageUrl = primary?.Url
             };
-
-            return model;
         }
     }
 }

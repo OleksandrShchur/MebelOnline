@@ -33,22 +33,33 @@ namespace MebelOnline.Db.EntityConfigurations
             builder.HasOne(p => p.Brand)
                 .WithMany()
                 .HasForeignKey(p => p.BrandId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasOne(p => p.Category)
+                .WithMany()
+                .HasForeignKey(p => p.CategoryId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasIndex(p => p.CategoryId)
+                .HasDatabaseName("IX_Products_CategoryId");
+
+            builder.HasIndex(p => p.Title)
+                .HasDatabaseName("IX_Products_Title");
 
             builder.HasMany(p => p.Options)
                 .WithOne()
                 .HasForeignKey(o => o.ProductId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(p => p.Images)
                 .WithOne()
                 .HasForeignKey(i => i.ProductId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(p => p.Attributes)
                 .WithOne()
                 .HasForeignKey(a => a.ProductId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

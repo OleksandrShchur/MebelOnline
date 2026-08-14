@@ -6,7 +6,12 @@ namespace MebelOnline.Core.Services
 {
     public interface ISearchService
     {
-        Task<PagedResultModel<ProductCardModel>> GetProductsBySearchParamsAsync(SearchParamsModel searchParams);
-        Task<SearchSidebarModel> GetSearchSidebarParamsAsync(SearchParamsModel searchParams);
+        Task<PagedResultModel<ProductCardModel>> GetProductsBySearchParamsAsync(
+            SearchParamsModel searchParams,
+            CancellationToken cancellationToken = default);
+
+        Task<SearchSidebarModel> GetSearchSidebarParamsAsync(
+            SearchParamsModel searchParams,
+            CancellationToken cancellationToken = default);
     }
 }

@@ -1,61 +1,80 @@
 import { fileURLToPath, URL } from 'node:url';
-
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vitest/config';
+import type { UserConfig } from 'vite';
 import plugin from '@vitejs/plugin-react';
 import fs from 'fs';
 import path from 'path';
 import child_process from 'child_process';
 import { env } from 'process';
 
-const baseFolder =
+const target = env.ASPNETCORE_HTTPS_PORT
+  ? `https://localhost:${env.ASPNETCORE_HTTPS_PORT}`
+  : env.ASPNETCORE_URLS
+    ? env.ASPNETCORE_URLS.split(';')[0]
+    : 'https://localhost:7087';
+
+const loadDevHttps = () => {
+  const baseFolder =
     env.APPDATA !== undefined && env.APPDATA !== ''
-        ? `${env.APPDATA}/ASP.NET/https`
-        : `${env.HOME}/.aspnet/https`;
+      ? `${env.APPDATA}/ASP.NET/https`
+      : `${env.HOME}/.aspnet/https`;
 
-const certificateName = "mebelonline.client";
-const certFilePath = path.join(baseFolder, `${certificateName}.pem`);
-const keyFilePath = path.join(baseFolder, `${certificateName}.key`);
+  const certificateName = 'mebelonline.client';
+  const certFilePath = path.join(baseFolder, `${certificateName}.pem`);
+  const keyFilePath = path.join(baseFolder, `${certificateName}.key`);
 
-if (!fs.existsSync(baseFolder)) {
+  if (!fs.existsSync(baseFolder)) {
     fs.mkdirSync(baseFolder, { recursive: true });
-}
+  }
 
-if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
-    if (0 !== child_process.spawnSync('dotnet', [
-        'dev-certs',
-        'https',
-        '--export-path',
-        certFilePath,
-        '--format',
-        'Pem',
-        '--no-password',
-    ], { stdio: 'inherit', }).status) {
-        throw new Error("Could not create certificate.");
+  if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
+    if (
+      0 !==
+      child_process.spawnSync(
+        'dotnet',
+        ['dev-certs', 'https', '--export-path', certFilePath, '--format', 'Pem', '--no-password'],
+        { stdio: 'inherit' },
+      ).status
+    ) {
+      throw new Error('Could not create certificate.');
     }
-}
+  }
 
-const target = env.ASPNETCORE_HTTPS_PORT ? `https://localhost:${env.ASPNETCORE_HTTPS_PORT}` :
-    env.ASPNETCORE_URLS ? env.ASPNETCORE_URLS.split(';')[0] : 'https://localhost:7087';
+  return {
+    key: fs.readFileSync(keyFilePath),
+    cert: fs.readFileSync(certFilePath),
+  };
+};
 
-// https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({ command }) => {
+  const config: UserConfig = {
     plugins: [plugin()],
     resolve: {
-        alias: {
-            '@': fileURLToPath(new URL('./src', import.meta.url))
-        }
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+      },
     },
-    server: {
-        proxy: {
-            '^/api/': {
-                target,
-                secure: false
-            }
+    test: {
+      environment: 'jsdom',
+      setupFiles: './src/test/setup.ts',
+      css: true,
+      include: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
+    },
+  };
+
+  if (command === 'serve') {
+    const useHttp = env.VITE_HTTP === '1';
+    config.server = {
+      proxy: {
+        '^/api/': {
+          target,
+          secure: false,
         },
-        port: 51347,
-        https: {
-            key: fs.readFileSync(keyFilePath),
-            cert: fs.readFileSync(certFilePath),
-        }
-    }
-})
+      },
+      port: Number(env.VITE_PORT || 51347),
+      ...(useHttp ? {} : { https: loadDevHttps() }),
+    };
+  }
+
+  return config;
+});

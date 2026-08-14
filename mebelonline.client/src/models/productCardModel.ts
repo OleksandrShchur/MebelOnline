@@ -1,7 +1,7 @@
 export type ProductCardModel = {
-    id: number;
-    title: string;
-    price: number;
-    oldPrice?: number;
-    imageUrl: string;
+  id: number;
+  title: string;
+  price: number;
+  oldPrice?: number | null;
+  imageUrl?: string | null;
 };

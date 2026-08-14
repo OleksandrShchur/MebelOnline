@@ -11,7 +11,6 @@ namespace MebelOnline.Db.EntityConfigurations
             builder.HasKey(p => p.Id);
 
             builder.Property(p => p.Url)
-                .IsRequired()
                 .HasMaxLength(500);
 
             builder.Property(p => p.IsPrimary)
@@ -19,6 +18,9 @@ namespace MebelOnline.Db.EntityConfigurations
 
             builder.Property(p => p.ProductId)
                 .IsRequired();
+
+            builder.HasIndex(p => new { p.ProductId, p.IsPrimary })
+                .HasDatabaseName("IX_ProductImages_ProductId_IsPrimary");
         }
     }
 }

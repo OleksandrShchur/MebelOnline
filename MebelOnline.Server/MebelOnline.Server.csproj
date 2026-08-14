@@ -7,6 +7,7 @@
     <SpaRoot>..\mebelonline.client</SpaRoot>
     <SpaProxyLaunchCommand>npm run dev</SpaProxyLaunchCommand>
     <SpaProxyServerUrl>https://localhost:51347</SpaProxyServerUrl>
+    <UserSecretsId>c3e7f8a1-4b2d-4e9c-9f1a-7d6c5b4a3210</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +17,10 @@
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="MebelOnline.Server.Tests" />
   </ItemGroup>
 
   <ItemGroup>

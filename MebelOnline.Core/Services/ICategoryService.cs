@@ -4,8 +4,9 @@ namespace MebelOnline.Core.Services
 {
     public interface ICategoryService
     {
-        Task<IEnumerable<CategoryRevertedModel>> GetCategoriesHierarchyAsync();
-        Task<IEnumerable<CategoryBreadcrumbModel>> GetBreadcrumbsAsync(int productId);
-        Task<IEnumerable<CategoryCatalogModel>> GetCatalogAsync();
+        Task<IEnumerable<CategoryRevertedModel>> GetCategoriesHierarchyAsync(CancellationToken cancellationToken = default);
+        Task<IEnumerable<CategoryBreadcrumbModel>?> GetBreadcrumbsAsync(int productId, CancellationToken cancellationToken = default);
+        Task<IEnumerable<CategoryCatalogModel>> GetCatalogAsync(CancellationToken cancellationToken = default);
+        Task<CategoryDetailsModel?> GetCategoryByIdAsync(int categoryId, CancellationToken cancellationToken = default);
     }
 }

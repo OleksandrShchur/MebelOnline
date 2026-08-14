@@ -4,6 +4,6 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public IList<CategoryRevertedModel> ChildrenCategories { get; set; }
+        public IList<CategoryRevertedModel> ChildrenCategories { get; set; } = new List<CategoryRevertedModel>();
     }
 }

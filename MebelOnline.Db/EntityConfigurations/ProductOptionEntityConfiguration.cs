@@ -16,6 +16,15 @@ namespace MebelOnline.Db.EntityConfigurations
             builder.Property(p => p.ColorName)
                 .HasMaxLength(100);
 
+            builder.Property(p => p.Material)
+                .HasMaxLength(100)
+                .IsRequired(false);
+
+            builder.Property(p => p.OptionType)
+                .HasColumnType("tinyint")
+                .IsRequired()
+                .HasDefaultValue(MebelOnline.Db.Enums.ProductOptionTypeEnum.NotSpecified);
+
             builder.Property(p => p.ImageUrl)
                 .HasMaxLength(500);
         }

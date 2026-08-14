@@ -1,42 +1,24 @@
-import type { ProductCardModel } from "../models/productCardModel";
-import type { ProductDetailsModel } from "../models/productDetailsModel";
+import type { ProductCardModel } from '../models/productCardModel';
+import type { ProductDetailsModel } from '../models/productDetailsModel';
+import { ApiError, fetchJson } from './httpClient';
 
 const productService = () => {
-    const baseUrl = '/api/products';
+  const baseUrl = '/api/products';
 
-    const fetchLatest = async (): Promise<ProductCardModel[]> => {
-        try {
-            const response = await fetch(`${baseUrl}/latest`);
+  const fetchLatest = async (): Promise<ProductCardModel[]> => {
+    const data = await fetchJson<ProductCardModel[]>(`${baseUrl}/latest`);
+    return data ?? [];
+  };
 
-            if (!response.ok) {
-                console.error(`Error fetching categories: ${response.statusText}`);
-                return [];
-            }
+  const fetchProductDetails = async (productId: string): Promise<ProductDetailsModel> => {
+    const data = await fetchJson<ProductDetailsModel | null>(`${baseUrl}/${productId}`);
+    if (!data) {
+      throw new ApiError(404, 'Товар не знайдено');
+    }
+    return data;
+  };
 
-            return await response.json();
-        } catch (error) {
-            console.error('Network error while fetching categories:', error);
-            return [];
-        }
-    };
-
-    const fetchProductDetails = async (productId: string): Promise<ProductDetailsModel | null> => {
-        try {
-            const response = await fetch(`${baseUrl}/${productId}`);
-
-            if (!response.ok) {
-                console.error(`Error fetching categories: ${response.statusText}`);
-                return null;
-            }
-
-            return await response.json();
-        } catch (error) {
-            console.error('Network error while fetching categories:', error);
-            return null;
-        }
-    };
-
-    return { fetchLatest, fetchProductDetails };
+  return { fetchLatest, fetchProductDetails };
 };
 
 export default productService();

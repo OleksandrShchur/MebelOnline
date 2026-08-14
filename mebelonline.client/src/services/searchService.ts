@@ -1,42 +1,43 @@
-import type { PagedResultModel } from "../models/pagedResultModel";
-import type { SearchSidebarModel } from "../models/searchSidebarModel";
+import type { PagedResultModel } from '../models/pagedResultModel';
+import type { ProductCardModel } from '../models/productCardModel';
+import type { SearchSidebarModel } from '../models/searchSidebarModel';
+import { fetchJson } from './httpClient';
 
 const searchService = () => {
-    const baseUrl = 'api/search';
+  const baseUrl = '/api/search';
 
-    const fetchByQuery = async (params: URLSearchParams): Promise<PagedResultModel | null> => {
-        try {
-            const response = await fetch(`${baseUrl}?${params.toString()}`);
+  const fetchByQuery = async (
+    params: URLSearchParams,
+  ): Promise<PagedResultModel<ProductCardModel>> => {
+    const data = await fetchJson<PagedResultModel<ProductCardModel> | null>(
+      `${baseUrl}?${params.toString()}`,
+    );
+    return (
+      data ?? {
+        items: [],
+        page: 0,
+        pageSize: 12,
+        totalCount: 0,
+        totalPages: 0,
+      }
+    );
+  };
 
-            if (!response.ok) {
-                console.error(`Error fetching search by query data: ${response.statusText}`);
-                return null;
-            }
+  const fetchSidebar = async (params: URLSearchParams): Promise<SearchSidebarModel> => {
+    const data = await fetchJson<SearchSidebarModel | null>(
+      `${baseUrl}/sidebar?${params.toString()}`,
+    );
+    return (
+      data ?? {
+        minPrice: 0,
+        maxPrice: 0,
+        brands: [],
+        materials: [],
+      }
+    );
+  };
 
-            return await response.json();
-        } catch (error) {
-            console.error('Network error while fetching search result:', error);
-            return null;
-        }
-    };
-
-    const fetchSidebar = async (params: URLSearchParams): Promise<SearchSidebarModel | null> => {
-        try {
-            const response = await fetch(`${baseUrl}/sidebar?${params.toString()}`);
-
-            if (!response.ok) {
-                console.error(`Error fetching search sidebar data: ${response.statusText}`);
-                return null;
-            }
-
-            return await response.json();
-        } catch (error) {
-            console.error('Network error while fetching search sidebar data:', error);
-            return null;
-        }
-    };
-
-    return { fetchByQuery, fetchSidebar };
+  return { fetchByQuery, fetchSidebar };
 };
 
 export default searchService();
