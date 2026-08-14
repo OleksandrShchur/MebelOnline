@@ -1,4 +1,5 @@
 export type ProductOptionModel = {
-    colorName: string;
-    imageUrl: string;
+  colorName: string;
+  material?: string | null;
+  imageUrl: string;
 };

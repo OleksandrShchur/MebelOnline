@@ -1,230 +1,30 @@
-import React, { useEffect, useState, type ChangeEvent } from "react";
-import { Container } from "@mui/material";
-import { useSearchParams } from "react-router-dom";
-import SearchSidebar from "../../components/searchSidebar/searchSidebar";
-import SearchProductGrid from "../../components/searchProductGrid/searchProductGrid";
-import searchService from "../../services/searchService";
-import type { PagedResultModel } from "../../models/pagedResultModel";
-import type { FilterRangeModel } from "../../models/filterRangeModel";
+import { Box, Container, Typography } from '@mui/material';
+import { useSearchParams } from 'react-router-dom';
+import ProductListingLayout from '../../components/productListingLayout/productListingLayout';
+import useDocumentTitle from '../../hooks/useDocumentTitle';
+import AppBreadcrumbs from '../../components/appBreadcrumbs/appBreadcrumbs';
 
 const Search: React.FC = () => {
-    const [searchParams, setSearchParams] = useSearchParams();
-    const [priceRange, setPriceRange] = useState<FilterRangeModel>({
-        min: 0,
-        max: 0,
-        value: [0, 0],
-    });
+  const [searchParams] = useSearchParams();
+  const query = (searchParams.get('searchString') ?? '').trim();
+  useDocumentTitle(query ? `Пошук: ${query}` : 'Пошук');
 
-    const [brandItems, setBrandItems] = useState<string[]>([]);
-    const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
-
-    const [materialItems, setMaterialItems] = useState<string[]>([]);
-    const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
-
-    const [products, setProducts] = useState<PagedResultModel | null>(null);
-
-    const [page, setPage] = useState<number>(0);
-    const [rowsPerPage, setRowsPerPage] = useState<number>(10);
-
-    // Temporary states for TextField inputs
-    const [priceMinInput, setPriceMinInput] = useState<string>(priceRange.value[0].toString());
-    const [priceMaxInput, setPriceMaxInput] = useState<string>(priceRange.value[1].toString());
-
-    const populateProducts = async () => {
-        const data = await searchService.fetchByQuery(searchParams);
-        setProducts(data);
-    };
-
-    useEffect(() => {
-        const urlPage = searchParams.get('page');
-        const urlRows = searchParams.get('pageSize');
-
-        setPage(parseInt(urlPage ?? '0', 10));
-        setRowsPerPage(parseInt(urlRows ?? '10', 10));
-
-        loadFromSearchParams();
-        populateProducts();
-    }, [searchParams]);
-
-    const loadFromSearchParams = async () => {
-        const urlMin = searchParams.get('minPrice');
-        const urlMax = searchParams.get('maxPrice');
-        const brands = searchParams.getAll('selectedBrands');
-        const materials = searchParams.getAll('selectedMaterials');
-
-        const params = new URLSearchParams();
-        brands.forEach(brand => params.append('selectedBrands', brand));
-        materials.forEach(material => params.append('selectedMaterials', material));
-
-        let initMin = 0;
-        let initMax = 0;
-        let hasPrice = false;
-
-        if (urlMin && urlMax) {
-            const minNum = Number(urlMin);
-            const maxNum = Number(urlMax);
-            if (!isNaN(minNum) && !isNaN(maxNum)) {
-                initMin = minNum;
-                initMax = maxNum;
-                params.append('minPrice', initMin.toString());
-                params.append('maxPrice', initMax.toString());
-                hasPrice = true;
-            }
-        } 
-
-        if (!hasPrice) {
-            params.append('minPrice', '0');
-            params.append('maxPrice', '0');
-        }
-
-        const data = await searchService.fetchSidebar(params);
-        if (data) {
-            const newMin = data.minPrice;
-            const newMax = data.maxPrice;
-            let newValue: [number, number] = hasPrice ? [initMin, initMax] : [newMin, newMax];
-
-            // Clip the values
-            if (newValue[0] < newMin) newValue[0] = newMin;
-            if (newValue[1] > newMax) newValue[1] = newMax;
-
-            // Ensure min <= max
-            if (newValue[0] > newValue[1]) {
-                newValue = [newMin, newMax];
-            }
-
-            setPriceRange({
-                min: newMin,
-                max: newMax,
-                value: newValue,
-            });
-            setPriceMinInput(newValue[0].toString());
-            setPriceMaxInput(newValue[1].toString());
-
-            setBrandItems(data.brands);
-            setMaterialItems(data.materials);
-
-            setSelectedBrands(brands);
-            setSelectedMaterials(materials);
-        }
-    };
-
-    // Generic handler for slider changes
-    const handleRangeChange = (
-        _event: Event,
-        newValue: number | number[]
-    ) => {
-        setPriceRange((prev) => ({ ...prev, value: newValue as [number, number] }));
-        setPriceMinInput((newValue as [number, number])[0].toString());
-        setPriceMaxInput((newValue as [number, number])[1].toString());
-    };
-
-    // Handlers for price TextField inputs
-    const handlePriceMinInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setPriceMinInput(event.target.value);
-    };
-
-    const handlePriceMaxInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setPriceMaxInput(event.target.value);
-    };
-
-    const handlePriceMinSubmit = () => {
-        const newMin = Number(priceMinInput);
-        if (!isNaN(newMin)) {
-            setPriceRange((prev) => ({
-                ...prev,
-                value: [Math.min(newMin, prev.value[1]), prev.value[1]],
-            }));
-        } else {
-            setPriceMinInput(priceRange.value[0].toString());
-        }
-    };
-
-    const handlePriceMaxSubmit = () => {
-        const newMax = Number(priceMaxInput);
-        if (!isNaN(newMax)) {
-            setPriceRange((prev) => ({
-                ...prev,
-                value: [prev.value[0], Math.max(newMax, prev.value[0])],
-            }));
-        } else {
-            setPriceMaxInput(priceRange.value[1].toString());
-        }
-    };
-
-    const handleBrandToggle = (item: string) => {
-        setSelectedBrands((prev) =>
-            prev.includes(item)
-                ? prev.filter((i) => i !== item)
-                : [...prev, item]
-        );
-    };
-
-    const handleMaterialToggle = (item: string) => {
-        setSelectedMaterials((prev) =>
-            prev.includes(item)
-                ? prev.filter((i) => i !== item)
-                : [...prev, item]
-        );
-    };
-
-    const handleApply = () => {
-        const newParams = new URLSearchParams();
-        selectedBrands.forEach(brand => newParams.append('selectedBrands', brand));
-        selectedMaterials.forEach(material => newParams.append('selectedMaterials', material));
-        newParams.append('minPrice', priceRange.value[0].toString());
-        newParams.append('maxPrice', priceRange.value[1].toString());
-        newParams.set('page', '0');
-        newParams.set('pageSize', rowsPerPage.toString());
-
-        setSearchParams(newParams);
-    };
-
-    const handlePageChange = (_event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
-        console.log(newPage);
-        const newParams = new URLSearchParams(searchParams);
-        newParams.set('page', newPage.toString());
-        setSearchParams(newParams);
-    };
-
-    const handleRowsPerPageChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const newRows = parseInt(event.target.value, 10);
-        const newParams = new URLSearchParams(searchParams);
-        newParams.set('pageSize', newRows.toString());
-        newParams.set('page', '0');
-        setSearchParams(newParams);
-    };
-
-    return (
-        <Container sx={{ pt: 9, pb: 2, maxWidth: 'none !important', display: 'flex' }}>
-            <SearchSidebar
-                priceRange={priceRange}
-                onRangeChange={handleRangeChange}
-                priceMinInput={priceMinInput}
-                onPriceMinInputChange={handlePriceMinInputChange}
-                onPriceMinSubmit={handlePriceMinSubmit}
-                priceMaxInput={priceMaxInput}
-                onPriceMaxInputChange={handlePriceMaxInputChange}
-                onPriceMaxSubmit={handlePriceMaxSubmit}
-                brandItems={brandItems}
-                selectedBrands={selectedBrands}
-                onBrandToggle={handleBrandToggle}
-                materialItems={materialItems}
-                selectedMaterials={selectedMaterials}
-                onMaterialToggle={handleMaterialToggle}
-                onApply={handleApply}
-            />
-            {products && (
-                <SearchProductGrid
-                    items={products.items}
-                    totalCount={products.totalCount ?? 0}
-                    page={page}
-                    rowsPerPage={rowsPerPage}
-                    onPageChange={handlePageChange}
-                    onRowsPerPageChange={handleRowsPerPageChange}
-                />
-            )}
-        </Container>
-    );
+  return (
+    <Container sx={{ py: 3, maxWidth: 'none !important' }}>
+      <Box sx={{ px: { xs: 1, md: 2 }, minWidth: 0 }}>
+        <AppBreadcrumbs
+          items={[
+            { name: 'Головна', url: '/' },
+            { name: 'Пошук', url: '/search' },
+          ]}
+        />
+        <Typography variant="h5" component="h1" fontWeight="bold" sx={{ mt: 2, mb: 2, wordBreak: 'break-word' }}>
+          {query ? `Результати пошуку: «${query}»` : 'Пошук товарів'}
+        </Typography>
+        <ProductListingLayout resetLabel="Скинути пошук" />
+      </Box>
+    </Container>
+  );
 };
 
 export default Search;

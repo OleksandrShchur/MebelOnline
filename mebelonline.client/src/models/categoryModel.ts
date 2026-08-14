@@ -1,5 +1,5 @@
 export type CategoryModel = {
-    id: number;
-    name: string;
-    childrenCategories: CategoryModel[];
+  id: number;
+  name: string;
+  childrenCategories?: CategoryModel[] | null;
 };
